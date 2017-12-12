@@ -1,0 +1,29 @@
+{
+  "sourceMaps": true,
+  "presets": [
+    ["es2015", { "modules": false }],
+    "react"
+  ],
+  "plugins": [
+    "syntax-dynamic-import",
+    "transform-class-properties",
+    "transform-object-rest-spread",
+    "dynamic-import-webpack",
+    ["module-resolver", {
+      "root": ["./src"]
+    }]
+  ],
+  "env": {
+    "production": {
+      "sourceMaps": false
+    },
+    "test": {
+      "presets": [
+        "es2015"
+      ],
+      "plugins": [
+        "dynamic-import-webpack"
+      ]
+    }
+  }
+}

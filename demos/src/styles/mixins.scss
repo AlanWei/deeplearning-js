@@ -1,0 +1,9 @@
+@mixin text-ellipsis() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@mixin box-shadow() {
+  box-shadow: inset 0 -1px 0 0 #eee, inset -1px 0 0 0 #eee;
+}

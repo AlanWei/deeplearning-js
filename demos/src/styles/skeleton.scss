@@ -1,0 +1,55 @@
+@import 'helpers';
+
+* {
+	box-sizing: border-box;
+}
+
+::scrollbar {
+	display: none;
+}
+
+::-webkit-scrollbar {
+	display: none;
+}
+
+h1 {
+	font-size: 20px;
+	margin: 0;
+}
+
+h2 {
+	font-size: 14px;
+	margin: 0;
+}
+
+button {
+	&:focus {
+		outline: none;
+	}
+}
+
+a {
+	text-decoration: none;
+	color: $ui-text;
+}
+
+ul {
+	padding: 0;
+	margin: 0;
+}
+
+li {
+	padding: 0;
+	margin: 0;
+}
+
+div {
+	line-height: 18px;
+}
+
+input {
+	-webkit-appearance: none;
+	&:focus {
+		outline: none;
+	}
+}
