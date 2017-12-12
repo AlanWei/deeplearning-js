@@ -1,0 +1,47 @@
+{
+  "name": "dl-js",
+  "version": "0.1.0",
+  "description": "Deep learning library in JavaScript",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlanWei/dl-js.git"
+  },
+  "author": "Alan Wei",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AlanWei/dl-js/issues"
+  },
+  "homepage": "https://github.com/AlanWei/dl-js#readme",
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "modulePaths": [
+      "<rootDir>/src/"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ]
+  },
+  "devDependencies": {
+    "@types/jest": "^21.1.8",
+    "jest": "^21.2.1",
+    "ts-jest": "^21.2.4",
+    "tslint": "^5.8.0",
+    "tslint-no-circular-imports": "^0.2.0",
+    "typescript": "^2.6.2"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4"
+  }
+}
