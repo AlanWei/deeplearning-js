@@ -1,5 +1,7 @@
-import Math from './math';
+import math from './math';
+import model from './model';
 
-export default {
-  Math,
+export {
+  math,
+  model,
 };

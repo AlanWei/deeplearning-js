@@ -1,4 +1,4 @@
-function zeros(dim1: number = 1, dim2: number = 1) {
+function zeros(dim1: number = 1, dim2: number = 1): Array<Array<number>> {
   const ro = [];
   for (let i = 0; i < dim2; i++) {
     const row = [];
