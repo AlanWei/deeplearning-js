@@ -35,6 +35,7 @@
   "devDependencies": {
     "@types/gaussian": "^1.1.1",
     "@types/jest": "^21.1.8",
+    "@types/lodash": "^4.14.88",
     "jest": "^21.2.1",
     "ts-jest": "^21.2.4",
     "tslint": "^5.8.0",
@@ -42,7 +43,7 @@
     "typescript": "^2.6.2"
   },
   "dependencies": {
-    "lodash": "^4.17.4",
-    "gaussian": "^1.1.0"
+    "gaussian": "^1.1.0",
+    "lodash": "^4.17.4"
   }
 }
