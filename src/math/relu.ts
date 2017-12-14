@@ -1,6 +1,12 @@
-function relu(z: number) {
+import { map } from 'lodash';
+
+function relu(z: Array<Array<number>>) {
   return {
-    A: Math.max(0, z),
+    A: map(z, (subArr) => (
+      map(subArr, (num) => (
+        Math.max(0, num)
+      ))
+    )),
     cache: z,
   };
 }

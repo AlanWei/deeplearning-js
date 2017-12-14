@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get, keys } from 'lodash';
 import Math from '../math';
 
 function linearForward(a: any, w: any, b: any) {
@@ -8,7 +8,7 @@ function linearForward(a: any, w: any, b: any) {
     b,
   };
 
-  const z = a * w + b;
+  const z = Math.add(Math.dot(w, a), b);
 
   return {
     Z: z,
@@ -50,7 +50,7 @@ function activationForward(aPrev: any, w: any, b: any, activation = 'relu') {
 
 function forward(x: any, parameters: any) {
   const caches = [];
-  const l = parameters.length;
+  const l = keys(parameters).length / 2;
   let a = x;
 
   for (let i = 1; i < l; i++) {

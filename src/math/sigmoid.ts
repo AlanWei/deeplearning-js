@@ -1,8 +1,12 @@
-function sigmoid(z: number) {
-  const a = 1 / (1 + Math.exp(-z));
+import { map } from 'lodash';
 
+function sigmoid(z: Array<Array<number>>) {
   return {
-    A: a,
+    A: map(z, (subArr) => (
+      map(subArr, (num) => (
+        1 / (1 + Math.exp(-num))
+      ))
+    )),
     cache: z,
   };
 }
