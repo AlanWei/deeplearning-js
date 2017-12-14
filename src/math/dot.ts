@@ -9,8 +9,9 @@ function dot(left: Array<Array<number>>, right: Array<Array<number>>) {
     for (let i = 0; i < leftNumRows; i++) {
       ro[i] = [];
       for (let j = 0; j < rightNumCols; j++) {
+        ro[i][j] = 0;
         for (let k = 0; k < leftNumCols; k++) {
-          ro[i][j] = left[i][k] * right[k][j];
+          ro[i][j] += left[i][k] * right[k][j];
         }
       }
     }

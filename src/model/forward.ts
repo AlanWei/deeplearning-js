@@ -1,4 +1,4 @@
-import { get, keys } from 'lodash';
+import { get, keys, map } from 'lodash';
 import Math from '../math';
 
 function linearForward(a: any, w: any, b: any) {
@@ -49,31 +49,36 @@ function activationForward(aPrev: any, w: any, b: any, activation = 'relu') {
 }
 
 function forward(x: any, parameters: any) {
-  const caches = [];
   const l = keys(parameters).length / 2;
-  let a = x;
+  const allaL: any = [];
+  const allCaches: any = [];
 
-  for (let i = 1; i < l; i++) {
-    const aPrev = a;
-    const w = parameters[`W${i}`];
-    const b = parameters[`b${i}`];
-    const ro = activationForward(aPrev, w, b, 'relu');
-    a = get(ro, 'A');
+  map(x, (example) => {
+    const caches = [];
+    for (let i = 1; i < l; i++) {
+      const aPrev = example;
+      const w = parameters[`W${i}`];
+      const b = parameters[`b${i}`];
+      const ro = activationForward(aPrev, w, b, 'relu');
+      example = get(ro, 'A');
+      const cache = get(ro, 'cache');
+      caches.push(cache);
+    }
+  
+    const w = parameters[`W${l}`];
+    const b = parameters[`b${l}`];
+  
+    const ro = activationForward(example, w, b, 'sigmoid');
+    const aL = get(ro, 'A');
     const cache = get(ro, 'cache');
     caches.push(cache);
-  }
-
-  const w = parameters[`W${l}`];
-  const b = parameters[`b${l}`];
-
-  const ro = activationForward(a, w, b, 'sigmoid');
-  const aL = get(ro, 'A');
-  const cache = get(ro, 'cache');
-  caches.push(cache);
+    allaL.push(aL);
+    allCaches.push(caches);
+  });
 
   return {
-    AL: aL,
-    caches,
+    AL: allaL,
+    caches: allCaches,
   };
 }
 

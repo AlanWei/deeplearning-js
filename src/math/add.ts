@@ -1,4 +1,4 @@
-function add(left, right) {
+function add(left: Array<Array<number>>, right: Array<Array<number>>) {
   const leftNumRows = left.length;
   const leftNumCols = left[0].length;
   const rightNumRows = right.length;

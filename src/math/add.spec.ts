@@ -1,7 +1,11 @@
 import add from './add';
 
 test('valid matrix add', () => {
-  const ro = add([[1, 2, 3]], [[1, 2, 3]]);
+  const ro = add([
+    [1, 2, 3]
+  ], [
+    [1, 2, 3]
+  ]);
   expect(ro).toEqual([
     [2, 4, 6]
   ]);

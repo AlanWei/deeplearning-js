@@ -1,49 +1,51 @@
 {
-  "name": "dl-js",
-  "version": "0.1.0",
-  "description": "Deep learning library in JavaScript",
-  "main": "src/index.js",
-  "scripts": {
-    "build": "tsc",
-    "test": "jest --coverage",
-    "test:watch": "jest --watch --coverage"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AlanWei/dl-js.git"
-  },
-  "author": "Alan Wei",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/AlanWei/dl-js/issues"
-  },
-  "homepage": "https://github.com/AlanWei/dl-js#readme",
-  "jest": {
-    "coverageDirectory": "./coverage/",
-    "transform": {
-      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    "name": "dl-js",
+    "version": "0.1.0",
+    "description": "Deep learning library in JavaScript",
+    "main": "src/index.js",
+    "scripts": {
+        "build": "tsc",
+        "dev": "tsc -w",
+        "test": "jest --coverage",
+        "test:watch": "jest --watch --coverage"
     },
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-    "modulePathIgnorePatterns": [
-      "<rootDir>/dist/"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "js"
-    ]
-  },
-  "devDependencies": {
-    "@types/gaussian": "^1.1.1",
-    "@types/jest": "^21.1.8",
-    "@types/lodash": "^4.14.88",
-    "jest": "^21.2.1",
-    "ts-jest": "^21.2.4",
-    "tslint": "^5.8.0",
-    "tslint-no-circular-imports": "^0.2.0",
-    "typescript": "^2.6.2"
-  },
-  "dependencies": {
-    "gaussian": "^1.1.0",
-    "lodash": "^4.17.4"
-  }
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/AlanWei/dl-js.git"
+    },
+    "author": "Alan Wei",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/AlanWei/dl-js/issues"
+    },
+    "homepage": "https://github.com/AlanWei/dl-js#readme",
+    "jest": {
+        "coverageDirectory": "./coverage/",
+        "transform": {
+            ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+        },
+        "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+        "modulePathIgnorePatterns": [
+            "<rootDir>/dist/"
+        ],
+        "moduleFileExtensions": [
+            "ts",
+            "js"
+        ]
+    },
+    "devDependencies": {
+        "@types/gaussian": "^1.1.1",
+        "@types/jest": "^21.1.8",
+        "@types/lodash": "^4.14.88",
+        "jest": "^21.2.1",
+        "ts-jest": "^21.2.4",
+        "tslint": "^5.8.0",
+        "tslint-no-circular-imports": "^0.2.0",
+        "typescript": "^2.6.2"
+    },
+    "dependencies": {
+        "fast-csv": "^2.4.1",
+        "gaussian": "^1.1.0",
+        "lodash": "^4.17.4"
+    }
 }
