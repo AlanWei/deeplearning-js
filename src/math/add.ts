@@ -14,10 +14,10 @@ function add(left: Array<Array<number>>, right: Array<Array<number>>) {
     }
 
     return ro;
-  } else {
-    throw new Error('[add] left matrix shape ' +
-    'should be the same as right matrix shape');
   }
+
+  throw new Error('[add] left matrix shape ' +
+  'should be the same as right matrix shape');
 }
 
 export default add;

@@ -7,7 +7,7 @@ function read(targetNum: number) {
   const Y: any = [];
   const X: any = [];
   let count = 0;
-  fs.createReadStream("./mnist_test.csv")
+  fs.createReadStream("./mnist_sample.csv")
     .pipe(csv())
     .on("data", (data: any) => {
       X[count] = [];
