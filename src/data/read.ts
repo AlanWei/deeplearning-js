@@ -4,11 +4,13 @@ import { map, slice } from 'lodash';
 import Model from '../model';
 import math from '../math';
 
+const start = Date.now();
+
 function read(targetNum: number) {
   const Y: any = [];
   const X: any = [];
   let count = 0;
-  fs.createReadStream("./mnist_sample.csv")
+  fs.createReadStream("./mnist_test.csv")
     .pipe(csv())
     .on("data", (data: any) => {
       X[count] = [];
@@ -33,7 +35,8 @@ function read(targetNum: number) {
       const cost = Model.computeCost(squeezeForward, Y, (x: any, y: any) => (
         math.logProb(x, y)
       ));
-      console.log(cost);
+      console.log('cost:', cost);
+      console.log('time:', (Date.now() - start) / 1000);
     });
 }
 
