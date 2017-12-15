@@ -6,7 +6,9 @@ import squeeze from './squeeze';
 import log from './log';
 import logProb from './logProb';
 import relu from './relu';
+import reluBackward from './reluBackward';
 import sigmoid from './sigmoid';
+import sigmoidBackward from './sigmoidBackward';
 
 export default {
   randn,
@@ -17,5 +19,7 @@ export default {
   log,
   logProb,
   relu,
+  reluBackward,
   sigmoid,
+  sigmoidBackward,
 };
