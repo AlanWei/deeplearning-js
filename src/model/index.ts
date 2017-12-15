@@ -1,7 +1,7 @@
 import initializeParameters from './initializeParameters';
-import forward from './forward';
+import forwardPropagation from './forwardPropagation';
 
 export default {
   initializeParameters,
-  forward,
+  forwardPropagation,
 };

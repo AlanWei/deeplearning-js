@@ -2,6 +2,7 @@ const fs = require('fs');
 const csv = require('fast-csv');
 import { map, slice } from 'lodash';
 import Model from '../model';
+import Math from '../math';
 
 function read(targetNum: number) {
   const Y: any = [];
@@ -27,9 +28,10 @@ function read(targetNum: number) {
     .on("end", () => {
       const x = X;
       const parameters = Model.initializeParameters([x[0].length, 4, 1]);
-      const ro = Model.forward(x, parameters);
+      const ro = Model.forwardPropagation(x, parameters);
       const forward = ro.AL;
-      console.log(forward);
+      const squeezeForward = Math.squeeze(forward);
+      console.log(squeezeForward);
     });
 }
 

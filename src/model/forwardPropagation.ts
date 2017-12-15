@@ -48,7 +48,7 @@ function activationForward(aPrev: any, w: any, b: any, activation = 'relu') {
   };
 }
 
-function forward(x: any, parameters: any) {
+function forwardPropagation(x: any, parameters: any) {
   const l = keys(parameters).length / 2;
   const allaL: any = [];
   const allCaches: any = [];
@@ -82,4 +82,4 @@ function forward(x: any, parameters: any) {
   };
 }
 
-export default forward;
+export default forwardPropagation;
