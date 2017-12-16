@@ -29,14 +29,19 @@ function read(targetNum: number) {
     })
     .on("end", () => {
       const x = X;
-      const parameters = Model.initializeParameters([x[0].length, 4, 1]);
-      const ro = Model.forwardPropagation(x, parameters);
-      const forward = ro.AL;
-      const caches = ro.caches;
-      const cost = Model.computeCost(forward, Y, math.logProb);
-      console.log('cost:', cost);
+      let parameters = Model.initializeParameters([x[0].length, 4, 1]);
+
+      for (let i = 0; i < 1; i++) {
+        const ro = Model.forwardPropagation(x, parameters);
+        const forward = ro.AL;
+        const caches = ro.caches;
+        const cost = Model.computeCost(forward, Y, math.logProb);
+        console.log('cost:', cost);
+        const grads = Model.backPropagation(forward, Y, caches);
+        parameters = Model.updateParameters(parameters, grads, 0.03);
+      }
+
       // console.log('time:', (Date.now() - start) / 1000);
-      const grads = Model.backPropagation(forward, Y, caches);
     });
 }
 

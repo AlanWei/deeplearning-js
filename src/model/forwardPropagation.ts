@@ -1,37 +1,22 @@
 import { get, keys, map } from 'lodash';
-import Math from '../math';
-
-function linearForward(a: any, w: any, b: any) {
-  const cache = {
-    A: a,
-    W: w,
-    b,
-  };
-
-  const z = Math.add(Math.dot(w, a), b);
-
-  return {
-    Z: z,
-    cache,
-  };
-}
+import math from '../math';
 
 function activationForward(aPrev: any, w: any, b: any, activation = 'relu') {
   let z, linearCache, a, activationCache;
   switch (activation) {
     case 'sigmoid':
-      const linearSigmoid = linearForward(aPrev, w, b);
+      const linearSigmoid = math.linear(aPrev, w, b);
       z = get(linearSigmoid, 'Z');
       linearCache = get(linearSigmoid, 'cache');
-      const activationSigmoid = Math.sigmoid(z);
+      const activationSigmoid = math.sigmoid(z);
       a = get(activationSigmoid, 'A');
       activationCache = get(activationSigmoid, 'cache');
       break;
     case 'relu':
-      const linearRelu = linearForward(aPrev, w, b);
+      const linearRelu = math.linear(aPrev, w, b);
       z = get(linearRelu, 'Z');
       linearCache = get(linearRelu, 'cache');
-      const activationRelu = Math.relu(z);
+      const activationRelu = math.relu(z);
       a = get(activationRelu, 'A');
       activationCache = get(activationRelu, 'cache');
       break;

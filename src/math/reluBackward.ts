@@ -1,9 +1,11 @@
-function reluBackward(dA: number, cache: any) {
-  if (cache < 0) {
-    return 0;
-  }
+import { map } from 'lodash';
 
-  return dA;
+function reluBackward(dA: Array<Array<number>>, cache: Array<Array<number>>) {
+  return map(cache, (subArr, i) => (
+    map(subArr, (num, j) => (
+      dA[i][j] < 0 ? 0 : dA[i][j]
+    ))
+  ));
 }
 
 export default reluBackward;
