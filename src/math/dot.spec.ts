@@ -9,6 +9,14 @@ test('valid matrix dot', () => {
   ]);
 });
 
+test('matrix dot', () => {
+  const ro = dot([[1], [2]], [[1, 2, 3, 4]]);
+  expect(ro).toEqual([
+    [1, 2, 3, 4],
+    [2, 4, 6, 8],
+  ]);
+});
+
 test('invalid matrix dot', () => {
   expect(() => dot([[1, 2], [2, 3], [3, 4]], [[1, 2, 3]]))
   .toThrowError('[dot] left matrix column count ' +

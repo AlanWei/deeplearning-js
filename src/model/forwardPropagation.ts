@@ -57,6 +57,7 @@ function forwardPropagation(x: Array<Array<Array<number>>>, parameters: any) {
     const aL = get(ro, 'A');
     const cache = get(ro, 'cache');
     caches.push(cache);
+
     allaL.push(aL);
     allCaches.push(caches);
   });

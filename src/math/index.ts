@@ -4,6 +4,7 @@ import dot from './dot';
 import add from './add';
 import subtract from './subtract';
 import multiply from './multiply';
+import transpose from './transpose';
 import squeeze from './squeeze';
 import vectorize from './vectorize';
 import logProb from './logProb';
@@ -24,6 +25,7 @@ export default {
   add,
   subtract,
   multiply,
+  transpose,
   // util
   squeeze,
   vectorize,

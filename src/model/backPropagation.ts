@@ -9,7 +9,6 @@ function activationBack(dA: Array<Array<number>>, cache: any,
       const dZSigmoid = math.sigmoidBackward(dA, activationCache);
       return math.linearBackward(dZSigmoid, linearCache);
     case 'relu':
-      console.log(activationCache);
       const dZRelu = math.reluBackward(dA, activationCache);
       return math.linearBackward(dZRelu, linearCache);
     default:
