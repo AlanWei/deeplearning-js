@@ -33,13 +33,7 @@ function read(targetNum: number) {
       const ro = Model.forwardPropagation(x, parameters);
       const forward = ro.AL;
       const caches = ro.caches;
-      const squeezeForward = math.squeeze(forward);
-      const squeezeY = math.squeeze(Y);
-      const cost = Model.computeCost(squeezeForward, squeezeY,
-        (x: any, y: any) => (
-          math.logProb(x, y)
-        )
-      );
+      const cost = Model.computeCost(forward, Y, math.logProb);
       console.log('cost:', cost);
       // console.log('time:', (Date.now() - start) / 1000);
       const grads = Model.backPropagation(forward, Y, caches);

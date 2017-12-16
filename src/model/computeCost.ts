@@ -1,18 +1,17 @@
 import { map } from 'lodash';
 
-function computeCost(output: Array<number>, y: Array<number>,
+function computeCost(output: Array<Array<number>>, y: Array<Array<number>>,
   costFunction: Function) {
-  if (output.length !== y.length) {
-    throw new Error('[computeCost] Output array size ' +
-    'should be the same as Y array size');
-  }
+  const costMatrix: Array<Array<number>> = costFunction(output, y);
 
   let sum = 0;
-  map(output, (x, idx) => {
-    sum += costFunction(x, y[idx]);
+  map(costMatrix, (subArr) => {
+    map(subArr, (num) => {
+      sum += num;
+    });
   });
 
-  const m = output.length;
+  const m = output[0].length;
   const cost = -1 / m * sum;
 
   return cost;

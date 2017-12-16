@@ -48,7 +48,7 @@ function activationForward(aPrev: any, w: any, b: any, activation = 'relu') {
   };
 }
 
-function forwardPropagation(x: any, parameters: any) {
+function forwardPropagation(x: Array<Array<Array<number>>>, parameters: any) {
   const l = keys(parameters).length / 2;
   const allaL: any = [];
   const allCaches: any = [];

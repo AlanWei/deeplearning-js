@@ -1,9 +1,11 @@
-function logProb(x: number, y: number) {
-  if (x === 0 || x === 1) {
-    throw new Error('[logProb] x is not a valid input');
-  }
+import { map } from 'lodash';
 
-  return y * Math.log(x) + (1 - y) * Math.log(1 - x);
+function logProb(x: Array<Array<number>>, y: Array<Array<number>>) {
+  return map(x, (subArr, i) => (
+    map(subArr, (num, j) => (
+      y[i][j] * Math.log(num) + (1 - y[i][j]) * Math.log(1 - num)
+    ))
+  ));
 }
 
 export default logProb;
