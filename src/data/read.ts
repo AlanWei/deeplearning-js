@@ -31,23 +31,41 @@ function read(targetNum: number) {
       const x = X;
       let parameters = Model.initializeParameters([x[0].length, 4, 1]);
 
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < 10; i++) {
         const ro = Model.forwardPropagation(x, parameters);
         const forward = ro.AL;
         const caches = ro.caches;
         const cost = Model.computeCost(forward, Y, math.logProb);
         console.log(`${i}: Cost is ${cost}`);
         const grads = Model.backPropagation(forward, Y, caches);
-        parameters = Model.updateParameters(parameters, grads, 0.0075);
+        parameters = Model.updateParameters(parameters, grads, 0.01);
       }
 
-      // const predict = Model.forwardPropagation(x, parameters).AL;
-      // console.log(predict);
+      let predict = Model.forwardPropagation(x, parameters).AL;
+      predict = map(predict, (subArr: Array<Array<number>>) => (
+        map(subArr, (arr) => (
+          map(arr, (num) => (
+            num > 0.5 ? 1 : 0
+          ))
+        ))
+      ));
+      let correct = 0;
+      map(predict, (subArr: Array<Array<number>>, idx) => (
+        map(subArr, (arr, i) => (
+          map(arr, (num, j) => {
+            if (num === Y[idx][i][j]) {
+              correct++;
+            }
+          })
+        ))
+      ));
+      const m = Y.length;
+      console.log(`Accuracy: ${correct / m * 100}%`);
 
-      // console.log('time:', (Date.now() - start) / 1000);
+      console.log('time:', (Date.now() - start) / 1000);
     });
 }
 
 export default read;
 
-read(7);
+read(1);

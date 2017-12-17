@@ -11,7 +11,7 @@ function computeCost(output: Array<Array<number>>, y: Array<Array<number>>,
     });
   });
 
-  const m = output[0].length;
+  const m = costMatrix.length;
   const cost = -1 / m * sum;
 
   return cost;
