@@ -29,7 +29,7 @@ function read(targetNum: number) {
     })
     .on("end", () => {
       const x = X;
-      let parameters = Model.initializeParameters([x[0].length, 4, 1], 0.1);
+      let parameters = Model.initializeParameters([x[0].length, 4, 1]);
 
       for (let i = 0; i < 100; i++) {
         map(x, (example: Array<Array<number>>, idx) => {

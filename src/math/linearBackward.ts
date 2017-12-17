@@ -2,7 +2,7 @@ import math from '../math';
 
 function linearBackward(dZ: Array<Array<number>>, cache: any) {
   const { A, W, b } = cache;
-  const m = A.length;
+  const m = A[0].length;
   const dZADot = math.dot(dZ, math.transpose(A));
   const dW = math.divide(
     dZADot,
