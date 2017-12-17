@@ -1,4 +1,4 @@
-import { get, keys, map } from 'lodash';
+import { get, keys } from 'lodash';
 import math from '../math';
 
 function activationForward(aPrev: any, w: any, b: any, activation = 'relu') {
@@ -33,38 +33,32 @@ function activationForward(aPrev: any, w: any, b: any, activation = 'relu') {
   };
 }
 
-function forwardPropagation(x: Array<Array<Array<number>>>, parameters: any) {
+function forwardPropagation(x: Array<Array<number>>, parameters: any) {
   const l = keys(parameters).length / 2;
-  const allaL: any = [];
-  const allCaches: any = [];
+  let a = x;
 
-  map(x, (example) => {
-    const caches = [];
-    for (let i = 1; i < l; i++) {
-      const aPrev = example;
-      const w = parameters[`W${i}`];
-      const b = parameters[`b${i}`];
-      const ro = activationForward(aPrev, w, b, 'relu');
-      example = get(ro, 'A');
-      const cache = get(ro, 'cache');
-      caches.push(cache);
-    }
-  
-    const w = parameters[`W${l}`];
-    const b = parameters[`b${l}`];
-  
-    const ro = activationForward(example, w, b, 'sigmoid');
-    const aL = get(ro, 'A');
+  const caches = [];
+  for (let i = 1; i < l; i++) {
+    const aPrev = a;
+    const w = parameters[`W${i}`];
+    const b = parameters[`b${i}`];
+    const ro = activationForward(aPrev, w, b, 'relu');
+    a = get(ro, 'A');
     const cache = get(ro, 'cache');
     caches.push(cache);
+  }
 
-    allaL.push(aL);
-    allCaches.push(caches);
-  });
+  const w = parameters[`W${l}`];
+  const b = parameters[`b${l}`];
+
+  const ro = activationForward(a, w, b, 'sigmoid');
+  const aL = get(ro, 'A');
+  const cache = get(ro, 'cache');
+  caches.push(cache);
 
   return {
-    AL: allaL,
-    caches: allCaches,
+    AL: aL,
+    caches,
   };
 }
 

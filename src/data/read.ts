@@ -4,7 +4,7 @@ import { map, slice } from 'lodash';
 import Model from '../model';
 import math from '../math';
 
-const start = Date.now();
+// const start = Date.now();
 
 function read(targetNum: number) {
   const Y: any = [];
@@ -29,38 +29,45 @@ function read(targetNum: number) {
     })
     .on("end", () => {
       const x = X;
-      let parameters = Model.initializeParameters([x[0].length, 10, 1]);
+      let parameters = Model.initializeParameters([x[0].length, 4, 1], 0.1);
 
-      for (let i = 0; i < 2; i++) {
-        const ro = Model.forwardPropagation(x, parameters);
-        const forward = ro.AL;
-        const caches = ro.caches;
-        const cost = Model.computeCost(forward, Y, math.logProb);
+      for (let i = 0; i < 100; i++) {
+        map(x, (example: Array<Array<number>>, idx) => {
+          const ro = Model.forwardPropagation(example, parameters);
+          const forward = ro.AL;
+          const caches = ro.caches;
+          const grads = Model.backPropagation(forward, Y[idx], caches);
+          parameters = Model.updateParameters(parameters, grads, 0.0075);
+        });
+
+        let predict: any = [];
+        map(x, (example: Array<Array<number>>) => {
+          const ro = Model.forwardPropagation(example, parameters);
+          const forward = ro.AL;
+          predict.push(forward);
+        });
+        const cost = Model.computeCost(predict, Y, math.logProb);
         console.log(`${i}: Cost is ${cost}`);
-        const grads = Model.backPropagation(forward, Y, caches);
-        parameters = Model.updateParameters(parameters, grads, 0.0075);
+        predict = map(predict, (subArr: Array<Array<number>>) => (
+          map(subArr, (arr) => (
+            map(arr, (num) => (
+              num > 0.5 ? 1 : 0
+            ))
+          ))
+        ));
+        let correct = 0;
+        map(predict, (subArr: Array<Array<number>>, idx) => (
+          map(subArr, (arr, i) => (
+            map(arr, (num, j) => {
+              if (num === Y[idx][i][j]) {
+                correct++;
+              }
+            })
+          ))
+        ));
+        const m = Y.length;
+        console.log(`Accuracy: ${correct / m * 100}%`);
       }
-
-      // let predict = Model.forwardPropagation(x, parameters).AL;
-      // predict = map(predict, (subArr: Array<Array<number>>) => (
-      //   map(subArr, (arr) => (
-      //     map(arr, (num) => (
-      //       num > 0.5 ? 1 : 0
-      //     ))
-      //   ))
-      // ));
-      // let correct = 0;
-      // map(predict, (subArr: Array<Array<number>>, idx) => (
-      //   map(subArr, (arr, i) => (
-      //     map(arr, (num, j) => {
-      //       if (num === Y[idx][i][j]) {
-      //         correct++;
-      //       }
-      //     })
-      //   ))
-      // ));
-      // const m = Y.length;
-      // console.log(`Accuracy: ${correct / m * 100}%`);
 
       // console.log('time:', (Date.now() - start) / 1000);
     });

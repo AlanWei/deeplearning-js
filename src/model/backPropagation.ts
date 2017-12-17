@@ -1,4 +1,3 @@
-import { map } from 'lodash';
 import math from '../math';
 
 function activationBack(dA: Array<Array<number>>, cache: any,
@@ -16,38 +15,29 @@ function activationBack(dA: Array<Array<number>>, cache: any,
   }
 }
 
-function backPropagation(aL: Array<Array<Array<number>>>,
-  Y: Array<Array<Array<number>>>, caches: any) {
-  const l = caches[0].length;
-  const gradsAll: any = [];
+function backPropagation(aL: Array<Array<number>>,
+  Y: Array<Array<number>>, caches: any) {
+  const l = caches.length;
 
-  map(aL, (output, idx) => {
-    const grads: any = {};
-    const y = Y[idx];
-    const cache = caches[idx];
-    const dAL = math.logProbBackward(output, y);
-    const currentCache = cache[l - 1];
+  const grads: any = {};
+  const dAL = math.logProbBackward(aL, Y);
+  const { dAPrev, dW, db } = activationBack(
+    dAL, caches[l-1], 'sigmoid',
+  );
+  grads[`dA${l}`] = dAPrev;
+  grads[`dW${l}`] = dW;
+  grads[`db${l}`] = db;
+
+  for (let i = l - 1; i > 0; i--) {
     const { dAPrev, dW, db } = activationBack(
-      dAL, currentCache, 'sigmoid',
+      grads[`dA${i+1}`], caches[i-1], 'relu',
     );
-    grads[`dA${l}`] = dAPrev;
-    grads[`dW${l}`] = dW;
-    grads[`db${l}`] = db;
+    grads[`dA${i}`] = dAPrev;
+    grads[`dW${i}`] = dW;
+    grads[`db${i}`] = db;
+  }
 
-    for (let i = l - 1; i > 0; i--) {
-      const currentCache = cache[i-1];
-      const { dAPrev, dW, db } = activationBack(
-        grads[`dA${i+1}`], currentCache, 'relu',
-      );
-      grads[`dA${i}`] = dAPrev;
-      grads[`dW${i}`] = dW;
-      grads[`db${i}`] = db;
-    }
-
-    gradsAll.push(grads);
-  });
-
-  return gradsAll;
+  return grads;
 }
 
 export default backPropagation;
