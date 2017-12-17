@@ -31,14 +31,14 @@ function read(targetNum: number) {
       const x = X;
       let parameters = Model.initializeParameters([x[0].length, 10, 1]);
 
-      for (let i = 0; i < 1; i++) {
+      for (let i = 0; i < 2; i++) {
         const ro = Model.forwardPropagation(x, parameters);
         const forward = ro.AL;
         const caches = ro.caches;
         const cost = Model.computeCost(forward, Y, math.logProb);
         console.log(`${i}: Cost is ${cost}`);
         const grads = Model.backPropagation(forward, Y, caches);
-        parameters = Model.updateParameters(parameters, grads, 0.1);
+        parameters = Model.updateParameters(parameters, grads, 0.0075);
       }
 
       // let predict = Model.forwardPropagation(x, parameters).AL;
