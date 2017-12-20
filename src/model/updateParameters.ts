@@ -1,12 +1,16 @@
 import { keys } from 'lodash';
 import math from '../math';
 
-function updateParameters(parameters: any, grads: any,
-  learningRate: number) {
-  const l = keys(parameters).length / 2;
+function updateParameters(
+  parameters: any,
+  grads: any,
+  learningRate: number
+) {
+  const l = keys(parameters).length / 3;
 
   for (let i = 0; i < l; i++) {
-    parameters[`W${i+1}`] = math.subtract(parameters[`W${i+1}`],
+    parameters[`W${i+1}`] = math.subtract(
+      parameters[`W${i+1}`],
       math.multiply(
         grads[`dW${i+1}`],
         math.vectorize(
@@ -14,7 +18,8 @@ function updateParameters(parameters: any, grads: any,
         ),
       ),
     );
-    parameters[`b${i+1}`] = math.subtract(parameters[`b${i+1}`],
+    parameters[`b${i+1}`] = math.subtract(
+      parameters[`b${i+1}`],
       math.multiply(
         grads[`db${i+1}`],
         math.vectorize(

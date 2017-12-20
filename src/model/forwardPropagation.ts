@@ -1,64 +1,49 @@
-import { get, keys } from 'lodash';
+import { keys } from 'lodash';
 import math from '../math';
 
-function activationForward(aPrev: any, w: any, b: any, activation = 'relu') {
-  let z, linearCache, a, activationCache;
-  switch (activation) {
-    case 'sigmoid':
-      const linearSigmoid = math.linear(aPrev, w, b);
-      z = get(linearSigmoid, 'Z');
-      linearCache = get(linearSigmoid, 'cache');
-      const activationSigmoid = math.sigmoid(z);
-      a = get(activationSigmoid, 'A');
-      activationCache = get(activationSigmoid, 'cache');
-      break;
-    case 'relu':
-      const linearRelu = math.linear(aPrev, w, b);
-      z = get(linearRelu, 'Z');
-      linearCache = get(linearRelu, 'cache');
-      const activationRelu = math.relu(z);
-      a = get(activationRelu, 'A');
-      activationCache = get(activationRelu, 'cache');
-      break;
-    default:
-      break;
-  }
-
-  return {
-    A: a,
-    cache: {
-      linearCache,
-      activationCache,
-    }
-  };
-}
-
-function forwardPropagation(x: Array<Array<number>>, parameters: any) {
-  const l = keys(parameters).length / 2;
+function forwardPropagation(
+  x: Array<Array<number>>,
+  parameters: any
+) {
+  const l = keys(parameters).length / 3;
   let a = x;
 
   const caches = [];
-  for (let i = 1; i < l; i++) {
-    const aPrev = a;
+  const activationFuncs = [];
+  for (let i = 1; i <= l; i++) {
+    const cache: any = {};
     const w = parameters[`W${i}`];
     const b = parameters[`b${i}`];
-    const ro = activationForward(aPrev, w, b, 'relu');
-    a = get(ro, 'A');
-    const cache = get(ro, 'cache');
+    const linear = math.linear(a, w, b);
+    cache.linearCache = linear.cache;
+    const activationFunc = parameters[`activation${i}`];
+    activationFuncs.push(activationFunc);
+    let z;
+    switch(activationFunc) {
+      case 'relu':
+        z = math.relu(linear.Z);
+        break;
+      case 'sigmoid':
+        z = math.sigmoid(linear.Z);
+        break;
+      case 'linear':
+        z = {
+          A: linear.Z,
+          cache: linear.Z,
+        };
+        break;
+      default:
+        throw new Error('Unsupported activation function');
+    }
+    cache.activationCache = z.cache;
     caches.push(cache);
+    a = z.A;
   }
 
-  const w = parameters[`W${l}`];
-  const b = parameters[`b${l}`];
-
-  const ro = activationForward(a, w, b, 'sigmoid');
-  const aL = get(ro, 'A');
-  const cache = get(ro, 'cache');
-  caches.push(cache);
-
   return {
-    AL: aL,
+    AL: a,
     caches,
+    activationFuncs,
   };
 }
 

@@ -1,12 +1,23 @@
 import math from '../math';
 
-function initializeParameters(layerDims: Array<number>, scale: number = 0.01) {
+function initializeParameters(
+  layers: Array<{
+    size: number,
+    activationFunc: string,
+  }>,
+  scale: number = 0.01,
+) {
   const parameters: any = {};
-  const l = layerDims.length;
+  const l = layers.length;
   
   for (let i = 1; i < l; i++) {
-    parameters[`W${i}`] = math.randn(layerDims[i], layerDims[i-1], 0, 1, scale);
-    parameters[`b${i}`] = math.zeros(layerDims[i], 1);
+    const currentLayerSize: number = layers[i].size;
+    const prevLayerSize: number = layers[i-1].size;
+    parameters[`W${i}`] = math.randn(
+      currentLayerSize, prevLayerSize, 0, 1, scale,
+    );
+    parameters[`b${i}`] = math.zeros(currentLayerSize, 1);
+    parameters[`activation${i}`] = layers[i].activationFunc;
   }
 
   return parameters;

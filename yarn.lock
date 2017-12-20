@@ -1882,6 +1882,10 @@ number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
 
+number-precision@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/number-precision/-/number-precision-1.2.0.tgz#de791d6126e10ff48fcceaeb2821c87d851df136"
+
 "nwmatcher@>= 1.3.9 < 2.0.0":
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/nwmatcher/-/nwmatcher-1.4.3.tgz#64348e3b3d80f035b40ac11563d278f8b72db89c"

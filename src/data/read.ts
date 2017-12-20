@@ -29,44 +29,64 @@ function read(targetNum: number) {
     })
     .on("end", () => {
       const x = X;
-      let parameters = Model.initializeParameters([x[0].length, 4, 1]);
+      let parameters = Model.initializeParameters([{
+        size: x[0].length,
+        activationFunc: '',
+      }, {
+        size: 10,
+        activationFunc: 'relu',
+      }, {
+        size: 1,
+        activationFunc: 'sigmoid',
+      }], 0.01);
 
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i <= 1000; i++) {
         map(x, (example: Array<Array<number>>, idx) => {
-          const ro = Model.forwardPropagation(example, parameters);
-          const forward = ro.AL;
-          const caches = ro.caches;
-          const grads = Model.backPropagation(forward, Y[idx], caches);
+          const forward = Model.forwardPropagation(example, parameters);
+          const grads = Model.backPropagation(
+            math.logProbBackward,
+            Y[idx],
+            forward,
+          );
           parameters = Model.updateParameters(parameters, grads, 0.0075);
         });
 
-        let predict: any = [];
-        map(x, (example: Array<Array<number>>) => {
-          const ro = Model.forwardPropagation(example, parameters);
-          const forward = ro.AL;
-          predict.push(forward);
-        });
-        const cost = Model.computeCost(predict, Y, math.logProb);
-        console.log(`${i}: Cost is ${cost}`);
-        predict = map(predict, (subArr: Array<Array<number>>) => (
-          map(subArr, (arr) => (
-            map(arr, (num) => (
-              num > 0.5 ? 1 : 0
+        if (i % 100 === 0) {
+          let predict: any = [];
+          const costs: any = [];
+          map(x, (example: Array<Array<number>>, idx) => {
+            const ro = Model.forwardPropagation(example, parameters);
+            const forward = ro.AL;
+            const cost = Model.computeCost(forward, Y[idx], math.logProb);
+            predict.push(forward);
+            costs.push(cost);
+          });
+          let costSum = 0;
+          map(costs, (cost: number) => (
+            costSum += cost
+          ));
+          console.log(`${i}: Cost is ${costSum / costs.length}`);
+          predict = map(predict, (subArr: Array<Array<number>>) => (
+            map(subArr, (arr) => (
+              map(arr, (num) => (
+                num > 0.5 ? 1 : 0
+              ))
             ))
-          ))
-        ));
-        let correct = 0;
-        map(predict, (subArr: Array<Array<number>>, idx) => (
-          map(subArr, (arr, i) => (
-            map(arr, (num, j) => {
-              if (num === Y[idx][i][j]) {
-                correct++;
-              }
-            })
-          ))
-        ));
-        const m = Y.length;
-        console.log(`Accuracy: ${correct / m * 100}%`);
+          ));
+          // console.log(predict);
+          let correct = 0;
+          map(predict, (subArr: Array<Array<number>>, idx) => (
+            map(subArr, (arr, i) => (
+              map(arr, (num, j) => {
+                if (num === Y[idx][i][j]) {
+                  correct++;
+                }
+              })
+            ))
+          ));
+          const m = Y.length;
+          console.log(`Accuracy: ${correct / m * 100}%`);
+        }
       }
 
       // console.log('time:', (Date.now() - start) / 1000);
