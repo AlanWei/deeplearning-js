@@ -51,7 +51,7 @@ function read(targetNum: number) {
           parameters = Model.updateParameters(parameters, grads, 0.0075);
         });
 
-        if (i % 100 === 0) {
+        if (i % 1 === 0) {
           let predict: any = [];
           const costs: any = [];
           map(x, (example: Array<Array<number>>, idx) => {
