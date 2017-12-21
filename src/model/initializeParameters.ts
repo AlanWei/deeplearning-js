@@ -5,6 +5,8 @@ function initializeParameters(
     size: number,
     activationFunc: string,
   }>,
+  mean: number,
+  variance: number,
   scale: number = 0.01,
 ) {
   const parameters: any = {};
@@ -14,7 +16,7 @@ function initializeParameters(
     const currentLayerSize: number = layers[i].size;
     const prevLayerSize: number = layers[i-1].size;
     parameters[`W${i}`] = math.randn(
-      currentLayerSize, prevLayerSize, 0, 1, scale,
+      currentLayerSize, prevLayerSize, mean, variance, scale,
     );
     parameters[`b${i}`] = math.zeros(currentLayerSize, 1);
     parameters[`activation${i}`] = layers[i].activationFunc;

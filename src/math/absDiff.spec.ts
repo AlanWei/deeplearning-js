@@ -6,5 +6,5 @@ test('valid matrix absDiff', () => {
   ], [
     [1, 2, 3]
   ]);
-  expect(ro).toEqual(2);
+  expect(ro).toEqual([[2, 2, 2]]);
 });
