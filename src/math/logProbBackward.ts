@@ -1,5 +1,4 @@
 import { map } from 'lodash';
-import NP from 'number-precision';
 
 function logProbBackward(
   x: Array<Array<number>>,
@@ -8,10 +7,7 @@ function logProbBackward(
   return map(x, (subArr, i) => (
     map(subArr, (num, j) => {
       const yHat = y[i][j];
-      return -NP.minus(
-        yHat / num,
-        NP.minus(1, yHat) / NP.minus(1, num),
-      );
+      return -((yHat / num) - (1 - yHat) / (1 - num));
     })
   ));
 }

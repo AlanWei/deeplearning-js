@@ -7,6 +7,7 @@ import multiply from './multiply';
 import divide from './divide';
 import transpose from './transpose';
 import sum from './sum';
+import absDiff from './absDiff';
 import squeeze from './squeeze';
 import vectorize from './vectorize';
 import logProb from './logProb';
@@ -34,6 +35,7 @@ export default {
   squeeze,
   vectorize,
   // algorithm
+  absDiff,
   logProb,
   logProbBackward,
   linear,

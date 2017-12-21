@@ -44,7 +44,7 @@ function read(targetNum: number) {
         map(x, (example: Array<Array<number>>, idx) => {
           const forward = Model.forwardPropagation(example, parameters);
           const grads = Model.backPropagation(
-            math.logProbBackward,
+            math.absDiff,
             Y[idx],
             forward,
           );
@@ -57,7 +57,7 @@ function read(targetNum: number) {
           map(x, (example: Array<Array<number>>, idx) => {
             const ro = Model.forwardPropagation(example, parameters);
             const forward = ro.AL;
-            const cost = Model.computeCost(forward, Y[idx], math.logProb);
+            const cost = Model.computeCost(forward, Y[idx], math.absDiff);
             predict.push(forward);
             costs.push(cost);
           });
