@@ -33,22 +33,25 @@ function read(targetNum: number) {
         size: x[0].length,
         activationFunc: '',
       }, {
-        size: 3,
+        size: 4,
         activationFunc: 'relu',
       }, {
         size: 1,
         activationFunc: 'sigmoid',
       }], 0, 1, 0.01);
 
-      for (let i = 0; i <= 5; i++) {
+      for (let i = 1; i <= 10000; i++) {
         map(x, (example: Array<Array<number>>, idx) => {
           const forward = Model.forwardPropagation(example, parameters);
           const grads = Model.backPropagation(
-            math.absDiff,
+            math.logProbBackward,
             Y[idx],
             forward,
           );
+          // console.log(parameters['W1']);
+          // console.log(grads['dW1'], 'dW1');
           parameters = Model.updateParameters(parameters, grads, 0.0075);
+          // console.log(parameters['W1']);
         });
 
         if (i % 100 === 0) {
@@ -57,7 +60,7 @@ function read(targetNum: number) {
           map(x, (example: Array<Array<number>>, idx) => {
             const ro = Model.forwardPropagation(example, parameters);
             const forward = ro.AL;
-            const cost = Model.computeCost(forward, Y[idx], math.absDiff);
+            const cost = Model.computeCost(forward, Y[idx], math.logProb);
             predict.push(forward);
             costs.push(cost);
           });
