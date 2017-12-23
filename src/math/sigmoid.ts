@@ -1,12 +1,16 @@
 import { map } from 'lodash';
+import Array2D from './Array2D';
 
-function sigmoid(z: Array<Array<number>>) {
+function sigmoid(
+  z: Array2D,
+) {
+  const shape = z.shape;
+  const values = map(z.values, (num) => (
+    1 / (1 + Math.exp(-num))
+  ));
+
   return {
-    A: map(z, (subArr) => (
-      map(subArr, (num) => (
-        1 / (1 + Math.exp(-num))
-      ))
-    )),
+    A: new Array2D(shape, values),
     cache: z,
   };
 }

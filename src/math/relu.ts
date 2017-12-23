@@ -1,12 +1,16 @@
 import { map } from 'lodash';
+import Array2D from './Array2D';
 
-function relu(z: Array<Array<number>>) {
+function relu(
+  z: Array2D,
+) {
+  const shape = z.shape;
+  const values = map(z.values, (num) => (
+    Math.max(0, num)
+  ));
+
   return {
-    A: map(z, (subArr) => (
-      map(subArr, (num) => (
-        Math.max(0, num)
-      ))
-    )),
+    A: new Array2D(shape, values),
     cache: z,
   };
 }
