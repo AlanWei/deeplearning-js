@@ -1,37 +1,21 @@
 import linear from './linear';
+import Array2D from './Array2D';
 
 test('linear', () => {
-  const ro = linear(
-    [[1, 2, 3]],
-    [
-      [1],
-      [2],
-      [3],
-    ],
-    [
-      [0, 0, 0],
-      [0, 0, 0],
-      [0, 0, 0],
-    ]
-  );
+  const a = new Array2D([1, 3], [1, 2, 3]);
+  const w = new Array2D([3, 1], [1, 2, 3]);
+  const b = new Array2D([3, 3], [0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  const ro = linear(a, w, b);
   const z = ro.Z;
   const cache = ro.cache;
-  expect(z).toEqual([
+  expect(z.matrix).toEqual([
     [1, 2, 3],
     [2, 4, 6],
     [3, 6, 9],
   ]);
   expect(cache).toEqual({
-    A: [[1, 2, 3]],
-    W: [
-      [1],
-      [2],
-      [3],
-    ],
-    b: [
-      [0, 0, 0],
-      [0, 0, 0],
-      [0, 0, 0],
-    ],
+    A: a,
+    W: w,
+    b,
   });
 });

@@ -1,3 +1,4 @@
+import Array2D from './Array2D';
 import randn from './randn';
 import zeros from './zeros';
 import dot from './dot';
@@ -20,6 +21,8 @@ import sigmoid from './sigmoid';
 import sigmoidBackward from './sigmoidBackward';
 
 export default {
+  // data structure
+  Array2D,
   // initialize
   randn,
   zeros,

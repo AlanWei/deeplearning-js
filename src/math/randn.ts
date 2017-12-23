@@ -1,19 +1,24 @@
 const gaussian = require('gaussian');
+import Array2D from './Array2D';
 
-function randn(dim1: number = 1, dim2: number = 1,
-  mean: number = 0, variance: number = 1, scale: number = 1) {
-  const ro = [];
-  for (let i = 0; i < dim1; i++) {
-    const row = [];
-    for (let j = 0; j < dim2; j++) {
+function randn(
+  shape: [number, number],
+  mean: number = 0,
+  variance: number = 1,
+  scale: number = 1,
+): Array2D {
+  const row: number = shape[0];
+  const col: number = shape[1];
+  const values: Array<number> = [];
+  for (let i = 0; i < row; i++) {
+    for (let j = 0; j < col; j++) {
       const distribution = gaussian(mean, variance);
-      const sample = distribution.ppf(Math.random()) * scale;
-      row.push(sample);
+      const sample: number = distribution.ppf(Math.random()) * scale;
+      values.push(sample);
     }
-    ro.push(row);
   }
 
-  return ro;
+  return new Array2D(shape, values);
 }
 
 export default randn;

@@ -1,24 +1,34 @@
 import dot from './dot';
+import Array2D from './Array2D';
 
 test('valid matrix dot', () => {
-  const ro = dot([[1], [2], [3]], [[1, 2, 3]]);
-  expect(ro).toEqual([
-    [1, 2, 3],
-    [2, 4, 6],
-    [3, 6, 9],
-  ]);
+  const left = new Array2D([3, 1], [1, 2, 3]);
+  const right = new Array2D([1, 3], [1, 2, 3]);
+  const ro = dot(left, right);
+  expect(ro).toEqual(
+    new Array2D(
+      [3, 3],
+      [1, 2, 3, 2, 4, 6, 3, 6, 9]
+    )
+  );
 });
 
 test('matrix dot', () => {
-  const ro = dot([[1], [2]], [[1, 2, 3, 4]]);
-  expect(ro).toEqual([
-    [1, 2, 3, 4],
-    [2, 4, 6, 8],
-  ]);
+  const left = new Array2D([2, 1], [1, 2]);
+  const right = new Array2D([1, 4], [1, 2, 3, 4]);
+  const ro = dot(left, right);
+  expect(ro).toEqual(
+    new Array2D(
+      [2, 4],
+      [1, 2, 3, 4, 2, 4, 6, 8]
+    )
+  );
 });
 
 test('invalid matrix dot', () => {
-  expect(() => dot([[1, 2], [2, 3], [3, 4]], [[1, 2, 3]]))
-  .toThrowError('[dot] left matrix column count ' +
-  'should be the same as right matrix row count');
+  const left = new Array2D([2, 1], [1, 2]);
+  const right = new Array2D([2, 2], [1, 2, 3, 4]);
+  expect(() => dot(left, right))
+  .toThrowError('[dot] left matrix columns ' +
+  'should be the same as right matrix rows');
 });

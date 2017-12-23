@@ -1,25 +1,15 @@
 import zeros from './zeros';
 
-test('1 test case with 1 parameter', () => {
-  expect(zeros()).toEqual([[0]]);
-});
-
-test('1 test case with multiple parameters', () => {
-  expect(zeros(3)).toEqual([
-    [0],
-    [0],
-    [0],
-  ]);
-});
-
-test('multiple test cases with 1 parameter', () => {
-  expect(zeros(1, 3)).toEqual([
+test('1*3 matrix', () => {
+  const ro = zeros([1, 3]).matrix;
+  expect(ro).toEqual([
     [0, 0, 0],
   ]);
 });
 
-test('multiple test cases with multiple parameters', () => {
-  expect(zeros(3, 3)).toEqual([
+test('3*3 matrix', () => {
+  const ro = zeros([3, 3]).matrix;
+  expect(ro).toEqual([
     [0, 0, 0],
     [0, 0, 0],
     [0, 0, 0],

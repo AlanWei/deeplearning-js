@@ -1,12 +1,15 @@
 import { keys } from 'lodash';
-import math from '../math';
+import Array2D from '../math/Array2D';
+import linear from '../math/linear';
+import relu from '../math/relu';
+import sigmoid from '../math/sigmoid';
 
 function forwardPropagation(
-  x: Array<Array<number>>,
+  x: Array2D,
   parameters: any
 ) {
-  const l = keys(parameters).length / 3;
-  let a = x;
+  const l: number = keys(parameters).length / 3;
+  let input = x;
 
   const caches = [];
   const activationFuncs = [];
@@ -14,17 +17,17 @@ function forwardPropagation(
     const cache: any = {};
     const w = parameters[`W${i}`];
     const b = parameters[`b${i}`];
-    const linear = math.linear(a, w, b);
-    cache.linearCache = linear.cache;
+    const a = linear(input, w, b);
+    cache.linearCache = a.cache;
     const activationFunc = parameters[`activation${i}`];
     activationFuncs.push(activationFunc);
     let z;
     switch(activationFunc) {
       case 'relu':
-        z = math.relu(linear.Z);
+        z = relu(linear.Z);
         break;
       case 'sigmoid':
-        z = math.sigmoid(linear.Z);
+        z = sigmoid(linear.Z);
         break;
       case 'linear':
         z = {
