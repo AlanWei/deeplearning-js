@@ -8,7 +8,7 @@ function read(targetNum: number) {
   const Y: any = [];
   const X: any = [];
   let count = 0;
-  fs.createReadStream("./mnist_sample.csv")
+  fs.createReadStream("./mnist_train.csv")
     .pipe(csv())
     .on("data", (data: any) => {
       X[count] = [];
@@ -31,14 +31,17 @@ function read(targetNum: number) {
         size: x[0].length,
         activationFunc: '',
       }, {
-        size: 5,
+        size: 8,
+        activationFunc: 'linear',
+      }, {
+        size: 4,
         activationFunc: 'linear',
       }, {
         size: 1,
         activationFunc: 'sigmoid',
       }], 0, 1, 0.01);
 
-      for (let i = 1; i <= 1000; i++) {
+      for (let i = 1; i <= 100; i++) {
         map(x, (example: Array<Array<number>>, idx) => {
           const forward = Model.forwardPropagation(example, parameters);
           const grads = Model.backPropagation(
@@ -49,7 +52,7 @@ function read(targetNum: number) {
           parameters = Model.updateParameters(parameters, grads, 0.0075);
         });
 
-        if (i % 100 === 0) {
+        if (i % 10 === 0) {
           let predict: any = [];
           const costs: any = [];
           map(x, (example: Array<Array<number>>, idx) => {
