@@ -5,6 +5,8 @@ import Model from '../model';
 import math from '../math';
 import Array2D from '../math/Array2D';
 
+const start = Date.now();
+
 function read(targetNum: number) {
   const Y: Array<0 | 1> = [];
   const X: Array<Array2D> = [];
@@ -41,7 +43,6 @@ function read(targetNum: number) {
       for (let i = 1; i <= iterations; i++) {
         map(X, (example: Array2D, idx) => {
           const forward = Model.forwardPropagation(example, parameters);
-          console.log(forward);
           // const grads = Model.backPropagation(
           //   math.subtract,
           //   Y[idx],
@@ -147,6 +148,9 @@ function read(targetNum: number) {
       //     console.log(`Test Accuracy: ${correct / m * 100}%`);
       //     console.log(`Test Correct count: ${correct}`);
       //   });
+
+      const end = Date.now();
+      console.log(`Total running time is: ${(end - start) / 1000} seconds`);
     });
 }
 
