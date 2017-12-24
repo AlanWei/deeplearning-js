@@ -1,33 +1,45 @@
-import Array2D from '../math/Array2D';
 import Cache from './Cache';
+import Array2D from '../math/Array2D';
+import quadraticCostBackward from '../math/quadraticCostBackward';
+import linearBackward from '../math/linearBackward';
+import reluBackward from '../math/reluBackward';
+import sigmoidBackward from '../math/sigmoidBackward';
 
 function backPropagation(
-  costFunc: Function,
+  costFunc: 'quadratic' | 'cross-entropy',
   forwardResults: {
-    yHat: Array<number> | number,
+    yHat: Array2D,
     caches: Array<Cache>,
     activationFuncs: Array<'linear' | 'relu' | 'sigmoid'>,
   },
-  y: number,
+  y: Array2D,
 ) {
   const { yHat, caches, activationFuncs } = forwardResults;
-  const l = caches.length;
+  const l: number = caches.length;
 
   const grads: any = {};
-  const dAL = costFunc(AL, Y);
+  let dy: Array2D = new Array2D();
+
+  switch(costFunc) {
+    case 'quadratic':
+      dy = quadraticCostBackward(yHat, y);
+      break;
+    default:
+      throw new Error('Unsupported cost function');
+  }
   for (let i = l; i > 0; i--) {
-    const activationFunc = activationFuncs[i-1];
-    const cache = caches[i-1];
-    const dA = i === l ? dAL : grads[`dA${i+1}`];
+    const activationFunc: 'linear' | 'relu' | 'sigmoid' = activationFuncs[i-1];
+    const cache: Cache = caches[i-1];
+    const dA = i === l ? dy : grads[`dA${i+1}`];
     let dZ = dA;
     switch(activationFunc) {
       case 'relu':
-        dZ = math.reluBackward(
+        dZ = reluBackward(
           dA, cache.activationCache,
         );
         break;
       case 'sigmoid':
-        dZ = math.sigmoidBackward(
+        dZ = sigmoidBackward(
           dA, cache.activationCache,
         );
         break;
@@ -36,7 +48,7 @@ function backPropagation(
       default:
         throw new Error('Unsupported activation function');
     }
-    const { dAPrev, dW, db } = math.linearBackward(
+    const { dAPrev, dW, db } = linearBackward(
       dZ, cache.linearCache,
     );
     grads[`dA${i}`] = dAPrev;

@@ -2,12 +2,13 @@ import convertArray1DToArray2D from '../utils/convertArray1DToArray2D';
 import add from './add';
 import subtract from './subtract';
 import sum from './sum';
+import transpose from './transpose';
 
 export default class Array2D {
   shape: [number, number];
   values: Array<number>;
   matrix: Array<Array<number>>;
-  constructor(shape: [number, number], values?: Array<number>) {
+  constructor(shape: [number, number] = [0, 0], values: Array<number> = []) {
     this.shape = shape;
     this.values = values;
     this.matrix = convertArray1DToArray2D(shape, values);
@@ -20,6 +21,9 @@ export default class Array2D {
   }
   sum(isAbs: boolean = false): number {
     return sum(this.values, isAbs);
+  }
+  transpose() {
+    return transpose(this);
   }
   as1D(): Array<number> {
     return this.values;

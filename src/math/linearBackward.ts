@@ -1,10 +1,22 @@
-import math from '../math';
+import Array2D from './Array2D';
+import dot from './dot';
 
-function linearBackward(dZ: Array<Array<number>>, cache: any) {
+function linearBackward(
+  dZ: Array2D,
+  cache: {
+    A: Array2D,
+    W: Array2D,
+    b: Array2D,
+  },
+): {
+  dAPrev: Array2D,
+  dW: Array2D,
+  db: Array2D,
+} {
   const { A, W } = cache;
-  const dW = math.dot(dZ, math.transpose(A));
+  const dW = dot(dZ, A.transpose());
   const db = dZ;
-  const dAPrev = math.dot(math.transpose(W), dZ);
+  const dAPrev = dot(W.transpose(), dZ);
 
   return {
     dAPrev,

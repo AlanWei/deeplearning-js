@@ -2,13 +2,12 @@ const fs = require('fs');
 const csv = require('fast-csv');
 import { map, slice } from 'lodash';
 import Model from '../model';
-import math from '../math';
 import Array2D from '../math/Array2D';
 
 const start = Date.now();
 
 function read(targetNum: number) {
-  const Y: Array<number> = [];
+  const Y: Array<Array2D> = [];
   const X: Array<Array2D> = [];
   fs.createReadStream("./mnist_train.csv")
     .pipe(csv())
@@ -19,9 +18,9 @@ function read(targetNum: number) {
       ));
       X.push(new Array2D([input.length, 1], input));
       if (output === targetNum) {
-        Y.push(1);
+        Y.push(new Array2D([1, 1], [1]));
       } else {
-        Y.push(0);
+        Y.push(new Array2D([1, 1], [0]));
       }
     })
     .on("end", () => {
@@ -44,10 +43,11 @@ function read(targetNum: number) {
         map(X, (example: Array2D, idx) => {
           const forward = Model.forwardPropagation(example, parameters);
           const grads = Model.backPropagation(
-            math.subtract,
+            'quadratic',
             forward,
             Y[idx],
           );
+          console.log(grads);
           // parameters = Model.updateParameters(parameters, grads, 0.0075);
         });
 

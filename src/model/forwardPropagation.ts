@@ -9,7 +9,7 @@ function forwardPropagation(
   x: Array2D,
   parameters: any
 ): {
-  yHat: Array<number> | number,
+  yHat: Array2D,
   caches: Array<Cache>,
   activationFuncs: Array<'linear' | 'relu' | 'sigmoid'>,
 } {
@@ -50,7 +50,7 @@ function forwardPropagation(
   }
 
   return {
-    yHat: yHat.squeeze(),
+    yHat,
     caches,
     activationFuncs,
   };
