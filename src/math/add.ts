@@ -3,7 +3,7 @@ import Array2D from './Array2D';
 
 function add(
   left: Array2D,
-  right: Array2D
+  right: Array2D,
 ): Array2D {
   if (!isEqual(left.shape, right.shape)) {
     throw new Error('[add] left matrix shape ' +

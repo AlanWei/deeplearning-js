@@ -1,23 +1,22 @@
-function divide(left: Array<Array<number>>, right: Array<Array<number>>) {
-  const leftNumRows = left.length;
-  const leftNumCols = left[0].length;
-  const rightNumRows = right.length;
-  const rightNumCols = right[0].length;
+import { map, isEqual } from 'lodash';
+import Array2D from './Array2D';
 
-  const ro: any = [];
-  if (leftNumRows === rightNumRows && leftNumCols === rightNumCols) {
-    for (let i = 0; i < leftNumRows; i++) {
-      ro[i] = [];
-      for (let j = 0; j < leftNumCols; j++) {
-        ro[i][j] = left[i][j] / right[i][j];
-      }
-    }
-
-    return ro;
+function divide(
+  left: Array2D,
+  right: Array2D,
+): Array2D {
+  if (!isEqual(left.shape, right.shape)) {
+    throw new Error('[divide] left matrix shape ' +
+    'should be the same as right matrix shape');
   }
 
-  throw new Error('[divide] left matrix shape ' +
-  'should be the same as right matrix shape');
+  const leftValues: Array<number> = left.values;
+  const rightValues: Array<number> = right.values;
+  const values = map(leftValues, (num: number, idx) => (
+    num / rightValues[idx]
+  ));
+
+  return new Array2D(left.shape, values);
 }
 
 export default divide;

@@ -1,8 +1,12 @@
 const fs = require('fs');
 const csv = require('fast-csv');
 import { map, slice } from 'lodash';
-import Model from '../model';
-import Array2D from '../math/Array2D';
+import {
+  Array2D,
+  initializeParameters,
+  forwardPropagation,
+  backPropagation,
+} from '../src';
 
 const start = Date.now();
 
@@ -24,7 +28,7 @@ function read(targetNum: number) {
       }
     })
     .on("end", () => {
-      let parameters = Model.initializeParameters([{
+      let parameters = initializeParameters([{
         size: X[0].shape[0], // for each example
       }, {
         size: 8,
@@ -41,13 +45,12 @@ function read(targetNum: number) {
 
       for (let i = 1; i <= iterations; i++) {
         map(X, (example: Array2D, idx) => {
-          const forward = Model.forwardPropagation(example, parameters);
-          const grads = Model.backPropagation(
+          const forward = forwardPropagation(example, parameters);
+          const grads = backPropagation(
             'quadratic',
             forward,
             Y[idx],
           );
-          console.log(grads);
           // parameters = Model.updateParameters(parameters, grads, 0.0075);
         });
 

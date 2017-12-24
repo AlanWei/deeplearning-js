@@ -1,9 +1,9 @@
 import { keys } from 'lodash';
+import Cache from './Cache';
 import Array2D from '../math/Array2D';
 import linear from '../math/linear';
 import relu from '../math/relu';
 import sigmoid from '../math/sigmoid';
-import Cache from './Cache';
 
 function forwardPropagation(
   x: Array2D,
