@@ -6,6 +6,8 @@ import {
   initializeParameters,
   forwardPropagation,
   backPropagation,
+  updateParameters,
+  quadraticCost,
 } from '../src';
 
 const start = Date.now();
@@ -28,6 +30,9 @@ function read(targetNum: number) {
       }
     })
     .on("end", () => {
+      const yArray: any = map(Y, (example) => (
+        example.squeeze()
+      ));
       let parameters = initializeParameters([{
         size: X[0].shape[0], // for each example
       }, {
@@ -41,7 +46,7 @@ function read(targetNum: number) {
         activationFunc: 'sigmoid',
       }], 0, 1, 0.01);
 
-      const iterations = 1;
+      const iterations = 30;
 
       for (let i = 1; i <= iterations; i++) {
         map(X, (example: Array2D, idx) => {
@@ -51,45 +56,33 @@ function read(targetNum: number) {
             forward,
             Y[idx],
           );
-          // parameters = Model.updateParameters(parameters, grads, 0.0075);
+          parameters = updateParameters(parameters, grads, 0.0075);
         });
 
-        // if (i % 10 === 0) {
-        //   let predict: any = [];
-        //   const costs: any = [];
-        //   map(x, (example: Array<Array<number>>, idx) => {
-        //     const ro = Model.forwardPropagation(example, parameters);
-        //     const forward = ro.AL;
-        //     const cost = Model.computeCost(forward, Y[idx], math.absDiff);
-        //     predict.push(forward);
-        //     costs.push(cost);
-        //   });
-        //   let costSum = 0;
-        //   map(costs, (cost: number) => (
-        //     costSum += cost
-        //   ));
-        //   console.log(`${i}: Cost is ${costSum / costs.length}`);
-        //   predict = map(predict, (subArr: Array<Array<number>>) => (
-        //     map(subArr, (arr) => (
-        //       map(arr, (num) => (
-        //         num > 0.5 ? 1 : 0
-        //       ))
-        //     ))
-        //   ));
-        //   let correct = 0;
-        //   map(predict, (subArr: Array<Array<number>>, idx) => (
-        //     map(subArr, (arr, i) => (
-        //       map(arr, (num, j) => {
-        //         if (num === Y[idx][i][j]) {
-        //           correct++;
-        //         }
-        //       })
-        //     ))
-        //   ));
-        //   const m = Y.length;
-        //   console.log(`Accuracy: ${correct / m * 100}%`);
-        //   console.log(`Correct count: ${correct}`);
-        // }
+        if (i % 10 === 0) {
+          let predict: any = [];
+          map(X, (example: Array2D, idx) => {
+            const forward = forwardPropagation(example, parameters);
+            predict.push(forward.yHat);
+          });
+          predict = map(predict, (example: Array2D) => (
+            example.squeeze()
+          ));
+          const cost = quadraticCost(predict, yArray);
+          console.log(`${i}: Cost is ${cost}`);
+          predict = map(predict, (num) => (
+            num > 0.5 ? 1 : 0
+          ));
+          let correct = 0;
+          map(predict, (num, idx) => {
+            if (num === yArray[idx]) {
+              correct++;
+            }
+          });
+          const m = yArray.length;
+          console.log(`Accuracy: ${correct / m * 100}%`);
+          console.log(`Correct count: ${correct}`);
+        }
       }
 
       // const X2: any = [];

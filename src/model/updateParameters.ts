@@ -1,32 +1,22 @@
 import { keys } from 'lodash';
-import math from '../math';
+import Scalar from '../math/Scalar';
 
 function updateParameters(
   parameters: any,
   grads: any,
-  learningRate: number
+  learningRate: number,
 ) {
-  const l = keys(parameters).length / 3;
+  const l: number = keys(parameters).length / 3;
 
   for (let i = 0; i < l; i++) {
-    parameters[`W${i+1}`] = math.subtract(
-      parameters[`W${i+1}`],
-      math.multiply(
-        grads[`dW${i+1}`],
-        math.vectorize(
-          learningRate, grads[`dW${i+1}`].length, grads[`dW${i+1}`][0].length,
-        ),
-      ),
-    );
-    parameters[`b${i+1}`] = math.subtract(
-      parameters[`b${i+1}`],
-      math.multiply(
-        grads[`db${i+1}`],
-        math.vectorize(
-          learningRate, grads[`db${i+1}`].length, grads[`db${i+1}`][0].length,
-        ),
-      )
-    );
+    parameters[`W${i+1}`] = parameters[`W${i+1}`].subtract(
+    grads[`dW${i+1}`].multiply(
+      new Scalar(parameters[`W${i+1}`].shape, learningRate).array2D,
+    ));
+    parameters[`b${i+1}`] = parameters[`b${i+1}`].subtract(
+      grads[`db${i+1}`].multiply(
+        new Scalar(parameters[`b${i+1}`].shape, learningRate).array2D,
+      ));
   }
 
   return parameters;
