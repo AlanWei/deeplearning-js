@@ -8,7 +8,7 @@ import Array2D from '../math/Array2D';
 const start = Date.now();
 
 function read(targetNum: number) {
-  const Y: Array<0 | 1> = [];
+  const Y: Array<number> = [];
   const X: Array<Array2D> = [];
   fs.createReadStream("./mnist_train.csv")
     .pipe(csv())
@@ -43,11 +43,11 @@ function read(targetNum: number) {
       for (let i = 1; i <= iterations; i++) {
         map(X, (example: Array2D, idx) => {
           const forward = Model.forwardPropagation(example, parameters);
-          // const grads = Model.backPropagation(
-          //   math.subtract,
-          //   Y[idx],
-          //   forward,
-          // );
+          const grads = Model.backPropagation(
+            math.subtract,
+            forward,
+            Y[idx],
+          );
           // parameters = Model.updateParameters(parameters, grads, 0.0075);
         });
 

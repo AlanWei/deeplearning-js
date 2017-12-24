@@ -1,11 +1,14 @@
 import substract from './subtract';
 import sum from './sum';
-import vectorize from './vectorize';
+import Array2D from './Array2D';
 
-function absDiff(x: Array<Array<number>>, y: Array<Array<number>>) {
-  const diff = substract(x, y);
-  const sumValue = sum(diff, true);
-  return vectorize(sumValue, x.length, x[0].length);
+function absDiff(
+  x: Array2D,
+  y: Array2D,
+): number {
+  const diff: Array2D = substract(x, y);
+  const sumValue: number = sum(diff.values, true);
+  return sumValue;
 }
 
 export default absDiff;

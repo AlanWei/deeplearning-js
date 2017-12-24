@@ -1,15 +1,16 @@
-import math from '../math';
+import Array2D from '../math/Array2D';
+import Cache from './Cache';
 
 function backPropagation(
   costFunc: Function,
-  Y: Array<Array<number>>,
   forwardResults: {
-    AL: Array<Array<number>>,
-    caches: any,
-    activationFuncs: Array<string>,
+    yHat: Array<number> | number,
+    caches: Array<Cache>,
+    activationFuncs: Array<'linear' | 'relu' | 'sigmoid'>,
   },
+  y: number,
 ) {
-  const { AL, caches, activationFuncs } = forwardResults;
+  const { yHat, caches, activationFuncs } = forwardResults;
   const l = caches.length;
 
   const grads: any = {};

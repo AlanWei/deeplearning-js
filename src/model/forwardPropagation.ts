@@ -9,19 +9,19 @@ function forwardPropagation(
   x: Array2D,
   parameters: any
 ): {
-  y: Array2D,
+  yHat: Array<number> | number,
   caches: Array<Cache>,
   activationFuncs: Array<'linear' | 'relu' | 'sigmoid'>,
 } {
   const l: number = keys(parameters).length / 3;
-  let y = x;
+  let yHat = x;
 
   const caches: Array<Cache> = [];
   const activationFuncs: Array<'linear' | 'relu' | 'sigmoid'> = [];
   for (let i = 1; i <= l; i++) {
     const w: Array2D = parameters[`W${i}`];
     const b: Array2D = parameters[`b${i}`];
-    const a = linear(y, w, b);
+    const a = linear(yHat, w, b);
     const activationFunc: 'linear' | 'relu' | 'sigmoid' =
       parameters[`activation${i}`];
     activationFuncs.push(activationFunc);
@@ -46,11 +46,11 @@ function forwardPropagation(
         throw new Error('Unsupported activation function');
     }
     caches.push(new Cache(a.cache, z.cache));
-    y = z.A;
+    yHat = z.A;
   }
 
   return {
-    y,
+    yHat: yHat.squeeze(),
     caches,
     activationFuncs,
   };
