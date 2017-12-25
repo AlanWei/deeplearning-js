@@ -39,12 +39,9 @@ export default class Array2D {
   as1D(): Array<number> {
     return this.values;
   }
-  squeeze(): Array<number> | number {
+  squeeze(): number {
     const row = this.shape[0];
     const col = this.shape[1];
-    if (row > 1 && col === 1) {
-      return this.values;
-    }
     if (row === 1 && col === 1) {
       return this.values[0];
     }

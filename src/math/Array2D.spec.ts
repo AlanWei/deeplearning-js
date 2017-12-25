@@ -31,6 +31,5 @@ test('Array2D', () => {
     [3],
   ]);
   expect(array2D.as1D()).toEqual([1, 2, 3]);
-  expect(matrix.squeeze()).toEqual([1, 1, 1]);
   expect(scalar.squeeze()).toEqual(1);
 });
