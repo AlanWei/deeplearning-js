@@ -2,11 +2,11 @@
     "name": "deeplearning-js",
     "version": "0.1.0",
     "description": "Deep learning library in JavaScript",
-    "main": "dist/src/index.js",
+    "main": "dist/index.js",
     "scripts": {
-        "build": "tsc",
+        "build": "rm -rf dist/ && tsc",
         "dev": "tsc -w",
-        "test": "jest --coverage",
+        "test": "rm -rf coverage/ && jest --coverage",
         "test:watch": "jest --watch --coverage"
     },
     "repository": {
