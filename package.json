@@ -1,5 +1,5 @@
 {
-    "name": "dl-js",
+    "name": "deeplearning-js",
     "version": "0.1.0",
     "description": "Deep learning library in JavaScript",
     "main": "dist/src/index.js",
