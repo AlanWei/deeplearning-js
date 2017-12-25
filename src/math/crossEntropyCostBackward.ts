@@ -8,9 +8,10 @@ function crossEntropyCostBackward(
   const yHatValues = yHat.values;
   const yValues = y.values;
 
-  const values = map(yHatValues, (num, idx) => (
-    -((yValues[idx] / num) - (1 - yValues[idx]) / (1 - num))
-  ));
+  const values = map(yHatValues, (num, idx) => {
+    const yIdx = yValues[idx];
+    return -((yIdx / num) - ((1 - yIdx) / (1 - num)));
+  });
 
   return new Array2D(yHat.shape, values);
 }

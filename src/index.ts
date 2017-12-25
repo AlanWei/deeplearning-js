@@ -6,6 +6,7 @@ import {
 } from './model';
 import Array2D from './math/Array2D';
 import quadraticCost from './math/quadraticCost';
+import crossEntropyCost from './math/crossEntropyCost';
 
 export {
   // data structure
@@ -17,4 +18,5 @@ export {
   updateParameters,
   // cost function
   quadraticCost,
+  crossEntropyCost,
 };

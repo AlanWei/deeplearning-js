@@ -7,7 +7,8 @@ import {
   forwardPropagation,
   backPropagation,
   updateParameters,
-  quadraticCost,
+  // quadraticCost,
+  crossEntropyCost,
 } from '../src';
 
 const start = Date.now();
@@ -46,20 +47,20 @@ function read(targetNum: number) {
         activationFunc: 'sigmoid',
       }], 0, 1, 0.01);
 
-      const iterations = 30;
+      const iterations = 1;
 
       for (let i = 1; i <= iterations; i++) {
         map(X, (example: Array2D, idx) => {
           const forward = forwardPropagation(example, parameters);
           const grads = backPropagation(
-            'quadratic',
+            'cross-entropy',
             forward,
             Y[idx],
           );
-          parameters = updateParameters(parameters, grads, 0.0075);
+          parameters = updateParameters(parameters, grads, 0.00075);
         });
 
-        if (i % 10 === 0) {
+        if (i % 1 === 0) {
           let predict: any = [];
           map(X, (example: Array2D, idx) => {
             const forward = forwardPropagation(example, parameters);
@@ -68,7 +69,7 @@ function read(targetNum: number) {
           predict = map(predict, (example: Array2D) => (
             example.squeeze()
           ));
-          const cost = quadraticCost(predict, yArray);
+          const cost = crossEntropyCost(predict, yArray);
           console.log(`${i}: Cost is ${cost}`);
           predict = map(predict, (num) => (
             num > 0.5 ? 1 : 0
@@ -85,68 +86,51 @@ function read(targetNum: number) {
         }
       }
 
-      // const X2: any = [];
-      // const Y2: any = [];
-      // let count = 0;
-      // fs.createReadStream("./mnist_test.csv")
-      //   .pipe(csv())
-      //   .on("data", (data: any) => {
-      //     X2[count] = [];
-      //     Y2[count] = [];
-      //     const output = parseInt(data[0], 10);
-      //     const input = slice(data, 1);
-      //     if (output === targetNum) {
-      //       Y2[count].push([1]);
-      //     } else {
-      //       Y2[count].push([0]);
-      //     }
-      //     map(input, (num: string, idx) => {
-      //       X2[count][idx] = [parseInt(num, 10)];
-      //     });
-      //     count++;
-      //   })
-      //   .on("end", () => {
-      //     const x = X2;
-      //     let predict: any = [];
-      //     const costs: any = [];
-      //     map(x, (example: Array<Array<number>>, idx) => {
-      //       const ro = Model.forwardPropagation(example, parameters);
-      //       const forward = ro.AL;
-      //       const cost = Model.computeCost(forward, Y2[idx], math.absDiff);
-      //       predict.push(forward);
-      //       costs.push(cost);
-      //     });
-      //     let costSum = 0;
-      //     map(costs, (cost: number) => (
-      //       costSum += cost
-      //     ));
-      //     console.log(`Cost is ${costSum / costs.length}`);
-      //     predict = map(predict, (subArr: Array<Array<number>>) => (
-      //       map(subArr, (arr) => (
-      //         map(arr, (num) => (
-      //           num > 0.5 ? 1 : 0
-      //         ))
-      //       ))
-      //     ));
-      //     let correct = 0;
-      //     map(predict, (subArr: Array<Array<number>>, idx) => (
-      //       map(subArr, (arr, i) => (
-      //         map(arr, (num, j) => {
-      //           if (num === Y2[idx][i][j]) {
-      //             correct++;
-      //           } else {
-      //             console.log(idx);
-      //           }
-      //         })
-      //       ))
-      //     ));
-      //     const m = Y2.length;
-      //     console.log(`Test Accuracy: ${correct / m * 100}%`);
-      //     console.log(`Test Correct count: ${correct}`);
-      //   });
-
-      const end = Date.now();
-      console.log(`Total running time is: ${(end - start) / 1000} seconds`);
+      const yTest: Array<Array2D> = [];
+      const xTest: Array<Array2D> = [];
+      fs.createReadStream("./mnist_test.csv")
+        .pipe(csv())
+        .on("data", (data: Array<string>) => {
+          const output = parseInt(data[0], 10);
+          const input = map(slice(data, 1), (num) => (
+            parseInt(num, 10)
+          ));
+          xTest.push(new Array2D([input.length, 1], input));
+          if (output === targetNum) {
+            yTest.push(new Array2D([1, 1], [1]));
+          } else {
+            yTest.push(new Array2D([1, 1], [0]));
+          }
+        })
+        .on("end", () => {
+          let predict: any = [];
+          map(xTest, (example: Array2D, idx) => {
+            const forward = forwardPropagation(example, parameters);
+            predict.push(forward.yHat);
+          });
+          predict = map(predict, (example: Array2D) => (
+            example.squeeze()
+          ));
+          const yResult: any = map(yTest, (example: Array2D) => (
+            example.squeeze()
+          ));
+          const cost = crossEntropyCost(predict, yResult);
+          console.log(`Test: Cost is ${cost}`);
+          predict = map(predict, (num) => (
+            num > 0.5 ? 1 : 0
+          ));
+          let correct = 0;
+          map(predict, (num, idx) => {
+            if (num === yResult[idx]) {
+              correct++;
+            }
+          });
+          const m = yResult.length;
+          console.log(`Test Accuracy: ${correct / m * 100}%`);
+          console.log(`Test Correct count: ${correct}`);
+          const end = Date.now();
+          console.log(`Total running time is: ${(end - start) / 1000} seconds`);
+        });
     });
 }
 

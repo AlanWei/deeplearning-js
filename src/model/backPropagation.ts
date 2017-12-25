@@ -1,6 +1,7 @@
 import Cache from './Cache';
 import Array2D from '../math/Array2D';
 import quadraticCostBackward from '../math/quadraticCostBackward';
+import crossEntropyCostBackward from '../math/crossEntropyCostBackward';
 import linearBackward from '../math/linearBackward';
 import reluBackward from '../math/reluBackward';
 import sigmoidBackward from '../math/sigmoidBackward';
@@ -23,6 +24,9 @@ function backPropagation(
   switch(costFunc) {
     case 'quadratic':
       dy = quadraticCostBackward(yHat, y);
+      break;
+    case 'cross-entropy':
+      dy = crossEntropyCostBackward(yHat, y);
       break;
     default:
       throw new Error('Unsupported cost function');
