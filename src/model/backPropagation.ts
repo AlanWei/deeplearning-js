@@ -27,6 +27,7 @@ function backPropagation(
     default:
       throw new Error('Unsupported cost function');
   }
+
   for (let i = l; i > 0; i--) {
     const activationFunc: 'linear' | 'relu' | 'sigmoid' = activationFuncs[i-1];
     const cache: Cache = caches[i-1];

@@ -10,13 +10,15 @@ function updateParameters(
 
   for (let i = 0; i < l; i++) {
     parameters[`W${i+1}`] = parameters[`W${i+1}`].subtract(
-    grads[`dW${i+1}`].multiply(
-      new Scalar(parameters[`W${i+1}`].shape, learningRate).array2D,
-    ));
+      grads[`dW${i+1}`].multiply(
+        new Scalar(parameters[`W${i+1}`].shape, learningRate).array2D,
+      )
+    );
     parameters[`b${i+1}`] = parameters[`b${i+1}`].subtract(
       grads[`db${i+1}`].multiply(
         new Scalar(parameters[`b${i+1}`].shape, learningRate).array2D,
-      ));
+      )
+    );
   }
 
   return parameters;

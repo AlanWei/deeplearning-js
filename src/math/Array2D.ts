@@ -3,7 +3,7 @@ import add from './add';
 import subtract from './subtract';
 import divide from './divide';
 import multiply from './multiply';
-import sum from './sum';
+import dot from './dot';
 import transpose from './transpose';
 
 export default class Array2D {
@@ -30,8 +30,8 @@ export default class Array2D {
   divide(matrix: Array2D): Array2D {
     return divide(this, matrix);
   }
-  sum(isAbs: boolean = false): number {
-    return sum(this.values, isAbs);
+  dot(matrix: Array2D): Array2D {
+    return dot(this, matrix);
   }
   transpose() {
     return transpose(this);

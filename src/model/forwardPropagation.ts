@@ -14,10 +14,11 @@ function forwardPropagation(
   activationFuncs: Array<'linear' | 'relu' | 'sigmoid'>,
 } {
   const l: number = keys(parameters).length / 3;
-  let yHat = x;
 
+  let yHat = x;
   const caches: Array<Cache> = [];
   const activationFuncs: Array<'linear' | 'relu' | 'sigmoid'> = [];
+
   for (let i = 1; i <= l; i++) {
     const w: Array2D = parameters[`W${i}`];
     const b: Array2D = parameters[`b${i}`];

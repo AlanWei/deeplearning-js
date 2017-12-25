@@ -4,7 +4,7 @@ import dot from './dot';
 function linearForward(
   a: Array2D,
   w: Array2D,
-  b: Array2D
+  b: Array2D,
 ): {
   Z: Array2D,
   cache: {
@@ -13,8 +13,7 @@ function linearForward(
     b: Array2D,
   }
 } {
-  const wa = dot(w, a);
-  const z = wa.add(b);
+  const z = dot(w, a).add(b);
 
   return {
     Z: z,

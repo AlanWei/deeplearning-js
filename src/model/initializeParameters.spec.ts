@@ -1,5 +1,12 @@
 import initializeParameters from './initializeParameters';
 
+test('invalid 1 layer neural network', () => {
+  expect(() => initializeParameters([{
+    size: 1,
+    activationFunc: 'linear',
+  }])).toThrowError('[initializeParameters] needs at least 2 layers');
+});
+
 test('2 layers neural network', () => {
   const ro = initializeParameters([{
     size: 2,
