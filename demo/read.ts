@@ -47,7 +47,7 @@ function read(targetNum: number) {
         activationFunc: 'sigmoid',
       }], 0, 1, 0.01);
 
-      const iterations = 1;
+      const iterations = 20;
 
       for (let i = 1; i <= iterations; i++) {
         map(X, (example: Array2D, idx) => {
