@@ -9,18 +9,21 @@ import {
   updateParameters,
 } from '../model';
 
+const start = Date.now();
+
 function processData(
   data: Array<string>,
   targetNum: number,
 ) {
-  const output = parseInt(data[0], 10);
-  const input = map(slice(data, 1), (num) => (
+  const x = map(slice(data, 1), (num) => (
     parseInt(num, 10)
   ));
+  const y = map(slice(data, 0, 1), (num) => (
+    parseInt(num, 10) === targetNum ? 1 : 0
+  ));
   return {
-    x: new Array2D([input.length, 1], input),
-    y: output === targetNum ?
-      new Array2D([1, 1], [1]) : new Array2D([1, 1], [0]),
+    x,
+    y,
   };
 }
 
@@ -34,39 +37,40 @@ function predict(
     (data: Array<string>) => processData(data, targetNum),
   ).then((result) => {
     const { input, output } = result;
-    const outputArray1D = map(output, (example) => (
-      example.squeeze()
+    const m = output.length;
+    const dims = input.length / m;
+    const inputArray2D = new Array2D([m, dims], input).transpose();
+    const forward = forwardPropagation(inputArray2D, parameters).yHat.as1D();
+    const predict: Array<number> = map(forward, (num) => (
+      num > 0.5 ? 1 : 0
     ));
-    const predict: Array<number> = map(input, (example: Array2D, idx) => {
-      const forward = forwardPropagation(example, parameters);
-      const yHat = forward.yHat.squeeze();
-      return yHat > 0.5 ? 1 : 0;
-    });
+      
     let correct = 0;
     map(predict, (num, idx) => {
-      if (num === outputArray1D[idx]) {
+      if (num === output[idx]) {
         correct++;
       }
     });
-    const m = outputArray1D.length;
     console.log(`Test accuracy: ${correct / m * 100}%`);
     console.log(`Test correct count: ${correct}`);
+    const end = Date.now();
+    console.log(`Total time: ${(end - start) / 1000} seconds`);
   });
 }
 
 function startTraining(
-  input: Array<Array2D>,
-  output: Array<Array2D>,
+  input: Array<number>,
+  output: Array<number>,
   numOfIterations: number,
   baseIterationToShowCost: number,
 ) {
-  // format output to 1D for cost computing
-  const outputArray1D: Array<number> = map(output, (example) => (
-    example.squeeze()
-  ));
+  const m = output.length;
+  const dims = input.length / m;
+  const inputArray2D = new Array2D([m, dims], input).transpose();
+  const outputArray2D = new Array2D([1, m], output);
   // training
   let parameters = initializeParameters([{
-    size: input[0].shape[0],
+    size: dims,
   }, {
     size: 8,
     activationFunc: 'linear',
@@ -74,28 +78,25 @@ function startTraining(
     size: 4,
     activationFunc: 'linear',
   }, {
+    size: 2,
+    activationFunc: 'linear',
+  }, {
     size: 1,
     activationFunc: 'sigmoid',
   }], 0, 1, 0.01);
 
   for (let i = 1; i <= numOfIterations; i++) {
-    map(input, (example: Array2D, idx) => {
-      const forward = forwardPropagation(example, parameters);
-      const grads = backPropagation(
-        'cross-entropy',
-        forward,
-        output[idx],
-      );
-      parameters = updateParameters(parameters, grads, 0.00075);
-    });
+    const forward = forwardPropagation(inputArray2D, parameters);
+    const grads = backPropagation(
+      'cross-entropy',
+      forward,
+      outputArray2D,
+    );
+    parameters = updateParameters(parameters, grads, 0.0000005);
 
     if (i % baseIterationToShowCost === 0) {
-      const predict: Array<number> = [];
-      map(input, (example: Array2D, idx) => {
-        const forward = forwardPropagation(example, parameters);
-        predict.push(forward.yHat.squeeze());
-      });
-      const cost = crossEntropyCost(predict, outputArray1D);
+      const predict = forwardPropagation(inputArray2D, parameters);
+      const cost = crossEntropyCost(predict.yHat.as1D(), output);
       console.log(`${i}: Cost is ${cost}`);
     }
   }
@@ -129,6 +130,6 @@ main(
   './mnist_train.csv',
   './mnist_test.csv',
   1,
-  100,
-  10,
+  20,
+  1,
 );

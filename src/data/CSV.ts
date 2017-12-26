@@ -1,5 +1,3 @@
-import Array2D from "../math/Array2D";
-
 const fs = require('fs');
 const csv = require('fast-csv');
 
@@ -13,19 +11,19 @@ export default class CSV {
   read(
     processFunc: Function,
   ): Promise<{
-    input: Array<Array2D>,
-    output: Array<Array2D>,
+    input: Array<number>,
+    output: Array<number>,
   }> {
-    const input: Array<Array2D> = [];
-    const output: Array<Array2D> = [];
+    let input: Array<number> = [];
+    let output: Array<number> = [];
     return new Promise((resolve, reject) => {
       fs.createReadStream(this.filePath)
       .pipe(csv())
       .on('data', (data: Array<string>) => {
-        const x: Array2D = processFunc(data).x;
-        const y: Array2D = processFunc(data).y;
-        input.push(x);
-        output.push(y);
+        const x: Array<number> = processFunc(data).x;
+        const y: Array<number> = processFunc(data).y;
+        input = input.concat(x);
+        output = output.concat(y);
       })
       .on('end', () => {
         resolve({
