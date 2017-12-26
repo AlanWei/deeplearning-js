@@ -5,13 +5,14 @@ import crossEntropyCostBackward from '../math/crossEntropyCostBackward';
 import linearBackward from '../math/linearBackward';
 import reluBackward from '../math/reluBackward';
 import sigmoidBackward from '../math/sigmoidBackward';
+import softmaxBackward from '../math/softmaxBackward';
 
 function backPropagation(
   costFunc: 'quadratic' | 'cross-entropy',
   forwardResults: {
     yHat: Array2D,
     caches: Array<Cache>,
-    activationFuncs: Array<'linear' | 'relu' | 'sigmoid'>,
+    activationFuncs: Array<string>,
   },
   y: Array2D,
 ) {
@@ -33,11 +34,13 @@ function backPropagation(
   }
 
   for (let i = l; i > 0; i--) {
-    const activationFunc: 'linear' | 'relu' | 'sigmoid' = activationFuncs[i-1];
+    const activationFunc = activationFuncs[i-1];
     const cache: Cache = caches[i-1];
     const dA = i === l ? dy : grads[`dA${i+1}`];
     let dZ = dA;
     switch(activationFunc) {
+      case 'linear':
+      break;
       case 'relu':
         dZ = reluBackward(
           dA, cache.activationCache,
@@ -48,7 +51,10 @@ function backPropagation(
           dA, cache.activationCache,
         );
         break;
-      case 'linear':
+      case 'softmax':
+        dZ = softmaxBackward(
+          dA, cache.activationCache,
+        );
         break;
       default:
         throw new Error('Unsupported activation function');

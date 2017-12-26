@@ -4,13 +4,12 @@ import Array2D from './Array2D';
 function sigmoid(
   z: Array2D,
 ) {
-  const shape = z.shape;
   const values = map(z.values, (num) => (
     1 / (1 + Math.exp(-num))
   ));
 
   return {
-    A: new Array2D(shape, values),
+    A: new Array2D(z.shape, values),
     cache: z,
   };
 }

@@ -4,7 +4,7 @@ import zeros from '../math/zeros';
 function initializeParameters(
   layers: Array<{
     size: number,
-    activationFunc?: 'linear' | 'relu' | 'sigmoid',
+    activationFunc?: string,
   }>,
   mean: number = 0,
   variance: number = 1,
