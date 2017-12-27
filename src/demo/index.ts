@@ -1,144 +1,125 @@
 import { map, slice } from 'lodash';
-import CSV from '../data/CSV';
 import Array2D from "../math/Array2D";
-import convertArray2DToArray1D from '../utils/convertArray2DToArray1D';
-import crossEntropyCost from '../math/crossEntropyCost';
 import {
   initializeParameters,
   forwardPropagation,
-  backPropagation,
-  updateParameters,
+  train,
 } from '../model';
+const mnist = require('mnist');
 
 const start = Date.now();
 
-function processData(
-  data: Array<string>,
-) {
-  const x = map(slice(data, 1), (num) => (
-    parseInt(num, 10)
-  ));
-  const y = map(slice(data, 0, 1), (num) => (
-    parseInt(num, 10)
-  ));
+function formatDataSet(dataset: any) {
+  const datasetSize = dataset.length;
+  let inputValues: Array<number> = [];
+  let outputValues: Array<number> = [];
+  map(dataset, (example: any) => {
+    inputValues = inputValues.concat(example.input);
+    outputValues = outputValues.concat(example.output);
+  });
   return {
-    x,
-    y,
+    input: new Array2D(
+      [inputValues.length / datasetSize, datasetSize],
+      inputValues,
+    ),
+    output: new Array2D(
+      [outputValues.length / datasetSize, datasetSize],
+      outputValues,
+    ),
   };
 }
 
-function predict(
-  testFilePath: string,
-  parameters: any,
-) {
-  const csv = new CSV(testFilePath);
-  return csv.read(
-    (data: Array<string>) => processData(data),
-  ).then((result) => {
-    const { input, output } = result;
-    const m = output.length;
-    const dims = input.length / m;
-    const inputArray2D = new Array2D([m, dims], input).transpose();
-    // format predict
-    const forward = forwardPropagation(inputArray2D, parameters).yHat;
-    const rows = forward.shape[0];
-    const forwardT = forward.transpose();
-    const forwardTValues = forwardT.values;
-    const predict: Array<number> = [];
-    for (let i = 0; i < forwardTValues.length / rows; i++) {
-      const subArray = slice(forwardTValues, i*rows, (i+1)*rows);
-      predict.push(
-        subArray.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0),
-      );
-    }
-    let correct = 0;
-    map(predict, (num, idx) => {
-      if (num === output[idx]) {
-        correct++;
-      }
-    });
-    console.log(`Test accuracy: ${correct / m * 100}%`);
-    console.log(`Test correct count: ${correct}`);
-    const end = Date.now();
-    console.log(`Total time: ${(end - start) / 1000} seconds`);
-  });
+function formatBoolToNum(output: Array2D) {
+  const rows = output.shape[0];
+  const outputT = output.transpose();
+  const outputTValues = outputT.values;
+  const predict: Array<number> = [];
+  for (let i = 0; i < outputTValues.length / rows; i++) {
+    const subArray = slice(outputTValues, i * rows, (i + 1) * rows);
+    predict.push(
+      subArray.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0),
+    );
+  }
+  return predict;
 }
 
-function startTraining(
-  input: Array<number>,
-  output: Array<number>,
-  numOfIterations: number,
-  baseIterationToShowCost: number,
+function predict(
+  input: Array2D,
+  output: Array2D,
+  parameters: any,
+  datasetType: 'training' | 'test',
 ) {
-  const m = output.length;
-  const dims = input.length / m;
-  const categories = 10;
-  const inputArray2D = new Array2D([m, dims], input).transpose();
-  const matrix: Array<Array<number>> = [];
-  for (let i = 0; i < categories; i++) {
-    matrix[i] = [];
-    for (let j = 0; j < m; j++) {
-      matrix[i][j] = output[j] === i ? 1 : 0;
+
+  const forward = forwardPropagation(input, parameters).yHat;
+  const predict = formatBoolToNum(forward);
+  const correct = formatBoolToNum(output);
+  let correctCount = 0;
+  map(predict, (num, idx) => {
+    if (num === correct[idx]) {
+      correctCount++;
+    } else {
+      console.log('predict: ', num);
+      console.log('correct: ', correct[idx]);
     }
-  }
-  const outputArray2D = new Array2D(
-    [categories, m],
-    convertArray2DToArray1D([categories, m], matrix),
+  });
+
+  console.log(
+    `${datasetType} set accuracy: ${correctCount / correct.length * 100}%`,
   );
-  // training
-  let parameters = initializeParameters([{
-    size: dims,
-  }, {
-    size: 10,
-    activationFunc: 'linear',
-  }, {
-    size: categories,
-    activationFunc: 'softmax',
-  }], 0, 1, 0.01);
-
-  for (let i = 1; i <= numOfIterations; i++) {
-    const forward = forwardPropagation(inputArray2D, parameters);
-    const grads = backPropagation(
-      'cross-entropy',
-      forward,
-      outputArray2D,
-    );
-    parameters = updateParameters(parameters, grads, 0.0000005);
-
-    if (i % baseIterationToShowCost === 0) {
-      const predict = forwardPropagation(inputArray2D, parameters);
-      const cost = crossEntropyCost(predict.yHat.as1D(), outputArray2D.as1D());
-      console.log(`${i}: Cost is ${cost}`);
-    }
-  }
-
-  return parameters;
+  console.log(`${datasetType} set correct count: ${correctCount}`);
+  const end = Date.now();
+  console.log(`Total time: ${(end - start) / 1000} seconds`);
 }
 
 function main(
-  trainFilePath: string,
-  testFilePath: string,
+  trainingSetSize: number,
+  testSetSize: number,
+  learningRate: number,  
   numOfIterations: number,
   baseIterationToShowCost: number,
 ) {
-  const csv = new CSV(trainFilePath);
-  csv.read(
-    (data: Array<string>) => processData(data),
-  ).then((result) => {
-    const { input, output } = result;
-    const parameters= startTraining(
-      input,
-      output,
-      numOfIterations,
-      baseIterationToShowCost,
-    );
-    predict(trainFilePath, parameters);
-  });
+  const set = mnist.set(trainingSetSize, testSetSize);
+  const trainingSet = formatDataSet(set.training);
+  const testSet = formatDataSet(set.test);
+
+  const initialParameters = initializeParameters([{
+    size: trainingSet.input.shape[0],
+  }, {
+    size: 98,
+    activationFunc: 'relu',
+  }, {
+    size: trainingSet.output.shape[0],
+    activationFunc: 'softmax',
+  }], 0, 1, 0.01);
+
+  const parameters = train(
+    trainingSet.input,
+    trainingSet.output,
+    initialParameters,
+    'cross-entropy',
+    learningRate,
+    numOfIterations,
+    baseIterationToShowCost,
+  );
+
+  predict(
+    trainingSet.input,
+    trainingSet.output,
+    parameters,
+    'training',
+  );
+  predict(
+    testSet.input,
+    testSet.output,
+    parameters,
+    'test',    
+  );
 }
 
 main(
-  './mnist_train.csv',
-  './mnist_test.csv',
+  20,
+  10,
+  0.0006,
   1000,
-  1,
+  50,
 );

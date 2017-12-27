@@ -46,6 +46,7 @@
     "dependencies": {
         "fast-csv": "^2.4.1",
         "gaussian": "^1.1.0",
-        "lodash": "^4.17.4"
+        "lodash": "^4.17.4",
+        "mnist": "^1.1.0"
     }
 }

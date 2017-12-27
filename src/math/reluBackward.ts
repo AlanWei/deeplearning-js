@@ -7,8 +7,9 @@ function reluBackward(
 ): Array2D {
   const dAValues = dA.values;
   const cacheValues = cache.values;
-  const dZValues = map(cacheValues, (num, idx) => (
-    dAValues[idx] < 0 ? 0 : num
+
+  const dZValues = map(dAValues, (num, idx) => (
+    cacheValues[idx] < 0 ? 0 : num
   ));
 
   return new Array2D(cache.shape, dZValues);
