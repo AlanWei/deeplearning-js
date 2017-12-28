@@ -57,9 +57,6 @@ function predict(
   map(predict, (num, idx) => {
     if (num === correct[idx]) {
       correctCount++;
-    } else {
-      console.log('predict: ', num);
-      console.log('correct: ', correct[idx]);
     }
   });
 
@@ -77,15 +74,16 @@ function main(
   learningRate: number,  
   numOfIterations: number,
   baseIterationToShowCost: number,
+  learningRateDecayRate: number,
 ) {
   const set = mnist.set(trainingSetSize, testSetSize);
   const trainingSet = formatDataSet(set.training);
-  const testSet = formatDataSet(set.test);
+  // const testSet = formatDataSet(set.test);
 
   const initialParameters = initializeParameters([{
     size: trainingSet.input.shape[0],
   }, {
-    size: 98,
+    size: 56,
     activationFunc: 'relu',
   }, {
     size: trainingSet.output.shape[0],
@@ -100,6 +98,7 @@ function main(
     learningRate,
     numOfIterations,
     baseIterationToShowCost,
+    learningRateDecayRate,
   );
 
   predict(
@@ -108,18 +107,19 @@ function main(
     parameters,
     'training',
   );
-  predict(
-    testSet.input,
-    testSet.output,
-    parameters,
-    'test',    
-  );
+  // predict(
+  //   testSet.input,
+  //   testSet.output,
+  //   parameters,
+  //   'test',
+  // );
 }
 
 main(
   20,
   10,
-  0.0006,
-  1000,
-  50,
+  0.0025,
+  1200,
+  100,
+  0.000003,
 );

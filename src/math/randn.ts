@@ -13,7 +13,7 @@ function randn(
   for (let i = 0; i < row; i++) {
     for (let j = 0; j < col; j++) {
       const distribution = gaussian(mean, variance);
-      const sample: number = distribution.ppf(Math.random()) * scale;
+      const sample: number = distribution.pdf(Math.random()) * scale;
       values.push(sample);
     }
   }

@@ -20,10 +20,9 @@ export default class CSV {
       fs.createReadStream(this.filePath)
       .pipe(csv())
       .on('data', (data: Array<string>) => {
-        const x: Array<number> = processFunc(data).x;
-        const y: Array<number> = processFunc(data).y;
-        input = input.concat(x);
-        output = output.concat(y);
+        const formatData = processFunc(data);
+        input = input.concat(formatData.x);
+        output = output.concat(formatData.y);
       })
       .on('end', () => {
         resolve({
@@ -32,7 +31,7 @@ export default class CSV {
         });
       })
       .on('error', (error: string) => {
-        console.log(error);
+        throw new Error(error);
       });
     });
   }

@@ -5,6 +5,14 @@ import forwardPropagation from './forwardPropagation';
 import backPropagation from './backPropagation';
 import updateParameters from './updateParameters';
 
+function learningRateDecay(
+  learningRate: number,
+  decayRate: number,
+  iteration: number,
+) {
+  return (1 / (1 + decayRate * iteration)) * learningRate;
+}
+
 function train(
   input: Array2D,
   output: Array2D,
@@ -13,6 +21,7 @@ function train(
   learningRate: number,
   numOfIterations: number,
   baseIterationToShowCost: number,
+  learningRateDecayRate?: number,
 ) {
   let parameters = initialParameters;
 
@@ -23,6 +32,9 @@ function train(
       forward,
       output,
     );
+    if (learningRateDecayRate) {
+      learningRate = learningRateDecay(learningRate, learningRateDecayRate, i);
+    }
     parameters = updateParameters(parameters, grads, learningRate);
 
     if (i % baseIterationToShowCost === 0) {
