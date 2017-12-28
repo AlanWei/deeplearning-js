@@ -15,8 +15,8 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.88.tgz#97eaf2dc668f33ed8e511a5b627035f4ea20b0f5"
 
 "@types/node@^8.0.28":
-  version "8.0.58"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.58.tgz#5b3881c0be3a646874803fee3197ea7f1ed6df90"
+  version "8.5.2"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.5.2.tgz#83b8103fa9a2c2e83d78f701a9aa7c9539739aa5"
 
 abab@^1.0.3:
   version "1.0.4"
@@ -35,10 +35,6 @@ acorn-globals@^3.1.0:
 acorn@^4.0.4:
   version "4.0.13"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-4.0.13.tgz#105495ae5361d697bd195c825192e1ad7f253787"
-
-acorn@^5.1.1:
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.2.1.tgz#317ac7821826c22c702d66189ab8359675f135d7"
 
 ajv@^4.9.1:
   version "4.11.8"
@@ -1008,12 +1004,6 @@ globals@^9.18.0:
   version "9.18.0"
   resolved "https://registry.yarnpkg.com/globals/-/globals-9.18.0.tgz#aa3896b3e69b487f17e31ed2143d69a8e30c2d8a"
 
-gpu.js@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/gpu.js/-/gpu.js-1.0.0.tgz#97c268dfb37048d49670aa71862382bd2a5c86dd"
-  dependencies:
-    acorn "^5.1.1"
-
 graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
@@ -1810,10 +1800,6 @@ minimist@~0.0.1:
   dependencies:
     minimist "0.0.8"
 
-mnist@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/mnist/-/mnist-1.1.0.tgz#b83efc6af88d8db53b196665acdb50cf524bd2ba"
-
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
@@ -2605,9 +2591,9 @@ tslib@^1.7.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.8.1.tgz#6946af2d1d651a7b1863b531d6e5afa41aa44eac"
 
-tslint-no-circular-imports@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/tslint-no-circular-imports/-/tslint-no-circular-imports-0.2.0.tgz#608f80bd7574773561e2a7ad2886f5d0652116c8"
+tslint-no-circular-imports@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/tslint-no-circular-imports/-/tslint-no-circular-imports-0.2.1.tgz#f52f7701321b3becb57ede5f06e3b27e1bbfde31"
   dependencies:
     "@types/node" "^8.0.28"
     tslint "^5.7.0"
