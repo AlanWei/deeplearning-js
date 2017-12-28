@@ -3,6 +3,7 @@ import {
   forwardPropagation,
   backPropagation,
   updateParameters,
+  train,
 } from './model';
 import Array2D from './math/Array2D';
 import quadraticCost from './math/quadraticCost';
@@ -16,6 +17,7 @@ export {
   forwardPropagation,
   backPropagation,
   updateParameters,
+  train,
   // cost function
   quadraticCost,
   crossEntropyCost,
