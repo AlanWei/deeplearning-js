@@ -11,7 +11,7 @@
 ## API
 ### Array2D
 Array2D is deeplearning-js base data model to represent a 2 dimensions matrix.
-* Initialize
+##### Initialize
 ```js
 const example = new Array2D([3, 3], [1, 2, 3, 1, 2, 3, 1, 2, 3]);
 example.shape === [3, 3]
@@ -29,7 +29,7 @@ example2.as1D() === [1, 2, 3];
 const example3 = new Array2D([1, 1], [6]);
 example3.squeeze() = 6;
 ```
-* Element-wise operations (All element-wise operations support broadcasting)
+##### Element-wise operations (All element-wise operations support broadcasting)
 ```js
 const left = new Array2D([3, 3], [1, 2, 3, 1, 2, 3, 1, 2, 3]);
 const right = new Array2D([3, 3], [1, 1, 1, 1, 1, 1, 1, 1, 1])
@@ -38,7 +38,7 @@ expect(left.subtract(right)).toEqual(new Array2D([3, 3], [2, 3, 4, 2, 3, 4, 2, 3
 expect(left.multiply(right)).toEqual(new Array2D([3, 3], [1, 2, 3, 1, 2, 3, 1, 2, 3]))
 expect(left.divide(right)).toEqual(new Array2D([3, 3], [1, 2, 3, 1, 2, 3, 1, 2, 3]))
 ```
-* Dot
+##### Dot
 ```js
 const left = new Array2D([1, 3], [1, 2, 3]);
 const right = new Array2D([3, 1], [1, 1, 1]);
@@ -129,9 +129,9 @@ Return predict values based on input data and model parameters.
 ##### Return
 ```js
 {
-  yHat: Array2D,
-  caches: Array<Cache>,
-  activationFuncs: Array<string>,
+  yHat: Array2D,                       // predict values
+  caches: Array<Cache>,                // for backPropagation
+  activationFuncs: Array<string>,      // for backPropagation
 }
 ```
 ##### Usage
