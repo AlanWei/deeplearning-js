@@ -101,27 +101,40 @@ Support cost functions:
 
 ##### Return
 ```js
-{
-  W1: Array2D,
-  b1: Array2D,
-  ...
-  Wl: Array2D,
-  bl: Array2D,
-}
+Promise<{
+  parameters: {
+    W1: Array2D,
+    b1: Array2D,
+    ...
+    Wl: Array2D,
+    bl: Array2D,
+  },
+  costs: Array<{[iteration: number]: number}>,
+}> 
 ```
 
 ##### Usage
 ```js
-const parameters = train(
-  trainingSet.input,                   // input
-  trainingSet.output,                  // output
-  initialParameters,                   // parameters return from initialParameters
-  'cross-entropy',                     // cost function
-  0.0075,                              // learning rate
-  1000,                                // number of iterations
-  50,                                  // show training cost per X iterations
-  0.001,                               // learning rate decay rate
-);
+train(
+  trainSet.input,
+  trainSet.output,
+  initialParameters,
+  'cross-entropy',
+  learningRate,
+  numOfIterations,
+  baseIterationToShowCost,
+  learningRateDecayRate,
+).then((ro) => {
+  const { parameters, costs } = ro;
+  predict(
+    trainSet.input,
+    trainSet.output,
+    parameters,
+    'training',
+  );
+}).catch((err) => {
+  console.log(err);
+});
 ```
 
 ### forwardPropagation

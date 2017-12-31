@@ -92,7 +92,6 @@ export default function logistic(
     learningRateDecayRate,
   ).then((ro) => {
     const { parameters, costs } = ro;
-    console.log(costs);
     predict(
       trainSet.input,
       trainSet.output,
