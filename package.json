@@ -4,7 +4,7 @@
   "description": "Deep learning library in JavaScript",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "rm -rf dist/ && copyfiles -f demo/data/*.json dist/demo/data/ && tsc -w --p tsconfig.dev.json",
+    "dev": "copyfiles -f demo/data/*.json dist/demo/data/ && tsc -w --p tsconfig.dev.json",
     "build": "rm -rf dist/ && tsc --p tsconfig.prod.json",
     "test": "rm -rf coverage/ && jest --coverage",
     "test:watch": "jest --watch --coverage"

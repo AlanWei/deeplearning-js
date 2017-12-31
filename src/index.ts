@@ -25,7 +25,7 @@ export {
   // cost function
   quadraticCost,
   crossEntropyCost,
-  //
+  // helpers
   normalization,
   convertArray2DToArray1D,
 };
