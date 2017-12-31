@@ -7,10 +7,9 @@ function softmaxBackward(
 ) {
   const dAValues = dA.values;
   const cacheValues = cache.values;
-  const zValues = map(cacheValues, (num, idx) => {
-    const s = 1 / (1 + Math.exp(-num));
-    return dAValues[idx] * s * (1 - s);
-  });
+  const zValues = map(cacheValues, (num, idx) => (
+    dAValues[idx] * num * (1 - num)
+  ));
 
   return new Array2D(cache.shape, zValues);
 }

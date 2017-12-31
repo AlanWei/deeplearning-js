@@ -19,7 +19,8 @@
         "allowUnreachableCode": false
     },
     "include": [
-        "src/"
+        "src/",
+        "demo/"
     ],
     "exclude": [
         "node_modules",

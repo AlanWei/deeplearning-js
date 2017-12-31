@@ -4,25 +4,30 @@
   "description": "Deep learning library in JavaScript",
   "main": "dist/index.js",
   "scripts": {
-    "build": "rm -rf dist/ && tsc",
-    "dev": "tsc -w",
+    "dev": "rm -rf dist/ && copyfiles -f demo/data/*.json dist/demo/data/ && tsc -w --p tsconfig.dev.json",
+    "build": "rm -rf dist/ && tsc --p tsconfig.prod.json",
     "test": "rm -rf coverage/ && jest --coverage",
     "test:watch": "jest --watch --coverage"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AlanWei/dl-js.git"
+    "url": "git+https://github.com/AlanWei/deeplearning-js.git"
   },
   "author": "Alan Wei",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/AlanWei/dl-js/issues"
+    "url": "https://github.com/AlanWei/deeplearning-js/issues"
   },
-  "homepage": "https://github.com/AlanWei/dl-js#readme",
+  "homepage": "https://github.com/AlanWei/deeplearning-js#readme",
   "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "tsconfig.dev.json"
+      }
+    },
     "coverageDirectory": "./coverage/",
     "transform": {
-      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+      "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "modulePathIgnorePatterns": [
@@ -37,6 +42,7 @@
     "@types/gaussian": "^1.1.1",
     "@types/jest": "^21.1.8",
     "@types/lodash": "^4.14.88",
+    "copyfiles": "^1.2.0",
     "jest": "^21.2.1",
     "ts-jest": "^21.2.4",
     "tslint": "^5.8.0",

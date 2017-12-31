@@ -37,7 +37,7 @@ function train(
     }
     parameters = updateParameters(parameters, grads, learningRate);
 
-    if (i % baseIterationToShowCost === 0) {
+    if (i % baseIterationToShowCost === 0 || i === 1) {
       let cost = 0;
       switch(costFunc) {
         case 'quadratic':

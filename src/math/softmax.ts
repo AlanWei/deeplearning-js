@@ -11,7 +11,7 @@ function softmax(
   ));
   const sums: Array<number> = [];
   for (let i = 0; i < zTValues.length / rows; i++) {
-    const exampleSum = sum(slice(zTValues, i*rows, (i+1)*rows));
+    const exampleSum = sum(slice(zTValues, i * rows, (i + 1) * rows));
     sums.push(exampleSum);
   }
   const values = map(zTValues, (num, idx) => (
