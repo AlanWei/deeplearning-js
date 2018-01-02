@@ -1,5 +1,5 @@
 import linear from './linear';
-import Array2D from './Array2D';
+import Array2D from '../data/Array2D';
 
 test('linear', () => {
   const a = new Array2D([1, 3], [1, 2, 3]);

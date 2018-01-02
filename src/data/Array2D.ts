@@ -1,10 +1,12 @@
 import convertArray1DToArray2D from '../utils/convertArray1DToArray2D';
-import add from './add';
-import subtract from './subtract';
-import divide from './divide';
-import multiply from './multiply';
-import dot from './dot';
-import transpose from './transpose';
+import {
+  add,
+  subtract,
+  divide,
+  multiply,
+  dot,
+  transpose,
+} from '../math';
 
 export default class Array2D {
   shape: [number, number];

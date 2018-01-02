@@ -50,7 +50,6 @@
     "typescript": "^2.6.2"
   },
   "dependencies": {
-    "fast-csv": "^2.4.1",
     "gaussian": "^1.1.0",
     "lodash": "^4.17.4"
   }

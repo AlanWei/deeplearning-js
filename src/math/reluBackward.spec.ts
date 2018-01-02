@@ -1,5 +1,5 @@
 import reluBackward from './reluBackward';
-import Array2D from './Array2D';
+import Array2D from '../data/Array2D';
 
 test('valid reluBackward', () => {
   const dA = new Array2D([1, 3], [2, -1, 3]);

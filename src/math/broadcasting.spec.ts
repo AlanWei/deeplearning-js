@@ -1,5 +1,5 @@
 import broadcasting from './broadcasting';
-import Array2D from './Array2D';
+import Array2D from '../data/Array2D';
 
 test('col broadcasting', () => {
   const left = new Array2D([1, 3], [1, 2, 3]);

@@ -1,5 +1,7 @@
-import randn from '../math/randn';
-import zeros from '../math/zeros';
+import {
+  randn,
+  zeros,
+} from '../math';
 
 function initializeParameters(
   layers: Array<{

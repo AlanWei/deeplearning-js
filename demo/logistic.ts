@@ -4,6 +4,8 @@ import {
   initializeParameters,
   forwardPropagation,
   train,
+  Normalization,
+  convertArray2DToArray1D,
 } from '../src';
 import * as iris from './data/iris.json';
 
@@ -22,14 +24,26 @@ function formatDataSet(dataset: any) {
     const input: any = omit(example, 'species');
     const output: any = pick(example, 'species');
     inputValues = inputValues.concat(values(input));
-    outputValues = outputValues.concat(output.species === 'setosa' ? 1 : 0);
+    outputValues = outputValues.concat(output.species === 'versicolor' ? 1 : 0);
   });
+
+  const input = new Array2D(
+    [datasetSize, inputValues.length / datasetSize],
+    inputValues,
+  ).transpose();
+
+  const matrix = map(input.matrix, (subArray) => (
+    Normalization.rescaling(subArray)
+  ));
 
   return {
     input: new Array2D(
-      [datasetSize, inputValues.length / datasetSize],
-      inputValues,
-    ).transpose(),
+      [inputValues.length / datasetSize, datasetSize],
+      convertArray2DToArray1D(
+        [inputValues.length / datasetSize, datasetSize],
+        matrix
+      ),
+    ),
     output: new Array2D(
       [outputValues.length / datasetSize, datasetSize],
       outputValues,
@@ -74,7 +88,7 @@ export default function logistic(
   const initialParameters = initializeParameters([{
     size: trainSet.input.shape[0],
   }, {
-    size: 1,
+    size: 100,
     activationFunc: 'relu',
   }, {
     size: trainSet.output.shape[0],
@@ -90,8 +104,9 @@ export default function logistic(
     numOfIterations,
     baseIterationToShowCost,
     learningRateDecayRate,
+    true,
   ).then((ro) => {
-    const { parameters, costs } = ro;
+    const { parameters } = ro;
     predict(
       trainSet.input,
       trainSet.output,
@@ -104,7 +119,8 @@ export default function logistic(
 }
 
 logistic(
-  0.0035,
+  0.01,
   1000,
   100,
+  0.00000005,
 );

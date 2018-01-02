@@ -1,5 +1,5 @@
 import { keys } from 'lodash';
-import Scalar from '../math/Scalar';
+import Scalar from '../data/Scalar';
 
 function updateParameters(
   parameters: any,

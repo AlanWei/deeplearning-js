@@ -1,6 +1,6 @@
-import { max, min, map } from 'lodash';
+import { map, max, min } from 'lodash';
 
-function normalization(values: Array<number>) {
+function rescaling(values: Array<number>) {
   const maxNum = max(values);
   const minNum = min(values);
 
@@ -9,4 +9,4 @@ function normalization(values: Array<number>) {
   ));
 }
 
-export default normalization;
+export default rescaling;

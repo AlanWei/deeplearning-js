@@ -1,5 +1,5 @@
 import { map } from 'lodash';
-import Array2D from './Array2D';
+import Array2D from '../data/Array2D';
 import convertArray2DToArray1D from '../utils/convertArray2DToArray1D';
 
 function transpose(

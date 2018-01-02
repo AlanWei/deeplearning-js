@@ -1,5 +1,5 @@
 import quadraticCostBackward from './quadraticCostBackward';
-import Array2D from './Array2D';
+import Array2D from '../data/Array2D';
 
 test('valid quadraticCostBackward', () => {
   const yHat = new Array2D([1, 3], [1, 2, 3]);

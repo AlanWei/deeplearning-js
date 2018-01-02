@@ -1,5 +1,5 @@
 import { map, sum, slice } from 'lodash';
-import Array2D from './Array2D';
+import Array2D from '../data/Array2D';
 
 function softmax(
   z: Array2D,

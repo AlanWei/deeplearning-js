@@ -1,10 +1,12 @@
 import { keys } from 'lodash';
 import Cache from './Cache';
-import Array2D from '../math/Array2D';
-import linear from '../math/linear';
-import relu from '../math/relu';
-import sigmoid from '../math/sigmoid';
-import softmax from '../math/softmax';
+import Array2D from '../data/Array2D';
+import {
+  linear,
+  relu,
+  sigmoid,
+  softmax,
+} from '../math';
 
 function forwardPropagation(
   x: Array2D,

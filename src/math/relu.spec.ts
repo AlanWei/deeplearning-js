@@ -1,5 +1,5 @@
 import relu from './relu';
-import Array2D from './Array2D';
+import Array2D from '../data/Array2D';
 
 test('relu input < 0', () => {
   const test = new Array2D([1, 1], [-1]);

@@ -1,11 +1,13 @@
 import Cache from './Cache';
-import Array2D from '../math/Array2D';
-import quadraticCostBackward from '../math/quadraticCostBackward';
-import crossEntropyCostBackward from '../math/crossEntropyCostBackward';
-import linearBackward from '../math/linearBackward';
-import reluBackward from '../math/reluBackward';
-import sigmoidBackward from '../math/sigmoidBackward';
-import softmaxBackward from '../math/softmaxBackward';
+import Array2D from '../data/Array2D';
+import {
+  quadraticCostBackward,
+  crossEntropyCostBackward,
+  linearBackward,
+  reluBackward,
+  sigmoidBackward,
+  softmaxBackward,
+} from '../math'
 
 function backPropagation(
   costFunc: 'quadratic' | 'cross-entropy',

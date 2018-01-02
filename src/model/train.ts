@@ -1,6 +1,8 @@
-import Array2D from '../math/Array2D';
-import quadraticCost from '../math/quadraticCost';
-import crossEntropyCost from '../math/crossEntropyCost';
+import Array2D from '../data/Array2D';
+import {
+  quadraticCost,
+  crossEntropyCost,
+} from '../math';
 import forwardPropagation from './forwardPropagation';
 import backPropagation from './backPropagation';
 import updateParameters from './updateParameters';
@@ -23,6 +25,7 @@ function train(
   baseIterationToShowCost: number,
   learningRateDecayRate?: number,
   showLog?: boolean,
+  costCallback?: (iteration: number, cost: number) => void,
 ): Promise<{
   parameters: any,
   costs: Array<{[x: number]: number}>,
@@ -64,6 +67,9 @@ function train(
         });
         if (showLog) {
           console.log(`${i} iteration: Cost is ${cost}`); 
+        }
+        if (costCallback) {
+          costCallback(i, cost);
         }
       }
     }

@@ -5,17 +5,21 @@ import {
   updateParameters,
   train,
 } from './model';
-import Array2D from './math/Array2D';
-import Scalar from './math/Scalar';
-import quadraticCost from './math/quadraticCost';
-import crossEntropyCost from './math/crossEntropyCost';
-import normalization from './math/normalization';
+import {
+  quadraticCost,
+  crossEntropyCost,
+} from './math';
+import { Normalization } from './preprocess';
+import Array2D from './data/Array2D';
+import Scalar from './data/Scalar';
 import convertArray2DToArray1D from './utils/convertArray2DToArray1D';
 
 export {
   // data model
   Array2D,
   Scalar,
+  // preprocess
+  Normalization,
   // model training
   initializeParameters,
   forwardPropagation,
@@ -26,6 +30,5 @@ export {
   quadraticCost,
   crossEntropyCost,
   // helpers
-  normalization,
   convertArray2DToArray1D,
 };

@@ -1,5 +1,5 @@
 import linearBackward from './linearBackward';
-import Array2D from './Array2D';
+import Array2D from '../data/Array2D';
 
 test('valid linearBackward', () => {
   const dZ = new Array2D([3, 1], [1, 1, 1]);
