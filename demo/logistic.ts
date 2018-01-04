@@ -99,7 +99,7 @@ export default function logistic(
     activationFunc: 'sigmoid',
   }], 0, 1, 0.01);
 
-  const { parameters } = train(
+  train(
     trainSet.input,
     trainSet.output,
     initialParameters,
@@ -110,9 +110,11 @@ export default function logistic(
     learningRateDecayRate,
     onCostChange,
     false,
-  );
-
-  predict(trainSet.input, trainSet.output, parameters, 'train');
+  ).then((ro) => {
+    const { parameters, costs } = ro;
+    console.log(costs);
+    predict(trainSet.input, trainSet.output, parameters, 'train');
+  });
 }
 
 logistic(
