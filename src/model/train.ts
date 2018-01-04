@@ -24,61 +24,62 @@ function train(
   numOfIterations: number,
   baseIterationToShowCost: number,
   learningRateDecayRate?: number,
-  onCostChange?: Function,
   showLog?: boolean,
-): Promise<{
+): {
   parameters: any,
-  costs: Array<{[x: number]: number}>,
-}> {
+  costs: Array<{
+    epoch: number,
+    cost: number,
+  }>,
+} {
   let parameters = initialParameters;
-  const costs: Array<{[x: number]: number}> = [];
+  const costs: Array<{
+    epoch: number,
+    cost: number,
+  }> = [];
 
-  return new Promise((resolve, reject) => {
-    for (let i: number = 1; i <= numOfIterations; i++) {
-      const forward = forwardPropagation(input, parameters);
-      const grads = backPropagation(
-        'cross-entropy',
-        forward,
-        output,
+  for (let i: number = 1; i <= numOfIterations; i++) {
+    const forward = forwardPropagation(input, parameters);
+    const grads = backPropagation(
+      'cross-entropy',
+      forward,
+      output,
+    );
+    if (learningRateDecayRate) {
+      learningRate = learningRateDecay(
+        learningRate,
+        learningRateDecayRate,
+        i,
       );
-      if (learningRateDecayRate) {
-        learningRate = learningRateDecay(
-          learningRate,
-          learningRateDecayRate,
-          i,
-        );
+    }
+    parameters = updateParameters(parameters, grads, learningRate);
+
+    if (i % baseIterationToShowCost === 0 || i === 1) {
+      let cost: number = 0;
+      switch(costFunc) {
+        case 'quadratic':
+          cost = quadraticCost(forward.yHat.as1D(), output.as1D());
+          break;
+        case 'cross-entropy':
+          cost = crossEntropyCost(forward.yHat.as1D(), output.as1D());
+          break;
+        default:
+          throw new Error('Unsupported cost function');
       }
-      parameters = updateParameters(parameters, grads, learningRate);
-  
-      if (i % baseIterationToShowCost === 0 || i === 1) {
-        let cost: number = 0;
-        switch(costFunc) {
-          case 'quadratic':
-            cost = quadraticCost(forward.yHat.as1D(), output.as1D());
-            break;
-          case 'cross-entropy':
-            cost = crossEntropyCost(forward.yHat.as1D(), output.as1D());
-            break;
-          default:
-            reject('Unsupported cost function');
-        }
-        costs.push({
-          [i]: cost,
-        });
-        if (onCostChange) {
-          onCostChange(i, cost);
-        }
-        if (showLog) {
-          console.log(`${i} iteration: Cost is ${cost}`); 
-        }
+      costs.push({
+        epoch: i,
+        cost,
+      });
+      if (showLog) {
+        console.log(`${i} iteration: Cost is ${cost}`); 
       }
     }
+  }
 
-    resolve({
-      parameters,
-      costs,
-    });
-  });
+  return {
+    parameters,
+    costs,
+  };
 }
 
 export default train;
