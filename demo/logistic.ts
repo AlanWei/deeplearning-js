@@ -77,6 +77,10 @@ function predict(
   console.log(`${datasetType} set correct count: ${correctCount}`);
 }
 
+function onCostChange(i: number, cost: number) {
+  console.log(i, cost);
+}
+
 export default function logistic(
   learningRate: number,
   numOfIterations: number,
@@ -95,7 +99,7 @@ export default function logistic(
     activationFunc: 'sigmoid',
   }], 0, 1, 0.01);
 
-  train(
+  const { parameters } = train(
     trainSet.input,
     trainSet.output,
     initialParameters,
@@ -104,18 +108,11 @@ export default function logistic(
     numOfIterations,
     baseIterationToShowCost,
     learningRateDecayRate,
-    true,
-  ).then((ro) => {
-    const { parameters } = ro;
-    predict(
-      trainSet.input,
-      trainSet.output,
-      parameters,
-      'training',
-    );
-  }).catch((err) => {
-    console.log(err);
-  });
+    onCostChange,
+    false,
+  );
+
+  predict(trainSet.input, trainSet.output, parameters, 'train');
 }
 
 logistic(
