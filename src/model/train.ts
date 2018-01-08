@@ -22,7 +22,7 @@ function train(
   costFunc: 'quadratic' | 'cross-entropy',
   learningRate: number,
   numOfIterations: number,
-  baseIterationToShowCost: number,
+  baseIterationToComputeCost: number,
   learningRateDecayRate?: number,
   showLog?: boolean,
 ): {
@@ -54,7 +54,7 @@ function train(
     }
     parameters = updateParameters(parameters, grads, learningRate);
 
-    if (i % baseIterationToShowCost === 0 || i === 1) {
+    if (i % baseIterationToComputeCost === 0 || i === 1) {
       let cost: number = 0;
       switch(costFunc) {
         case 'quadratic':
