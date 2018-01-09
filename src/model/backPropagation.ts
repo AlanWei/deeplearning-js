@@ -7,7 +7,7 @@ import {
   reluBackward,
   sigmoidBackward,
   softmaxBackward,
-} from '../math'
+} from '../math';
 
 function backPropagation(
   costFunc: 'quadratic' | 'cross-entropy',
