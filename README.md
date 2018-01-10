@@ -75,6 +75,7 @@ scalar.array2D === new Array2D([3, 3], [1, 1, 1, 1, 1, 1, 1, 1, 1])
 Normalize 1D Array data set.
 
 Support normalization method:
+
 * rescaling (num - min) / (max - min)
 * meanNormalization (num - mean) / (max - min)
 
@@ -89,6 +90,7 @@ expect(Normalization.meanNormalization([1, 2, 3])).toEqual([-0.5, 0, 0.5]);
 Return initial parameters according to model structure.
 
 Support activation functions:
+
 * linear
 * relu
 * sigmoid
@@ -130,6 +132,7 @@ const initialParameters = initializeParameters(
 Return parameters after training.
 
 Support cost functions:
+
 * quadratic
 * cross-entropy
 
