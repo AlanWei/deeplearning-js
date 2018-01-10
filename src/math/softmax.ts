@@ -1,25 +1,21 @@
-import { map, sum, slice } from 'lodash';
+import { map, sum } from 'lodash';
 import Array2D from '../data/Array2D';
+import convertArray2DToArray1D from '../utils/convertArray2DToArray1D';
 
 function softmax(
   z: Array2D,
 ) {
-  const rows = z.shape[0];
-  const zT = z.transpose();
-  const zTValues = map(zT.values, (num) => (
-    Math.exp(num)
-  ));
-  const sums: Array<number> = [];
-  for (let i = 0; i < zTValues.length / rows; i++) {
-    const exampleSum = sum(slice(zTValues, i * rows, (i + 1) * rows));
-    sums.push(exampleSum);
-  }
-  const values = map(zTValues, (num, idx) => (
-    num / sums[Math.floor(idx / rows)]
-  ));
+  const values = map(z.values, (num) => (Math.exp(num)));
+  const zT = new Array2D(z.shape, values).transpose();
+  const matrix = map(zT.matrix, (subArray) => (
+    map(subArray, (num) => num / sum(subArray)
+  )));
 
   return {
-    A: new Array2D(zT.shape, values).transpose(),
+    A: new Array2D(
+      zT.shape,
+      convertArray2DToArray1D(zT.shape, matrix)
+    ).transpose(),
     cache: z,
   };
 }

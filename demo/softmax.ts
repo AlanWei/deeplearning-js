@@ -65,10 +65,6 @@ function formatDataSet(dataset: any) {
   };
 }
 
-function formatNumToBool(output: Array2D) {
-  return map(output.values, num => (num > 0.5 ? 1 : 0));
-}
-
 function predict(
   input: Array2D,
   output: Array2D,
@@ -123,10 +119,7 @@ export default function softmax(
   const initialParameters = initializeParameters([{
     size: trainSet.input.shape[0],
   }, {
-    size: 500,
-    activationFunc: 'relu',
-  }, {
-    size: 10,
+    size: 30,
     activationFunc: 'relu',
   }, {
     size: 3,
@@ -149,8 +142,8 @@ export default function softmax(
 }
 
 softmax(
-  0.00025,
+  0.05,
   1000,
-  5,
-  0.000001,
+  50,
+  0.0000002,
 );

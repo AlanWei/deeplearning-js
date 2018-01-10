@@ -41,7 +41,7 @@ function train(
   for (let i: number = 1; i <= numOfIterations; i++) {
     const forward = forwardPropagation(input, parameters);
     const grads = backPropagation(
-      'cross-entropy',
+      costFunc,
       forward,
       output,
     );
