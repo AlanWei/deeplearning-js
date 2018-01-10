@@ -7,7 +7,8 @@ import {
   Normalization,
   convertArray2DToArray1D,
 } from '../src';
-import * as iris from './data/iris.json';
+import * as irisTrain from './data/iris.train.json';
+import * as irisTest from './data/iris.test.json';
 
 function formatDataSet(dataset: any) {
   const datasetSize = dataset.length;
@@ -70,6 +71,7 @@ function predict(
   output: Array2D,
   parameters: any,
   datasetType: string,
+  step: number,
 ) {
   const forward = forwardPropagation(input, parameters).yHat;
   const transform = map(forward.transpose().matrix, (subArray) => {
@@ -81,6 +83,7 @@ function predict(
     convertArray2DToArray1D([output.shape[1], output.shape[0]], transform),
   ).transpose();
 
+  let correctCount = 0;
   let correctCount1 = 0;
   let correctCount2 = 0;
   let correctCount3 = 0;
@@ -89,20 +92,21 @@ function predict(
     const maxIdx = indexOf(subArray, max(subArray));
     const correctMaxIdx = indexOf(correctSubArr, max(correctSubArr));
     if (maxIdx === correctMaxIdx) {
-      if (idx < 50) {
+      if (idx < step) {
         correctCount1 += 1;
-      } else if (idx >= 50 && idx < 100) {
+      } else if (idx >= step && idx < step * 2) {
         correctCount2 += 1;
       } else {
         correctCount3 += 1;
       }
+      correctCount += 1;
     }
   });
 
-  // console.log(
-  //   `${datasetType} set accuracy: ${(correctCount / output.shape[1]) * 100}%`,
-  // );
-  // console.log(`${datasetType} set correct count: ${correctCount}`);
+  console.log(
+    `${datasetType} set accuracy: ${(correctCount / output.shape[1]) * 100}%`,
+  );
+  console.log(`${datasetType} set correct count: ${correctCount}`);
   console.log(correctCount1);
   console.log(correctCount2);
   console.log(correctCount3);
@@ -114,7 +118,8 @@ export default function softmax(
   baseIterationToShowCost: number,
   learningRateDecayRate?: number,
 ) {
-  const trainSet = formatDataSet(iris);
+  const trainSet = formatDataSet(irisTrain);
+  const testSet = formatDataSet(irisTest);
 
   const initialParameters = initializeParameters([{
     size: trainSet.input.shape[0],
@@ -138,12 +143,12 @@ export default function softmax(
     true,
   );
 
-  predict(trainSet.input, trainSet.output, parameters, 'train');
+  predict(trainSet.input, trainSet.output, parameters, 'train', 35);
+  predict(testSet.input, testSet.output, parameters, 'test', 15);
 }
 
 softmax(
   0.05,
   1000,
-  50,
-  0.0000002,
+  100,
 );
