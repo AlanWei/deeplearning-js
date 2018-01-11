@@ -32,13 +32,6 @@ example.matrix === [
   [1, 2, 3],
   [1, 2, 3],
 ]
-
-const example2 = new Array2D([1, 3], [1, 2, 3]);
-example2.transpose() === new Array2D([3, 1], [1, 2, 3]);
-example2.as1D() === [1, 2, 3];
-
-const example3 = new Array2D([1, 1], [6]);
-example3.squeeze() = 6;
 ~~~~
 
 #### Element-wise operations (All element-wise operations support auto-broadcasting)
@@ -56,6 +49,24 @@ expect(left.divide(right)).toEqual(new Array2D([3, 3], [1, 2, 3, 1, 2, 3, 1, 2, 
 const left = new Array2D([1, 3], [1, 2, 3]);
 const right = new Array2D([3, 1], [1, 1, 1]);
 expect(left.dot(right)).toEqual(new Array2D([1, 1], [6]));
+~~~~
+
+#### Transpose
+~~~~
+const example = new Array2D([1, 3], [1, 2, 3]);
+example.transpose() === new Array2D([3, 1], [1, 2, 3]);
+~~~~
+
+#### as1D
+~~~~
+const example = new Array2D([1, 3], [1, 2, 3]);
+example.as1D() === [1, 2, 3];
+~~~~
+
+#### Squeeze
+~~~~
+const example = new Array2D([1, 1], [6]);
+example.squeeze() = 6;
 ~~~~
 
 <a id="scalar"></a>
