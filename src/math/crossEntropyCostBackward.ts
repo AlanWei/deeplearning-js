@@ -10,7 +10,7 @@ function crossEntropyCostBackward(
 
   const values = map(yHatValues, (num, idx) => {
     if (num === 0 || num === 1) {
-      throw new Error('[Cross-entropy cost backward] exceeds threshold]');
+      throw new Error('[Cross-entropy cost backward] exceeds threshold');
     }
     const yIdx = yValues[idx];
     return -((yIdx / num) - ((1 - yIdx) / (1 - num)));
