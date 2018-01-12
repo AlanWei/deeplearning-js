@@ -1,7 +1,6 @@
-import { map, sum } from 'lodash';
+import { map } from 'lodash';
 import softmax from './softmax';
 import Array2D from '../data/Array2D';
-import convertArray2DToArray1D from '../utils/convertArray2DToArray1D';
 
 function softmaxBackward(
   dA: Array2D,
