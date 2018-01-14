@@ -1,17 +1,35 @@
-import { map } from 'lodash';
+import { map, mean } from 'lodash';
+import Array2D from '../data/Array2D';
+
+function quadraticCostArray1D(
+  yHat: Array2D,
+  y: Array2D,
+): number {
+  const costs = map(yHat.values, (num, idx) => (
+    Math.pow(num - y.values[idx], 2)
+  ));
+
+  return mean(costs);
+}
 
 function quadraticCost(
-  yHat: Array<number>,
-  y: Array<number>,
+  yHat: Array2D,
+  y: Array2D,
 ): number {
-  const yHatSize = yHat.length;
+  const dims = y.shape[0];
+  if (dims === 1) {
+    return quadraticCostArray1D(yHat, y);
+  }
 
-  let cost = 0;
-  map(yHat, (num, idx) => {
-    cost += Math.pow(num - y[idx], 2);
+  const yHatT = yHat.transpose();
+  const yT = y.transpose();
+  const costs = map(yHatT.matrix, (subArray, idx) => {
+    const left = new Array2D([1, subArray.length], subArray);
+    const right = new Array2D([1, subArray.length], yT.matrix[idx]);
+    return quadraticCostArray1D(left, right);
   });
 
-  return (cost / yHatSize);
+  return mean(costs);
 }
 
 export default quadraticCost;

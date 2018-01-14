@@ -124,7 +124,7 @@ export default function softmax(
   const initialParameters = initializeParameters([{
     size: trainSet.input.shape[0],
   }, {
-    size: 30,
+    size: 40,
     activationFunc: 'relu',
   }, {
     size: 3,

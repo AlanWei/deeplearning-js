@@ -58,10 +58,10 @@ function train(
       let cost: number = 0;
       switch(costFunc) {
         case 'quadratic':
-          cost = quadraticCost(forward.yHat.as1D(), output.as1D());
+          cost = quadraticCost(forward.yHat, output);
           break;
         case 'cross-entropy':
-          cost = crossEntropyCost(forward.yHat.as1D(), output.as1D());
+          cost = crossEntropyCost(forward.yHat, output);
           break;
         default:
           throw new Error('Unsupported cost function');

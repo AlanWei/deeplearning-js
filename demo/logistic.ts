@@ -112,7 +112,7 @@ export default function logistic(
 
 logistic(
   0.01,
-  1000,
+  500,
   100,
   0.00000005,
 );

@@ -1,12 +1,18 @@
 import crossEntropyCost from './crossEntropyCost';
+import Array2D from '../data/Array2D';
 
 test('cross-entropy cost', () => {
-  const ro = crossEntropyCost([0.8], [0.2]);
-  expect(ro).toEqual(1.3321790402101226);
+  const ro = crossEntropyCost(
+    new Array2D([1, 4], [0.3, 0.4, 0.9, 0.1]),
+    new Array2D([1, 4], [0, 0, 1, 0]),
+  );
+  expect(ro).toEqual(0.26955539975509396);
 });
 
-test('invalid cross-entropy cost', () => {
-  expect(() => (crossEntropyCost([0.8], [0.2, 1]))).toThrowError(
-    '[cross-entropy] array size should be the same'
+test('cross-entropy cost', () => {
+  const ro = crossEntropyCost(
+    new Array2D([2, 4], [0.3, 0.4, 0.9, 0.1, 0.7, 0.6, 0.1, 0.9]),
+    new Array2D([2, 4], [0, 0, 1, 0, 1, 1, 0, 1]),
   );
+  expect(ro).toEqual(0.26955539975509396);
 });
