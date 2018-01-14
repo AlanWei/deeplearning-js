@@ -1,5 +1,5 @@
 import { map, mean } from 'lodash';
-import Array2D from '../data/Array2D';
+import { Array2D } from '../data/';
 
 function quadraticCostArray1D(
   yHat: Array2D,

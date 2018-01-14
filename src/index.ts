@@ -8,10 +8,9 @@ import {
 import {
   quadraticCost,
   crossEntropyCost,
-} from './math';
+} from './costFunction';
 import { Normalization } from './preprocess';
-import Array2D from './data/Array2D';
-import Scalar from './data/Scalar';
+import { Array2D, Scalar } from './data';
 import convertArray2DToArray1D from './utils/convertArray2DToArray1D';
 
 export {

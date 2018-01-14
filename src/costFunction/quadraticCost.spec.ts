@@ -1,5 +1,5 @@
+import { Array2D } from '../data/';
 import quadraticCost from './quadraticCost';
-import Array2D from '../data/Array2D';
 
 test('quadraticCost', () => {
   const ro = quadraticCost(

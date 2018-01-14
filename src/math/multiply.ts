@@ -1,6 +1,6 @@
 import { map } from 'lodash';
-import Array2D from "../data/Array2D";
-import broadcasting from './broadcasting';
+import { Array2D } from '../data/';
+import { broadcasting } from '../utils';
 
 function multiply(
   left: Array2D,

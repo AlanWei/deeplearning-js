@@ -1,5 +1,5 @@
+import { Array2D } from '../data/';
 import crossEntropyCost from './crossEntropyCost';
-import Array2D from '../data/Array2D';
 
 test('cross-entropy cost', () => {
   const ro = crossEntropyCost(

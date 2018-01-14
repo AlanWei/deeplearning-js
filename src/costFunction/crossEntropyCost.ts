@@ -1,6 +1,6 @@
 import { map, mean } from 'lodash';
-import Array2D from '../data/Array2D';
-import dot from './dot';
+import { Array2D } from '../data/';
+import { dot } from '../math';
 
 function crossEntropyCostArray1D(
   yHat: Array2D,

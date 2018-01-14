@@ -1,5 +1,5 @@
+import { Array2D } from '../data/';
 import transpose from './transpose';
-import Array2D from '../data/Array2D';
 
 test('transpose', () => {
   const matrix = new Array2D([3, 2], [1, 2, 3, 4, 5, 6]);

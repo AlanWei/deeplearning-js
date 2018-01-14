@@ -1,13 +1,15 @@
-import Cache from './Cache';
-import Array2D from '../data/Array2D';
+import { Array2D } from '../data/';
 import {
   quadraticCostBackward,
   crossEntropyCostBackward,
+} from '../costFunction';
+import {
   linearBackward,
   reluBackward,
   sigmoidBackward,
   softmaxBackward,
-} from '../math';
+} from '../activationFunction';
+import Cache from './Cache';
 
 function backPropagation(
   costFunc: 'quadratic' | 'cross-entropy',

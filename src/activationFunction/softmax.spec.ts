@@ -1,5 +1,5 @@
+import { Array2D } from '../data/';
 import softmax from './softmax';
-import Array2D from '../data/Array2D';
 
 test('softmax', () => {
   const test = new Array2D(

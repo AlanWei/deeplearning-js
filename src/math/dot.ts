@@ -1,5 +1,5 @@
-import Array2D from '../data/Array2D';
-import convertArray2DToArray1D from '../utils/convertArray2DToArray1D';
+import { Array2D } from '../data/';
+import { convertArray2DToArray1D } from '../utils';
 
 function dot(
   left: Array2D,

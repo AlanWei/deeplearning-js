@@ -1,5 +1,5 @@
 import { map } from 'lodash';
-import Array2D from '../data/Array2D';
+import { Array2D } from '../data/';
 
 function reluBackward(
   dA: Array2D,

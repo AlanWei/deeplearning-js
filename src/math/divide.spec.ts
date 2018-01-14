@@ -1,5 +1,5 @@
+import { Array2D } from '../data/';
 import divide from './divide';
-import Array2D from '../data/Array2D';
 
 test('valid matrix divide', () => {
   const left = new Array2D([1, 3], [1, 2, 3]);

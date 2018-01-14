@@ -1,6 +1,6 @@
 import { map } from 'lodash';
+import { Array2D } from '../data/';
 import sigmoid from './sigmoid';
-import Array2D from '../data/Array2D';
 
 function sigmoidBackward(
   dA: Array2D,

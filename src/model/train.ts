@@ -2,7 +2,7 @@ import Array2D from '../data/Array2D';
 import {
   quadraticCost,
   crossEntropyCost,
-} from '../math';
+} from '../costFunction';
 import forwardPropagation from './forwardPropagation';
 import backPropagation from './backPropagation';
 import updateParameters from './updateParameters';

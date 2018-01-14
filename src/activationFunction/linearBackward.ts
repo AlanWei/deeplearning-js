@@ -1,5 +1,5 @@
-import Array2D from '../data/Array2D';
-import dot from './dot';
+import { Array2D } from '../data/';
+import { dot } from '../math';
 
 function linearBackward(
   dZ: Array2D,

@@ -1,4 +1,4 @@
-import Array2D from '../data/Array2D';
+import { Array2D } from '../data/';
 
 export default class Cache {
   linearCache: {

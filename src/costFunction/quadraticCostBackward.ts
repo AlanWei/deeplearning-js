@@ -1,5 +1,5 @@
-import Array2D from '../data/Array2D';
-import subtract from './subtract';
+import { Array2D } from '../data/';
+import { subtract } from '../math';
 
 function quadraticCostBackward(
   yHat: Array2D,

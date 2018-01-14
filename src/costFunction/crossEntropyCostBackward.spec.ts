@@ -1,5 +1,5 @@
+import { Array2D } from '../data/';
 import crossEntropyCostBackward from './crossEntropyCostBackward';
-import Array2D from '../data/Array2D';
 
 test('logProb', () => {
   const left = new Array2D([1, 1], [0.2]);

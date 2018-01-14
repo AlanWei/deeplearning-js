@@ -1,5 +1,5 @@
 const gaussian = require('gaussian');
-import Array2D from '../data/Array2D';
+import { Array2D } from '../data/';
 
 function randn(
   shape: [number, number],

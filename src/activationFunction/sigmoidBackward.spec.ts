@@ -1,5 +1,5 @@
+import { Array2D } from '../data/';
 import sigmoidBackward from './sigmoidBackward';
-import Array2D from '../data/Array2D';
 
 test('valid sigmoidBackward', () => {
   const dA = new Array2D([1, 3], [1, 2, -1]);

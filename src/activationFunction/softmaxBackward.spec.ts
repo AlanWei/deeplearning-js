@@ -1,5 +1,5 @@
+import { Array2D } from '../data/';
 import softmaxBackward from './softmaxBackward';
-import Array2D from '../data/Array2D';
 
 test('valid softmax backward', () => {
   const dA = new Array2D([3, 3], [1, 2, 1.5, 1, 2, 1.5, 1, 2, 1.5]);
