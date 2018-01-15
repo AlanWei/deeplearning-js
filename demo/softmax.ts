@@ -48,7 +48,7 @@ function formatDataSet(dataset: any) {
   ).transpose();
 
   const matrix = map(input.matrix, (subArray) => (
-    Normalization.meanNormalization(subArray)
+    Normalization.zeroMeanNormalization(subArray)
   ));
 
   return {
@@ -148,7 +148,7 @@ export default function softmax(
 }
 
 softmax(
-  0.05,
-  1000,
+  0.025,
+  500,
   100,
 );

@@ -1,7 +1,7 @@
-import rescaling from './rescaling';
-import meanNormalization from './meanNormalization';
+import minMaxNormalization from './minMaxNormalization';
+import zeroMeanNormalization from './zeroMeanNormalization';
 
 export default {
-  rescaling,
-  meanNormalization,
+  minMaxNormalization,
+  zeroMeanNormalization,
 };
