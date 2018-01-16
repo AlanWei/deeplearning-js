@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash';
 import Array2D from '../data/Array2D';
 import {
   quadraticCost,
@@ -32,7 +33,7 @@ function train(
     cost: number,
   }>,
 } {
-  let parameters = initialParameters;
+  let parameters = cloneDeep(initialParameters);
   const costs: Array<{
     epoch: number,
     cost: number,
