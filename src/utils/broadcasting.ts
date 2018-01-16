@@ -22,9 +22,8 @@ function broadcasting(
   } else if (rightCol === 1 && leftRow === rightRow) {
     rightShape = left.shape;
     for (let i = 0; i < leftRow; i++) {
-      for (let j = 0; j < leftCol; j++) {
-        rightValues = rightValues.concat(right.values[i]);
-      }
+      const rowValues = Array(leftCol).fill(right.values[i]);
+      rightValues = rightValues.concat(rowValues);
     }
   } else {
     rightValues = right.values;
