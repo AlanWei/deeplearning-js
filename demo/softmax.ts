@@ -127,6 +127,9 @@ export default function softmax(
     size: 40,
     activationFunc: 'relu',
   }, {
+    size: 40,
+    activationFunc: 'linear',
+  }, {
     size: 3,
     activationFunc: 'softmax',
   }], 0, 1, 0.01);
@@ -148,7 +151,8 @@ export default function softmax(
 }
 
 softmax(
-  0.025,
-  500,
+  0.005,
+  1000,
   100,
+  0.00000001,
 );
