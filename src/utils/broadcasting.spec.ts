@@ -8,7 +8,7 @@ test('col broadcasting', () => {
   expect(ro).toEqual(new Array2D([1, 3], [1, 1, 1]));
 });
 
-test('col broadcasting 2', () => {
+test('col broadcasting multiple rows', () => {
   const left = new Array2D([2, 3], [1, 2, 3, 4, 5, 6]);
   const right = new Array2D([2, 1], [1, 2]);
   const ro = broadcasting(left, right).right;
