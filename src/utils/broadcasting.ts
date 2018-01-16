@@ -21,8 +21,10 @@ function broadcasting(
     }
   } else if (rightCol === 1 && leftRow === rightRow) {
     rightShape = left.shape;
-    for (let i = 0; i < leftCol; i++) {
-      rightValues = rightValues.concat(right.values);
+    for (let i = 0; i < leftRow; i++) {
+      for (let j = 0; j < leftCol; j++) {
+        rightValues = rightValues.concat(right.values[i]);
+      }
     }
   } else {
     rightValues = right.values;
