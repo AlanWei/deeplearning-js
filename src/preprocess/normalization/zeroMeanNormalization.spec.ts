@@ -1,6 +1,6 @@
-import zeroMeanNormalization from './zeroMeanNormalization';
+import zscore from './zscore';
 
-test('rescaling', () => {
-  const ro = zeroMeanNormalization([1, 2, 3]);
+test('zscore', () => {
+  const ro = zscore([1, 2, 3]);
   expect(ro).toEqual([-1.224744871391589, 0, 1.224744871391589]);
 });

@@ -1,6 +1,6 @@
 import { map, mean, reduce } from 'lodash';
 
-function zeroMeanNormalization(values: Array<number>) {
+function zscore(values: Array<number>) {
   const meanNum = mean(values);
   const std = Math.sqrt(reduce(values, (sum, num) => (
     sum + Math.pow(num - meanNum, 2)
@@ -11,4 +11,4 @@ function zeroMeanNormalization(values: Array<number>) {
   ));
 }
 
-export default zeroMeanNormalization;
+export default zscore;
