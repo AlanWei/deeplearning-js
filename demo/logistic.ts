@@ -77,11 +77,14 @@ function predict(
   console.log(`${datasetType} set correct count: ${correctCount}`);
 }
 
+function onCostCallback(costs: any) {
+  console.log(costs);
+}
+
 export default function logistic(
   learningRate: number,
   numOfIterations: number,
   baseIterationToShowCost: number,
-  learningRateDecayRate?: number,
 ) {
   const trainSet = formatDataSet(iris);
 
@@ -103,8 +106,7 @@ export default function logistic(
     learningRate,
     numOfIterations,
     baseIterationToShowCost,
-    learningRateDecayRate,
-    true,
+    onCostCallback,
   );
 
   predict(trainSet.input, trainSet.output, parameters, 'train');
@@ -112,7 +114,6 @@ export default function logistic(
 
 logistic(
   0.005,
-  750,
-  10,
-  0.0000005,
+  500,
+  50,
 );

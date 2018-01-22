@@ -116,7 +116,6 @@ export default function softmax(
   learningRate: number,
   numOfIterations: number,
   baseIterationToShowCost: number,
-  learningRateDecayRate?: number,
 ) {
   const trainSet = formatDataSet(irisTrain);
   const testSet = formatDataSet(irisTest);
@@ -142,8 +141,6 @@ export default function softmax(
     learningRate,
     numOfIterations,
     baseIterationToShowCost,
-    learningRateDecayRate,
-    true,
   );
 
   predict(trainSet.input, trainSet.output, parameters, 'train', 35);
@@ -154,5 +151,4 @@ softmax(
   0.005,
   1000,
   100,
-  0.00000001,
 );

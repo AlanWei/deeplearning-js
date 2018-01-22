@@ -173,8 +173,9 @@ train(
   costFunc: 'quadratic' | 'cross-entropy',
   learningRate: number,
   numOfIterations: number,
-  baseIterationToComputeCost: number,
+  interval: number,
   learningRateDecayRate?: number,
+  onCostCallback?: Function,
   showLog?: boolean,
 );
 ~~~~
