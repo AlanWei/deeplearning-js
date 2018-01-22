@@ -1,5 +1,6 @@
 # deeplearning-js
-[![npm version](https://badge.fury.io/js/deeplearning-js.svg)](https://badge.fury.io/js/deeplearning-js)
+[![npm v](https://img.shields.io/npm/v/deeplearning-js.svg)](https://www.npmjs.com/package/deeplearning-js)
+[![npm dm](https://img.shields.io/npm/dm/deeplearning-js.svg)](https://www.npmjs.com/package/deeplearning-js)
 [![CircleCI](https://circleci.com/gh/AlanWei/deeplearning-js.svg?style=shield)](https://circleci.com/gh/AlanWei/deeplearning-js)
 <a id="intention"></a>
 ## Intention
