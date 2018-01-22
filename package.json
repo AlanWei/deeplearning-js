@@ -1,6 +1,6 @@
 {
   "name": "deeplearning-js",
-  "version": "0.3.10",
+  "version": "0.4.0",
   "description": "Deep learning library in JavaScript",
   "main": "dist/index.js",
   "scripts": {
