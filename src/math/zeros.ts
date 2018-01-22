@@ -5,11 +5,10 @@ function zeros(
 ): Array2D {
   const row: number = shape[0];
   const col: number = shape[1];
-  const values: Array<number> = [];
+  let values: Array<number> = [];
   for (let i = 0; i < row; i++) {
-    for (let j = 0; j < col; j++) {
-      values.push(0);
-    }
+    const rowValues = Array(col).fill(0);
+    values = values.concat(rowValues);
   }
 
   return new Array2D(shape, values);

@@ -15,11 +15,10 @@ export default class Scalar {
   formatMatrix() {
     const row: number = this.shape[0];
     const col: number = this.shape[1];
-    const values: Array<number> = [];
+    let values: Array<number> = [];
     for (let i = 0; i < row; i++) {
-      for (let j = 0; j < col; j++) {
-        values.push(this.value);
-      }
+      const rowValues = Array(col).fill(this.value);
+      values = values.concat(rowValues);
     }
 
     return new Array2D(this.shape, values);
