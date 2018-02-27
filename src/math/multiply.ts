@@ -21,7 +21,6 @@ const multiply = (
   const broadcastedRight = afterBroadcasting.right;
 
   const values = gpuMultiply(broadcastedLeft.values, broadcastedRight.values);
-  console.log(values);
 
   return new Array2D(broadcastedLeft.shape, values);
 };
