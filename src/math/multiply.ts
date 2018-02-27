@@ -1,6 +1,16 @@
-import { map } from 'lodash';
 import { Array2D } from '../data/';
 import { broadcasting } from '../utils';
+
+const GPU = require('gpu.js');
+const gpu = new GPU();
+
+const gpuMultiply = (a: any, b: any) => {
+  const add = gpu.createKernel(function(this: any, a: any, b: any) {
+    return a[this.thread.x] * b[this.thread.x];
+  }).setOutput([a.length]);
+
+  return add(a, b);
+};
 
 function multiply(
   left: Array2D,
@@ -10,11 +20,7 @@ function multiply(
   const broadcastedLeft = afterBroadcasting.left;
   const broadcastedRight = afterBroadcasting.right;
 
-  const leftValues: Array<number> = broadcastedLeft.values;
-  const rightValues: Array<number> = broadcastedRight.values;
-  const values = map(leftValues, (num: number, idx) => (
-    num * rightValues[idx]
-  ));
+  const values = gpuMultiply(broadcastedLeft.values, broadcastedRight.values);
 
   return new Array2D(broadcastedLeft.shape, values);
 }

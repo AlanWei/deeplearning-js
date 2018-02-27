@@ -1,22 +1,28 @@
-import { map } from 'lodash';
 import { Array2D } from '../data/';
 import { broadcasting } from '../utils';
 
-function add(
+const GPU = require('gpu.js');
+const gpu = new GPU();
+
+const gpuAdd = (a: any, b: any) => {
+  const add = gpu.createKernel(function(this: any, a: any, b: any) {
+    return a[this.thread.x] + b[this.thread.x];
+  }).setOutput([a.length]);
+
+  return add(a, b);
+};
+
+const add = (
   left: Array2D,
   right: Array2D,
-): Array2D {
+): Array2D => {
   const afterBroadcasting = broadcasting(left, right);
   const broadcastedLeft = afterBroadcasting.left;
   const broadcastedRight = afterBroadcasting.right;
 
-  const leftValues: Array<number> = broadcastedLeft.values;
-  const rightValues: Array<number> = broadcastedRight.values;
-  const values = map(leftValues, (num: number, idx) => (
-    num + rightValues[idx]
-  ));
+  const values = gpuAdd(broadcastedLeft.values, broadcastedRight.values);
 
-  return new Array2D(broadcastedLeft.shape, values);
-}
+  return new Array2D(left.shape, values);
+};
 
 export default add;
