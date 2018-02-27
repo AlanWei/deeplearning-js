@@ -12,17 +12,18 @@ const gpuMultiply = (a: any, b: any) => {
   return add(a, b);
 };
 
-function multiply(
+const multiply = (
   left: Array2D,
   right: Array2D,
-): Array2D {
+): Array2D => {
   const afterBroadcasting = broadcasting(left, right);
   const broadcastedLeft = afterBroadcasting.left;
   const broadcastedRight = afterBroadcasting.right;
 
   const values = gpuMultiply(broadcastedLeft.values, broadcastedRight.values);
+  console.log(values);
 
   return new Array2D(broadcastedLeft.shape, values);
-}
+};
 
 export default multiply;

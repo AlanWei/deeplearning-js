@@ -12,7 +12,7 @@ const gpuDivide = (a: any, b: any) => {
   return add(a, b);
 };
 
-const add =(
+const divide = (
   left: Array2D,
   right: Array2D,
 ): Array2D => {
@@ -25,4 +25,4 @@ const add =(
   return new Array2D(left.shape, values);
 };
 
-export default add;
+export default divide;
