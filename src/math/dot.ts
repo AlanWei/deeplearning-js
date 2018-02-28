@@ -1,6 +1,24 @@
 import { Array2D } from '../data/';
 import { convertArray2DToArray1D } from '../utils';
 
+const GPU = require('gpu.js');
+const gpu = new GPU();
+
+const gpuDot = (a: any, b: any) => {
+  const dot = gpu.createKernel(function(this: any, a: any, b: any) {
+    let sum = 0;
+    for (let i = 0; i < this.constants.size; i++) {
+      sum += a[this.thread.y][i] * b[i][this.thread.x];
+    }
+    return sum;
+  }, {
+    constants: { size: a.shape[1] },
+    output: [b.shape[1], a.shape[0]],
+  });
+
+  return dot(a.matrix, b.matrix);
+};
+
 function dot(
   left: Array2D,
   right: Array2D,
@@ -14,19 +32,7 @@ function dot(
     'should be the same as right matrix rows');
   }
 
-  const matrix: Array<Array<number>> = [];
-  const leftMatrix = left.matrix;
-  const rightMatrix = right.matrix;
-  for (let i = 0; i < leftNumRows; i++) {
-    matrix[i] = [];
-    for (let j = 0; j < rightNumCols; j++) {
-      matrix[i][j] = 0;
-      for (let k = 0; k < leftNumCols; k++) {
-        matrix[i][j] += leftMatrix[i][k] * rightMatrix[k][j];
-      }
-    }
-  }
-
+  const matrix = gpuDot(left, right);
   const shape: [number, number] = [leftNumRows, rightNumCols];
   const values = convertArray2DToArray1D(shape, matrix);
 
