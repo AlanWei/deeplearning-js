@@ -1,15 +1,15 @@
 import { Array2D } from '../data/';
-import { broadcasting } from '../utils';
+import { broadcasting, convertArray2DToArray1D } from '../utils';
 
 const GPU = require('gpu.js');
 const gpu = new GPU();
 
-const gpuMultiply = (a: any, b: any) => {
-  const add = gpu.createKernel(function(this: any, a: any, b: any) {
-    return a[this.thread.x] * b[this.thread.x];
-  }).setOutput([a.length]);
+const gpuMultiply = (a: Array2D, b: Array2D) => {
+  const multiply = gpu.createKernel(function(this: any, a: any, b: any) {
+    return a[this.thread.y][this.thread.x] * b[this.thread.y][this.thread.x];
+  }).setOutput([a.shape[1], a.shape[0]]);
 
-  return add(a, b);
+  return multiply(a.matrix, b.matrix);
 };
 
 const multiply = (
@@ -20,7 +20,8 @@ const multiply = (
   const broadcastedLeft = afterBroadcasting.left;
   const broadcastedRight = afterBroadcasting.right;
 
-  const values = gpuMultiply(broadcastedLeft.values, broadcastedRight.values);
+  const matrix = gpuMultiply(broadcastedLeft, broadcastedRight);
+  const values = convertArray2DToArray1D(broadcastedLeft.shape, matrix);
 
   return new Array2D(broadcastedLeft.shape, values);
 };

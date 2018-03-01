@@ -4,9 +4,9 @@
   "description": "Deep learning library in JavaScript",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "copyfiles -f demo/data/*.json dist/demo/data/ && tsc -w --p tsconfig.dev.json",
+    "dev": "rm -rf dist/ && copyfiles -f demo/data/*.json dist/demo/data/ && tsc -w --p tsconfig.dev.json",
     "build": "rm -rf dist/ && tsc --p tsconfig.prod.json",
-    "test": "rm -rf coverage/ && jest",
+    "test": "jest",
     "test:watch": "jest --watch"
   },
   "repository": {
@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@types/gaussian": "^1.1.1",
-    "@types/jest": "^22.1.3",
+    "@types/jest": "^22.1.4",
     "@types/lodash": "^4.14.88",
     "copyfiles": "^1.2.0",
     "jest": "^22.4.2",
@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "gaussian": "^1.1.0",
-    "gpu.js": "^1.0.0",
+    "gpu.js": "^1.0.3",
     "lodash": "^4.17.4"
   }
 }
