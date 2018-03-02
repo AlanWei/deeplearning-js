@@ -1,5 +1,4 @@
 import { cloneDeep } from 'lodash';
-import Array2D from '../data/Array2D';
 import {
   quadraticCost,
   crossEntropyCost,
@@ -17,8 +16,8 @@ function learningRateDecay(
 }
 
 function train(
-  input: Array2D,
-  output: Array2D,
+  input: number[][],
+  output: number[][],
   initialParameters: any,
   costFunc: 'quadratic' | 'cross-entropy',
   learningRate: number,
@@ -34,47 +33,47 @@ function train(
   }>,
 } {
   let parameters = cloneDeep(initialParameters);
-  const costs: Array<{
+  const costs: {
     epoch: number,
     cost: number,
-  }> = [];
+  }[] = [];
 
   for (let i: number = 1; i <= numOfIterations; i++) {
     const forward = forwardPropagation(input, parameters);
-    const grads = backPropagation(
-      costFunc,
-      forward,
-      output,
-    );
-    if (learningRateDecayRate) {
-      learningRate = learningRateDecay(
-        learningRate,
-        learningRateDecayRate,
-        i,
-      );
-    }
-    parameters = updateParameters(parameters, grads, learningRate);
+    // const grads = backPropagation(
+    //   costFunc,
+    //   forward,
+    //   output,
+    // );
+    // if (learningRateDecayRate) {
+    //   learningRate = learningRateDecay(
+    //     learningRate,
+    //     learningRateDecayRate,
+    //     i,
+    //   );
+    // }
+    // parameters = updateParameters(parameters, grads, learningRate);
 
-    if (i % baseIterationToComputeCost === 0 || i === 1) {
-      let cost: number = 0;
-      switch(costFunc) {
-        case 'quadratic':
-          cost = quadraticCost(forward.yHat, output);
-          break;
-        case 'cross-entropy':
-          cost = crossEntropyCost(forward.yHat, output);
-          break;
-        default:
-          throw new Error('Unsupported cost function');
-      }
-      costs.push({
-        epoch: i,
-        cost,
-      });
-      if (showLog) {
-        console.log(`${i} iteration: Cost is ${cost}`); 
-      }
-    }
+    // if (i % baseIterationToComputeCost === 0 || i === 1) {
+    //   let cost: number = 0;
+    //   switch(costFunc) {
+    //     case 'quadratic':
+    //       cost = quadraticCost(forward.yHat, output);
+    //       break;
+    //     case 'cross-entropy':
+    //       cost = crossEntropyCost(forward.yHat, output);
+    //       break;
+    //     default:
+    //       throw new Error('Unsupported cost function');
+    //   }
+    //   costs.push({
+    //     epoch: i,
+    //     cost,
+    //   });
+    //   if (showLog) {
+    //     console.log(`${i} iteration: Cost is ${cost}`); 
+    //   }
+    // }
   }
 
   return {

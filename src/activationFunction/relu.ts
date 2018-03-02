@@ -1,18 +1,18 @@
-import { map } from 'lodash';
-import { Array2D } from '../data/';
+const GPU = require('gpu.js');
+const gpu = new GPU();
 
-function relu(
-  z: Array2D,
-) {
-  const shape = z.shape;
-  const values = map(z.values, (num) => (
-    Math.max(0, num)
-  ));
-
-  return {
-    A: new Array2D(shape, values),
-    cache: z,
-  };
-}
+const relu = (
+  z: number[][],
+): {
+  A: number[][],
+  cache: number[][],
+} => ({
+  A: gpu.createKernel(function(this: any, a: number[][]) {
+    return Math.max(a[this.thread.y][this.thread.x], 0);
+  }, {
+    output: [z[0].length, z.length],
+  })(z),
+  cache: z,
+});
 
 export default relu;

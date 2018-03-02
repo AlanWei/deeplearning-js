@@ -7,7 +7,7 @@ const randn = (
   mean: number = 0,
   variance: number = 1,
   scale: number = 1,
-): Array<Array<number>> => {
+): number[][] => {
   const distribution = gaussian(mean, variance);
   return gpu.createKernel(function(this: any) {
     return this.constants.distribution.pdf(Math.random())* this.constants.scale;

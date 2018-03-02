@@ -8,11 +8,12 @@ import {
   convertArray2DToArray1D,
 } from '../src';
 import * as iris from './data/iris.json';
+import { transpose } from '../src/math';
 
 function formatDataSet(dataset: any) {
   const datasetSize = dataset.length;
-  let inputValues: Array<number> = [];
-  let outputValues: Array<number> = [];
+  const inputValues: number[][] = [];
+  const outputValues: number[][] = [];
 
   map(dataset, (example: {
     "sepalLength": number,
@@ -20,34 +21,18 @@ function formatDataSet(dataset: any) {
     "petalLength": number,
     "petalWidth": number,
     "species": string,
-  }) => {
+  }, idx: number) => {
     const input: any = omit(example, 'species');
     const output: any = pick(example, 'species');
-    inputValues = inputValues.concat(values(input));
-    outputValues = outputValues.concat(output.species === 'versicolor' ? 1 : 0);
+    inputValues[idx] = values(input);
+    outputValues[idx] = [output.species === 'versicolor' ? 1 : 0];
   });
 
-  const input = new Array2D(
-    [datasetSize, inputValues.length / datasetSize],
-    inputValues,
-  ).transpose();
-
-  const matrix = map(input.matrix, (subArray) => (
-    Normalization.zscore(subArray)
-  ));
-
   return {
-    input: new Array2D(
-      [inputValues.length / datasetSize, datasetSize],
-      convertArray2DToArray1D(
-        [inputValues.length / datasetSize, datasetSize],
-        matrix
-      ),
-    ),
-    output: new Array2D(
-      [outputValues.length / datasetSize, datasetSize],
-      outputValues,
-    ),
+    input: map(transpose(inputValues), (subArray) => (
+      Normalization.zscore(subArray)
+    )),
+    output: outputValues,
   };
 }
 
@@ -83,17 +68,19 @@ export default function logistic(
   baseIterationToShowCost: number,
   learningRateDecayRate?: number,
 ) {
+  const start = Date.now();
   const trainSet = formatDataSet(iris);
 
   const initialParameters = initializeParameters([{
-    size: trainSet.input.shape[0],
+    size: trainSet.input.length,
   }, {
     size: 200,
     activationFunc: 'relu',
   }, {
-    size: trainSet.output.shape[0],
+    size: trainSet.output.length,
     activationFunc: 'sigmoid',
   }], 0, 1, 0.01);
+  // console.log(Date.now() - start);
 
   const { parameters } = train(
     trainSet.input,
@@ -107,7 +94,7 @@ export default function logistic(
     true,
   );
 
-  predict(trainSet.input, trainSet.output, parameters, 'train');
+  // predict(trainSet.input, trainSet.output, parameters, 'train');
 }
 
 logistic(

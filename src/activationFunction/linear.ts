@@ -1,19 +1,18 @@
-import { Array2D } from '../data/';
-import { dot } from '../math';
+import { dot, add } from '../math';
 
 function linearForward(
-  a: Array2D,
-  w: Array2D,
-  b: Array2D,
+  a: number[][],
+  w: number[][],
+  b: number[][],
 ): {
-  Z: Array2D,
+  Z: number[][],
   cache: {
-    A: Array2D,
-    W: Array2D,
-    b: Array2D,
+    A: number[][],
+    W: number[][],
+    b: number[][],
   }
 } {
-  const z = dot(w, a).add(b);
+  const z = add(dot(w, a), b);
 
   return {
     Z: z,

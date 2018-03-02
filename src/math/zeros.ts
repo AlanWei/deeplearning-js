@@ -1,17 +1,12 @@
-import { Array2D } from '../data/';
+const GPU = require('gpu.js');
+const gpu = new GPU();
 
-function zeros(
+const zeros = (
   shape: [number, number],
-): Array2D {
-  const row: number = shape[0];
-  const col: number = shape[1];
-  let values: Array<number> = [];
-  for (let i = 0; i < row; i++) {
-    const rowValues = Array(col).fill(0);
-    values = values.concat(rowValues);
-  }
-
-  return new Array2D(shape, values);
-}
+): number[][] => (
+  gpu.createKernel(() => 0, {
+    output: [shape[1], shape[0]],
+  })()
+);
 
 export default zeros;
