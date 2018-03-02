@@ -40,11 +40,11 @@
   },
   "devDependencies": {
     "@types/gaussian": "^1.1.1",
-    "@types/jest": "^22.1.4",
+    "@types/jest": "^21.1.8",
     "@types/lodash": "^4.14.88",
     "copyfiles": "^1.2.0",
-    "jest": "^22.4.2",
-    "ts-jest": "^22.4.0",
+    "jest": "^21.2.1",
+    "ts-jest": "^21.2.4",
     "tslint": "^5.9.1",
     "tslint-no-circular-imports": "^0.2.1",
     "typescript": "^2.7.2"
