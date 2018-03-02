@@ -14,7 +14,6 @@ function linearBackward(
 } {
   const { A, W } = cache;
   const dW = dot(dZ, transpose(A));
-  console.log([dZ.length, dZ[0].length]);
   const db = dZ;
   const dAPrev = dot(transpose(W), dZ);
 

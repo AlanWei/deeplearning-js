@@ -79,10 +79,12 @@ export default function logistic(
     size: 3,
     activationFunc: 'relu',
   }, {
-    size: trainSet.output.length,
+    size: trainSet.output[0].length,
     activationFunc: 'sigmoid',
   }], 0, 1, 0.01);
   // console.log(Date.now() - start);
+  // console.log(initialParameters['W2'].length);
+  // console.log(initialParameters['W2'][0].length);
 
   const { parameters } = train(
     trainSet.input,
@@ -101,7 +103,7 @@ export default function logistic(
 
 logistic(
   0.005,
-  1,
+  100,
   10,
   0.0000005,
 );
