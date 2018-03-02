@@ -2,18 +2,10 @@ import { Array2D } from '../data/';
 import crossEntropyCostBackward from './crossEntropyCostBackward';
 
 test('logProb', () => {
-  const left = new Array2D([1, 1], [0.2]);
-  const right = new Array2D([1, 1], [0.8]);
+  const left = [[0.2]];
+  const right = [[0.8]];
   const ro = crossEntropyCostBackward(left, right);
-  expect(ro.matrix).toEqual([
+  expect(ro).toEqual([
     [-3.75]
   ]);
-});
-
-test('invalid cross-entropy cost backward', () => {
-  const left = new Array2D([1, 1], [0]);
-  const right = new Array2D([1, 1], [0.8]);
-  expect(() => (crossEntropyCostBackward(left, right))).toThrowError(
-    '[Cross-entropy cost backward] exceeds threshold'
-  );
 });

@@ -45,35 +45,28 @@ function train(
       forward,
       output,
     );
-    // if (learningRateDecayRate) {
-    //   learningRate = learningRateDecay(
-    //     learningRate,
-    //     learningRateDecayRate,
-    //     i,
-    //   );
-    // }
-    // parameters = updateParameters(parameters, grads, learningRate);
+    parameters = updateParameters(parameters, grads, learningRate);
 
-    // if (i % baseIterationToComputeCost === 0 || i === 1) {
-    //   let cost: number = 0;
-    //   switch(costFunc) {
-    //     case 'quadratic':
-    //       cost = quadraticCost(forward.yHat, output);
-    //       break;
-    //     case 'cross-entropy':
-    //       cost = crossEntropyCost(forward.yHat, output);
-    //       break;
-    //     default:
-    //       throw new Error('Unsupported cost function');
-    //   }
-    //   costs.push({
-    //     epoch: i,
-    //     cost,
-    //   });
-    //   if (showLog) {
-    //     console.log(`${i} iteration: Cost is ${cost}`); 
-    //   }
-    // }
+    if (i % baseIterationToComputeCost === 0 || i === 1) {
+      let cost: number = 0;
+      switch(costFunc) {
+        case 'quadratic':
+          cost = quadraticCost(forward.yHat, output);
+          break;
+        case 'cross-entropy':
+          cost = crossEntropyCost(forward.yHat, output);
+          break;
+        default:
+          throw new Error('Unsupported cost function');
+      }
+      costs.push({
+        epoch: i,
+        cost,
+      });
+      if (showLog) {
+        console.log(`${i} iteration: Cost is ${cost}`); 
+      }
+    }
   }
 
   return {

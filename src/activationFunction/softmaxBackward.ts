@@ -1,17 +1,18 @@
-import { map } from 'lodash';
-import { Array2D } from '../data/';
 import softmax from './softmax';
+const GPU = require('gpu.js');
+const gpu = new GPU();
 
-function softmaxBackward(
-  dA: Array2D,
-  cache: Array2D,
-) {
-  const softmaxCache = softmax(cache);
-  const values = map(softmaxCache.A.values, (num, idx) => (
-    dA.values[idx] * num * (1 - num)
-  ));
-
-  return new Array2D(cache.shape, values);
-}
+const softmaxBackward = (
+  dA: number[][],
+  cache: number[][],
+): number[][] => (
+  gpu.createKernel(function(this: any, a: number[][], b: number[][]) {
+    const currentA = a[this.thread.y][this.thread.x];
+    const currentB = b[this.thread.y][this.thread.x];
+    return currentB * currentA * (1 - currentA);
+  }, {
+    output: [dA[0].length, dA.length],
+  })(softmax(cache).A, dA)
+);
 
 export default softmaxBackward;

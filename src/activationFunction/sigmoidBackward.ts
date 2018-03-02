@@ -1,17 +1,16 @@
-import { map } from 'lodash';
-import { Array2D } from '../data/';
-import sigmoid from './sigmoid';
+const GPU = require('gpu.js');
+const gpu = new GPU();
 
-function sigmoidBackward(
-  dA: Array2D,
-  cache: Array2D,
-) {
-  const sigmoidCache = sigmoid(cache);
-  const values = map(sigmoidCache.A.values, (num, idx) => (
-    dA.values[idx] * num * (1 - num)
-  ));
-
-  return new Array2D(cache.shape, values);
-}
+const sigmoidBackward = (
+  dA: number[][],
+  cache: number[][],
+): number[][] => (
+  gpu.createKernel(function(this: any, a: number[][], b: number[][]) {
+    const cache = 1 / (1 + Math.exp(-a[this.thread.y][this.thread.x]));
+    return b[this.thread.y][this.thread.x] * cache * (1 - cache);
+  }, {
+    output: [dA[0].length, dA.length],
+  })(cache, dA)
+);
 
 export default sigmoidBackward;

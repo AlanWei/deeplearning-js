@@ -1,9 +1,8 @@
-import { Array2D } from '../data/';
 import reluBackward from './reluBackward';
 
 test('valid reluBackward', () => {
-  const dA = new Array2D([1, 3], [2, -1, 3]);
-  const cache = new Array2D([1, 3], [1, -1, 1]);
+  const dA = [[2, -1]];
+  const cache = [[1, -1]];
   const ro = reluBackward(dA, cache);
-  expect(ro).toEqual(new Array2D([1, 3], [2, 0, 3]));
+  expect(ro).toEqual([[1, 0]]);
 });

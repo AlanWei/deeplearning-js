@@ -1,22 +1,21 @@
-import { Array2D } from '../data/';
-import { dot } from '../math';
+import { dot, transpose } from '../math';
 
 function linearBackward(
-  dZ: Array2D,
+  dZ: number[][],
   cache: {
-    A: Array2D,
-    W: Array2D,
-    b: Array2D,
+    A: number[][],
+    W: number[][],
+    b: number[][],
   },
 ): {
-  dAPrev: Array2D,
-  dW: Array2D,
-  db: Array2D,
+  dAPrev: number[][],
+  dW: number[][],
+  db: number[][],
 } {
   const { A, W } = cache;
-  const dW = dot(dZ, A.transpose());
+  const dW = dot(dZ, transpose(A));
   const db = dZ;
-  const dAPrev = dot(W.transpose(), dZ);
+  const dAPrev = dot(transpose(W), dZ);
 
   return {
     dAPrev,
