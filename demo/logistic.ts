@@ -74,7 +74,7 @@ export default function logistic(
   const initialParameters = initializeParameters([{
     size: trainSet.input.length,
   }, {
-    size: 200,
+    size: 3,
     activationFunc: 'relu',
   }, {
     size: trainSet.output.length,
@@ -99,7 +99,7 @@ export default function logistic(
 
 logistic(
   0.005,
-  750,
+  1,
   10,
   0.0000005,
 );

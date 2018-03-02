@@ -40,11 +40,11 @@ function train(
 
   for (let i: number = 1; i <= numOfIterations; i++) {
     const forward = forwardPropagation(input, parameters);
-    // const grads = backPropagation(
-    //   costFunc,
-    //   forward,
-    //   output,
-    // );
+    const grads = backPropagation(
+      costFunc,
+      forward,
+      output,
+    );
     // if (learningRateDecayRate) {
     //   learningRate = learningRateDecay(
     //     learningRate,

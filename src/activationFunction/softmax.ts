@@ -1,23 +1,34 @@
 import { map, sum } from 'lodash';
-import { Array2D } from '../data/';
-import { convertArray2DToArray1D } from '../utils';
+import { transpose } from '../math';
+const GPU = require('gpu.js');
+const gpu = new GPU();
 
-function softmax(
-  z: Array2D,
-) {
-  const values = map(z.values, (num) => (Math.exp(num)));
-  const zT = new Array2D(z.shape, values).transpose();
-  const matrix = map(zT.matrix, (subArray) => (
+const expZ = (z) => (
+  gpu.createKernel(function(this: any, a: number[][]) {
+    return Math.exp(a[this.thread.y][this.thread.x]);
+  }, {
+    output: [z[0].length, z.length],
+  })(z)
+);
+
+const calculateA = (z) => {
+  const zT = transpose(z);
+  const expZT = expZ(zT);
+  const matrix = map(expZT, (subArray: number[]) => (
     map(subArray, (num) => num / sum(subArray)
   )));
 
-  return {
-    A: new Array2D(
-      zT.shape,
-      convertArray2DToArray1D(zT.shape, matrix)
-    ).transpose(),
-    cache: z,
-  };
-}
+  return transpose(matrix);
+};
+
+const softmax = (
+  z: number[][],
+): {
+  A: number[][],
+  cache: number[][],
+} => ({
+  A: calculateA(z),
+  cache: z,
+});
 
 export default softmax;

@@ -14,7 +14,7 @@ const forwardPropagation = (
   x: number[][],
   parameters: any
 ): {
-  yHat: Array2D,
+  yHat: number[][],
   caches: Cache[],
   activationFuncs: string[],
 } => {
@@ -62,6 +62,6 @@ const forwardPropagation = (
     caches,
     activationFuncs,
   };
-}
+};
 
 export default forwardPropagation;
