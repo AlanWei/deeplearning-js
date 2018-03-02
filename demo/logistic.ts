@@ -36,13 +36,15 @@ function formatDataSet(dataset: any) {
   };
 }
 
-function formatNumToBool(output: Array2D) {
-  return map(output.values, num => (num > 0.5 ? 1 : 0));
+function formatNumToBool(output: number[][]) {
+  return map(output, subArray => (
+    map(subArray, num => (num > 0.5 ? 1 : 0))
+  ));
 }
 
 function predict(
-  input: Array2D,
-  output: Array2D,
+  input: number[][],
+  output: number[][],
   parameters: any,
   datasetType: string,
 ) {
@@ -94,7 +96,7 @@ export default function logistic(
     true,
   );
 
-  // predict(trainSet.input, trainSet.output, parameters, 'train');
+  predict(trainSet.input, trainSet.output, parameters, 'train');
 }
 
 logistic(
