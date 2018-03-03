@@ -34,11 +34,7 @@ function formatDataSet(dataset: any) {
 }
 
 function formatNumToBool(output: number[]) {
-  const ro = [];
-  map(output, num => {
-    ro.push((num > 0.5 ? 1 : 0));
-  });
-  return ro;
+  return map(output, num => (num > 0.5 ? 1 : 0));
 }
 
 function predict(
@@ -74,7 +70,7 @@ export default function logistic(
   const initialParameters = initializeParameters([{
     size: trainSet.input.length,
   }, {
-    size: 500,
+    size: 200,
     activationFunc: 'relu',
   }, {
     size: trainSet.output.length,
@@ -99,6 +95,6 @@ export default function logistic(
 
 logistic(
   0.005,
-  1,
-  50,
+  750,
+  10,
 );

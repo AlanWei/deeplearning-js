@@ -5,11 +5,15 @@ const reluBackward = (
   dA: number[][],
   cache: number[][],
 ): number[][] => (
-  gpu.createKernel(function(this: any, a: number[][]) {
-    return Math.max(a[this.thread.y][this.thread.x], 0);
+  gpu.createKernel(function(this: any, a: number[][], b: number[][]) {
+    if (b[this.thread.y][this.thread.x] < 0) {
+      return 0;
+    } else {
+      return a[this.thread.y][this.thread.x];
+    }
   }, {
-    output: [cache[0].length, cache.length],
-  })(cache)
+    output: [dA[0].length, dA.length],
+  })(dA, cache)
 );
 
 export default reluBackward;
