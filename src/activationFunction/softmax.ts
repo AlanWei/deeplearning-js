@@ -3,7 +3,7 @@ import { transpose } from '../math';
 const GPU = require('gpu.js');
 const gpu = new GPU();
 
-const expZ = (z) => (
+const expZ = (z: number[][]) => (
   gpu.createKernel(function(this: any, a: number[][]) {
     return Math.exp(a[this.thread.y][this.thread.x]);
   }, {
@@ -11,7 +11,7 @@ const expZ = (z) => (
   })(z)
 );
 
-const calculateA = (z) => {
+const calculateA = (z: number[][]) => {
   const zT = transpose(z);
   const expZT = expZ(zT);
   const matrix = map(expZT, (subArray: number[]) => (

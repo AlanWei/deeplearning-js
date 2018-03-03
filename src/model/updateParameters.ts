@@ -3,7 +3,10 @@ import { subtract, multiply } from '../math';
 const GPU = require('gpu.js');
 const gpu = new GPU();
 
-const formatLearningRate = (matrix, learningRate): number[][] => (
+const formatLearningRate = (
+  matrix: number[][],
+  learningRate: number,
+): number[][] => (
   gpu.createKernel(function(this: any, a: number[][]) {
     return a;
   }, {

@@ -1,17 +1,14 @@
 import { map, omit, pick, values } from 'lodash';
 import {
-  Array2D,
   initializeParameters,
   forwardPropagation,
   train,
   Normalization,
-  convertArray2DToArray1D,
 } from '../src';
 import * as iris from './data/iris.json';
 import { transpose } from '../src/math';
 
 function formatDataSet(dataset: any) {
-  const datasetSize = dataset.length;
   const inputValues: number[][] = [];
   const outputValues: number[][] = [];
 
@@ -32,7 +29,7 @@ function formatDataSet(dataset: any) {
     input: map(transpose(inputValues), (subArray) => (
       Normalization.zscore(subArray)
     )),
-    output: outputValues,
+    output: transpose(outputValues),
   };
 }
 
@@ -76,15 +73,14 @@ export default function logistic(
   const initialParameters = initializeParameters([{
     size: trainSet.input.length,
   }, {
-    size: 3,
+    size: 200,
     activationFunc: 'relu',
   }, {
-    size: trainSet.output[0].length,
+    size: trainSet.output.length,
     activationFunc: 'sigmoid',
   }], 0, 1, 0.01);
   // console.log(Date.now() - start);
-  // console.log(initialParameters['W2'].length);
-  // console.log(initialParameters['W2'][0].length);
+  // console.log(initialParameters);
 
   const { parameters } = train(
     trainSet.input,
@@ -103,7 +99,7 @@ export default function logistic(
 
 logistic(
   0.005,
-  100,
+  750,
   10,
   0.0000005,
 );

@@ -1,6 +1,5 @@
 import { keys } from 'lodash';
 import Cache from './Cache';
-import { Array2D } from '../data/';
 import {
   linear,
   relu,

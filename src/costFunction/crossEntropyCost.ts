@@ -1,5 +1,4 @@
-import { map, mean } from 'lodash';
-import { transpose } from '../math';
+import { mean } from 'lodash';
 const GPU = require('gpu.js');
 const gpu = new GPU();
 

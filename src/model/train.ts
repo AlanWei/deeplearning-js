@@ -7,14 +7,6 @@ import forwardPropagation from './forwardPropagation';
 import backPropagation from './backPropagation';
 import updateParameters from './updateParameters';
 
-function learningRateDecay(
-  learningRate: number,
-  decayRate: number,
-  iteration: number,
-) {
-  return (1 / (1 + decayRate * iteration)) * learningRate;
-}
-
 function train(
   input: number[][],
   output: number[][],
