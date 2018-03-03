@@ -11,8 +11,8 @@ const crossEntropyCost = (
     for (let i = 0; i < this.constants.cols; i++) {
       const currentA = a[this.thread.x][i];
       const currentB = b[this.thread.x][i];
-      sum += currentB * Math.log(currentA) +
-      (1 - currentB) * Math.log(1 - currentA);
+      sum += (Math.log(currentA) * currentB) +
+      (Math.log(1 - currentA) * (1 - currentB));
     }
     return sum / this.constants.cols;
   }, {
