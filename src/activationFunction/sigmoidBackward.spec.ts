@@ -1,4 +1,3 @@
-import { Array2D } from '../data/';
 import sigmoidBackward from './sigmoidBackward';
 
 test('valid sigmoidBackward', () => {

@@ -33,10 +33,12 @@ function formatDataSet(dataset: any) {
   };
 }
 
-function formatNumToBool(output: number[][]) {
-  return map(output, subArray => (
-    map(subArray, num => (num > 0.5 ? 1 : 0))
-  ));
+function formatNumToBool(output: number[]) {
+  const ro = [];
+  map(output, num => {
+    ro.push((num > 0.5 ? 1 : 0));
+  });
+  return ro;
 }
 
 function predict(
@@ -46,8 +48,8 @@ function predict(
   datasetType: string,
 ) {
   const forward = forwardPropagation(input, parameters).yHat;
-  const predictSet = formatNumToBool(forward);
-  const correctSet = formatNumToBool(output);
+  const predictSet = formatNumToBool(forward[0]);
+  const correctSet = formatNumToBool(output[0]);
   let correctCount = 0;
   map(predictSet, (num, idx) => {
     if (num === correctSet[idx]) {
@@ -65,7 +67,6 @@ export default function logistic(
   learningRate: number,
   numOfIterations: number,
   baseIterationToShowCost: number,
-  learningRateDecayRate?: number,
 ) {
   const start = Date.now();
   const trainSet = formatDataSet(iris);
@@ -73,7 +74,7 @@ export default function logistic(
   const initialParameters = initializeParameters([{
     size: trainSet.input.length,
   }, {
-    size: 200,
+    size: 500,
     activationFunc: 'relu',
   }, {
     size: trainSet.output.length,
@@ -90,7 +91,6 @@ export default function logistic(
     learningRate,
     numOfIterations,
     baseIterationToShowCost,
-    learningRateDecayRate,
     true,
   );
 
@@ -99,7 +99,6 @@ export default function logistic(
 
 logistic(
   0.005,
-  750,
-  10,
-  0.0000005,
+  1,
+  50,
 );

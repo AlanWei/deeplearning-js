@@ -1,4 +1,3 @@
-import { Array2D } from '../data/';
 import sigmoid from './sigmoid';
 
 test('sigmoid', () => {

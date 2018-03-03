@@ -15,7 +15,6 @@ function train(
   learningRate: number,
   numOfIterations: number,
   baseIterationToComputeCost: number,
-  learningRateDecayRate?: number,
   showLog?: boolean,
 ): {
   parameters: any,

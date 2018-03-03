@@ -1,4 +1,3 @@
-import { Array2D } from '../data/';
 import softmaxBackward from './softmaxBackward';
 
 test('valid softmax backward', () => {

@@ -1,4 +1,3 @@
-import { Array2D } from '../data/';
 import crossEntropyCostBackward from './crossEntropyCostBackward';
 
 test('logProb', () => {

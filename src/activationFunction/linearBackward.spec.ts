@@ -1,4 +1,3 @@
-import { Array2D } from '../data/';
 import linearBackward from './linearBackward';
 
 test('valid linearBackward', () => {

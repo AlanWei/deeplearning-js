@@ -1,4 +1,3 @@
-import { Array2D } from '../data/';
 import dot from './dot';
 
 test('valid matrix dot', () => {
@@ -16,5 +15,14 @@ test('matrix dot', () => {
   const ro = dot(left, right);
   expect(ro).toEqual(
     [[30]]
+  );
+});
+
+test('matrix dot', () => {
+  const left = [[2, 2], [3, 4]];
+  const right = [[1, 2], [3, 4]];
+  const ro = dot(left, right);
+  expect(ro).toEqual(
+    [[8, 12], [15, 22]]
   );
 });

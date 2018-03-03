@@ -1,4 +1,3 @@
-import { Array2D } from '../data/';
 import softmax from './softmax';
 
 test('softmax', () => {

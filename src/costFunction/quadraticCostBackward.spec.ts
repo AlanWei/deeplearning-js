@@ -1,4 +1,3 @@
-import { Array2D } from '../data/';
 import quadraticCostBackward from './quadraticCostBackward';
 
 test('valid quadraticCostBackward', () => {
