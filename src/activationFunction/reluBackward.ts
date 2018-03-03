@@ -8,7 +8,7 @@ const reluBackward = (
   gpu.createKernel(function(this: any, a: number[][]) {
     return Math.max(a[this.thread.y][this.thread.x], 0);
   }, {
-    output: [dA[0].length, dA.length],
+    output: [cache[0].length, cache.length],
   })(cache)
 );
 
