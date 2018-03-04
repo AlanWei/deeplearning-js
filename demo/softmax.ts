@@ -10,7 +10,6 @@ import * as irisTrain from './data/iris.train.json';
 import * as irisTest from './data/iris.test.json';
 
 function formatDataSet(dataset: any) {
-  const datasetSize = dataset.length;
   const inputValues: number[][] = [];
   const outputValues: number[][] = [];
 
@@ -29,7 +28,7 @@ function formatDataSet(dataset: any) {
       case 'setosa':
         result = [1, 0, 0];
         break;
-      case  'versicolor':
+      case 'versicolor':
         result = [0, 1, 0];
         break;
       case 'virginica':
@@ -132,5 +131,5 @@ export default function softmax(
 softmax(
   0.005,
   1000,
-  50,
+  20,
 );
