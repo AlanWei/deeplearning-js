@@ -1,7 +1,7 @@
-import minMaxNormalization from './minMaxNormalization';
+import minmax from './minmax';
 import zscore from './zscore';
 
 export default {
-  minMaxNormalization,
+  minmax,
   zscore,
 };
