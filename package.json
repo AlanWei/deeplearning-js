@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "gaussian": "^1.1.0",
-    "gpu.js": "^1.0.3",
+    "gpu.js": "^1.2.0",
     "lodash": "^4.17.4"
   }
 }

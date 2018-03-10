@@ -1,6 +1,4 @@
 const gaussian = require('gaussian');
-const GPU = require('gpu.js');
-const gpu = new GPU();
 
 const randn = (
   shape: [number, number],
@@ -8,13 +6,20 @@ const randn = (
   variance: number = 1,
   scale: number = 1,
 ): number[][] => {
-  const distribution = gaussian(mean, variance);
-  return gpu.createKernel(function(this: any) {
-    return this.constants.distribution.pdf(Math.random())* this.constants.scale;
-  }, {
-    constants: { distribution, scale },
-    output: [shape[1], shape[0]],
-  })();
+  const row: number = shape[0];
+  const col: number = shape[1];
+  const ro: number[][] = [];
+  for (let i = 0; i < row; i++) {
+    const values = [];
+    for (let j = 0; j < col; j++) {
+      const distribution = gaussian(mean, variance);
+      const sample: number = distribution.pdf(Math.random()) * scale;
+      values.push(sample);
+    }
+    ro.push(values);
+  }
+
+  return ro;
 };
 
 export default randn;
