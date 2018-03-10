@@ -1,14 +1,11 @@
 import { map, sum } from 'lodash';
 import { transpose } from '../math';
-const GPU = require('gpu.js');
-const gpu = new GPU();
+import loopMatrix from '../util/loopMatrix';
 
 const expZ = (z: number[][]) => (
-  gpu.createKernel(function(this: any, a: number[][]) {
-    return Math.exp(a[this.thread.y][this.thread.x]);
-  }, {
-    output: [z[0].length, z.length],
-  })(z)
+  loopMatrix(z, (num: number) => (
+    Math.exp(num)
+  ))
 );
 
 const calculateA = (z: number[][]) => {

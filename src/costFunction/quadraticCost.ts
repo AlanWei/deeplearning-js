@@ -1,18 +1,24 @@
-import { mean } from 'lodash';
-const GPU = require('gpu.js');
-const gpu = new GPU();
+import { map } from 'lodash';
+import loopTwoMatrix from '../util/loopTwoMatrix';
 
 const quadraticCost = (
   yHat: number[][],
   y: number[][],
-): number => (
-  mean(gpu.createKernel(function(this: any, a: number[][], b: number[][]) {
-    const currentA = a[this.thread.y][this.thread.x];
-    const currentB = b[this.thread.y][this.thread.x];
-    return Math.pow(currentA - currentB, 2);
-  }, {
-    output: [y[0].length],
-  })(yHat, y))
-);
+): number => {
+  const costs = loopTwoMatrix(yHat, y, (a: number, b: number) => (
+    Math.pow(a - b, 2)
+  ));
+
+  let sum: number = 0;
+  let count: number = 0;
+  map(costs, (subArr) => (
+    map(subArr, (num: number) => {
+      sum += num;
+      count++;
+    })
+  ));
+
+  return sum / count;
+};
 
 export default quadraticCost;

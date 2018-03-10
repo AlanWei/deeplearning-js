@@ -1,12 +1,15 @@
-const GPU = require('gpu.js');
-const gpu = new GPU();
-
 const zeros = (
   shape: [number, number],
-): number[][] => (
-  gpu.createKernel(() => 0, {
-    output: [shape[1], shape[0]],
-  })()
-);
+): number[][] => {
+  const row: number = shape[0];
+  const col: number = shape[1];
+  const ro = [];
+  for (let i = 0; i < row; i++) {
+    const rowValues = Array(col).fill(0);
+    ro.push(rowValues);
+  }
+
+  return ro;
+};
 
 export default zeros;

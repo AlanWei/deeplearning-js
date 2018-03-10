@@ -1,18 +1,19 @@
 import { keys } from 'lodash';
 import { subtract, multiply } from '../math';
-const GPU = require('gpu.js');
-const gpu = new GPU();
 
 const formatLearningRate = (
   matrix: number[][],
   learningRate: number,
-): number[][] => (
-  gpu.createKernel(function(this: any, a: number[][]) {
-    return a;
-  }, {
-    output: [matrix[0].length, matrix.length],
-  })(learningRate)
-);
+): number[][] => {
+  const row: number = matrix.length;
+  const col: number = matrix[0].length;
+  const ro = [];
+  for (let i = 0; i < row; i++) {
+    const rowValues = Array(col).fill(learningRate);
+    ro.push(rowValues);
+  }
+  return ro;
+};
 
 function updateParameters(
   parameters: any,

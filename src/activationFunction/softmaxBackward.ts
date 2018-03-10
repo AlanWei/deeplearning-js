@@ -1,18 +1,13 @@
 import softmax from './softmax';
-const GPU = require('gpu.js');
-const gpu = new GPU();
+import loopTwoMatrix from '../util/loopTwoMatrix';
 
 const softmaxBackward = (
   dA: number[][],
   cache: number[][],
 ): number[][] => (
-  gpu.createKernel(function(this: any, a: number[][], b: number[][]) {
-    const currentA = a[this.thread.y][this.thread.x];
-    const currentB = b[this.thread.y][this.thread.x];
-    return currentB * currentA * (1 - currentA);
-  }, {
-    output: [dA[0].length, dA.length],
-  })(softmax(cache).A, dA)
+  loopTwoMatrix(softmax(cache).A, dA, (a: number, b: number) => (
+    b * a * (1 - a)
+  ))
 );
 
 export default softmaxBackward;

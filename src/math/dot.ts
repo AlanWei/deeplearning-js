@@ -1,20 +1,28 @@
-const GPU = require('gpu.js');
-const gpu = new GPU();
-
 const dot = (
   left: number[][],
   right: number[][],
-): number[][] => (
-  gpu.createKernel(function(this: any, a: number[][], b: number[][]) {
-    let sum = 0;
-    for (let i = 0; i < this.constants.size; i++) {
-      sum += a[this.thread.y][i] * b[i][this.thread.x];
+): number[][] => {
+  const leftNumRows = left.length;
+  const leftNumCols = left[0].length;
+  const rightNumRows = right.length;
+  const rightNumCols = right[0].length;
+  if (leftNumCols !== rightNumRows) {
+    throw new Error('[dot] left matrix columns ' +
+    'should be the same as right matrix rows');
+  }
+
+  const matrix: number[][] = [];
+  for (let i = 0; i < leftNumRows; i++) {
+    matrix[i] = [];
+    for (let j = 0; j < rightNumCols; j++) {
+      matrix[i][j] = 0;
+      for (let k = 0; k < leftNumCols; k++) {
+        matrix[i][j] += left[i][k] * right[k][j];
+      }
     }
-    return sum;
-  }, {
-    constants: { size: left[0].length },
-    output: [right[0].length, left.length],
-  })(left, right)
-);
+  }
+
+  return matrix;
+};
 
 export default dot;

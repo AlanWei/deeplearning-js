@@ -1,14 +1,13 @@
-const GPU = require('gpu.js');
-const gpu = new GPU();
+import { map } from 'lodash';
 
 const transpose = (
   matrix: number[][],
 ): number[][] => (
-  gpu.createKernel(function(this: any, a: number[][]) {
-    return a[this.thread.x][this.thread.y];
-  }, {
-    output: [matrix.length, matrix[0].length],
-  })(matrix)
+  map(matrix[0], (col, i) => (
+    map(matrix, (row) => (
+      row[i]
+    ))
+  ))
 );
 
 export default transpose;

@@ -1,26 +1,24 @@
-import { mean } from 'lodash';
-const GPU = require('gpu.js');
-const gpu = new GPU();
+import { map } from 'lodash';
+import loopTwoMatrix from '../util/loopTwoMatrix';
 
 const crossEntropyCost = (
   yHat: number[][],
   y: number[][],
-): number => (
-  -mean(gpu.createKernel(function(this: any, a: number[][], b: number[][]) {
-    let sum = 0;
-    for (let i = 0; i < this.constants.cols; i++) {
-      const currentA = a[this.thread.x][i];
-      const currentB = b[this.thread.x][i];
-      sum += (Math.log(currentA) * currentB) +
-      (Math.log(1 - currentA) * (1 - currentB));
-    }
-    return sum / this.constants.cols;
-  }, {
-    constants: {
-      cols: yHat[0].length,
-    },
-    output: [yHat.length],
-  })(yHat, y))
-);
+): number => {
+  const costs = loopTwoMatrix(yHat, y, (a: number, b: number) => (
+    Math.log(a) * b + Math.log(1 - a) * (1 - b)
+  ));
+
+  let sum: number = 0;
+  let count: number = 0;
+  map(costs, (subArr) => (
+    map(subArr, (num: number) => {
+      sum += num;
+      count++;
+    })
+  ));
+
+  return -(sum / count);
+};
 
 export default crossEntropyCost;

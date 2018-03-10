@@ -1,5 +1,4 @@
-const GPU = require('gpu.js');
-const gpu = new GPU();
+import loopMatrix from '../util/loopMatrix';
 
 const sigmoid = (
   z: number[][],
@@ -7,11 +6,9 @@ const sigmoid = (
   A: number[][],
   cache: number[][],
 } => ({
-  A: gpu.createKernel(function(this: any, a: number[][]) {
-    return 1 / (1 + Math.exp(-a[this.thread.y][this.thread.x]));
-  }, {
-    output: [z[0].length, z.length],
-  })(z),
+  A: loopMatrix(z, (num: number) => (
+    1 / (1 + Math.exp(-num))
+  )),
   cache: z,
 });
 
