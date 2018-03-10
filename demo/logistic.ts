@@ -22,7 +22,7 @@ function formatDataSet(dataset: any) {
     const input: any = omit(example, 'species');
     const output: any = pick(example, 'species');
     inputValues[idx] = values(input);
-    outputValues[idx] = [output.species === 'versicolor' ? 1 : 0];
+    outputValues[idx] = [output.species === 'sentosa' ? 1 : 0];
   });
 
   return {
@@ -59,12 +59,53 @@ function predict(
   console.log(`${datasetType} set correct count: ${correctCount}`);
 }
 
+function batchUpdate(
+  currentBatch: number,
+  totalBatch: number,
+  batchSize: number,
+  trainSet: any,
+  parameters: any,
+  learningRate: number,
+  callback: Function,
+  costs: number[],
+  resolve: Function,
+): any {
+  if (currentBatch >= totalBatch) {
+    return resolve(costs, parameters);
+  }
+  const tempCosts = [];
+  for (let i = 0; i < batchSize; i++) {
+    const ro = train(
+      trainSet.input,
+      trainSet.output,
+      parameters,
+      'cross-entropy',
+      learningRate,
+    );
+    callback(ro, currentBatch * batchSize + i);
+    parameters = ro.parameters;
+    tempCosts.push(ro.cost);
+  }
+  return batchUpdate(
+    currentBatch + 1,
+    totalBatch,
+    batchSize,
+    trainSet,
+    parameters,
+    learningRate,
+    callback,
+    costs.concat(tempCosts),
+    resolve,
+  );
+}
+
 export default function logistic(
   learningRate: number,
   numOfIterations: number,
-  baseIterationToShowCost: number,
+  batchSize: number,
+  callback: Function = () => {},
+  resolve: Function = () => {},
 ) {
-  const start = Date.now();
   const trainSet = formatDataSet(iris);
 
   const initialParameters = initializeParameters([{
@@ -76,25 +117,26 @@ export default function logistic(
     size: trainSet.output.length,
     activationFunc: 'sigmoid',
   }], 0, 1, 0.01);
-  // console.log(Date.now() - start);
-  // console.log(initialParameters);
 
-  const { parameters } = train(
-    trainSet.input,
-    trainSet.output,
+  batchUpdate(
+    0,
+    numOfIterations / batchSize,
+    batchSize,
+    trainSet,
     initialParameters,
-    'cross-entropy',
     learningRate,
-    numOfIterations,
-    baseIterationToShowCost,
-    true,
+    callback,
+    [],
+    resolve,
   );
-
-  predict(trainSet.input, trainSet.output, parameters, 'train');
 }
 
 logistic(
   0.005,
-  750,
-  10,
+  300,
+  100,
+  () => {},
+  (costs: number[]) => {
+    console.log(costs, costs.length);
+  },
 );
