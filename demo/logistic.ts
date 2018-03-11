@@ -97,7 +97,7 @@ logistic(
   300,
   100,
   () => {},
-  (ro) => {
+  (ro: any) => {
     console.log(ro.costs);
   },
 );
