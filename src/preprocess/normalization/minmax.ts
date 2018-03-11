@@ -1,6 +1,6 @@
 import { map, max, min } from 'lodash';
 
-function minMaxNormalization(values: Array<number>) {
+function minmax(values: Array<number>) {
   const maxNum = max(values);
   const minNum = min(values);
 
@@ -9,4 +9,4 @@ function minMaxNormalization(values: Array<number>) {
   ));
 }
 
-export default minMaxNormalization;
+export default minmax;

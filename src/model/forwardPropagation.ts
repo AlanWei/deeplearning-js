@@ -1,6 +1,5 @@
 import { keys } from 'lodash';
 import Cache from './Cache';
-import { Array2D } from '../data/';
 import {
   linear,
   relu,
@@ -8,29 +7,31 @@ import {
   softmax,
 } from '../activationFunction';
 
-function forwardPropagation(
-  x: Array2D,
+const PARAMS_PER_LAYER = 3;
+
+const forwardPropagation = (
+  x: number[][],
   parameters: any
 ): {
-  yHat: Array2D,
-  caches: Array<Cache>,
-  activationFuncs: Array<string>,
-} {
-  const l: number = keys(parameters).length / 3;
+  yHat: number[][],
+  caches: Cache[],
+  activationFuncs: string[],
+} => {
+  const l: number = keys(parameters).length / PARAMS_PER_LAYER;
 
   let yHat = x;
-  const caches: Array<Cache> = [];
+  const caches: Cache[] = [];
   const activationFuncs = [];
 
   for (let i = 1; i <= l; i++) {
-    const w: Array2D = parameters[`W${i}`];
-    const b: Array2D = parameters[`b${i}`];
+    const w: number[][] = parameters[`W${i}`];
+    const b: number[][] = parameters[`b${i}`];
     const a = linear(yHat, w, b);
     const activationFunc = parameters[`activation${i}`];
     activationFuncs.push(activationFunc);
     let z: {
-      A: Array2D,
-      cache: Array2D,
+      A: number[][],
+      cache: number[][],
     };
     switch(activationFunc) {
       case 'linear':
@@ -60,6 +61,6 @@ function forwardPropagation(
     caches,
     activationFuncs,
   };
-}
+};
 
 export default forwardPropagation;

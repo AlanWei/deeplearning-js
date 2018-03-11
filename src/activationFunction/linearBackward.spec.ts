@@ -1,11 +1,10 @@
-import { Array2D } from '../data/';
 import linearBackward from './linearBackward';
 
 test('valid linearBackward', () => {
-  const dZ = new Array2D([3, 1], [1, 1, 1]);
-  const A = new Array2D([3, 1], [1, 1, 1]);
-  const W = new Array2D([3, 1], [1, 1, 1]);
-  const b = new Array2D([3, 1], [1, 1, 1]);
+  const dZ = [[1], [1], [1]];
+  const A = [[1], [1], [1]];
+  const W = [[1], [1], [1]];
+  const b = [[1], [1], [1]];
   const cache = {
     A,
     W,
@@ -13,8 +12,8 @@ test('valid linearBackward', () => {
   };
   const ro = linearBackward(dZ, cache);
   expect(ro).toEqual({
-    dAPrev: new Array2D([1, 1], [3]),
-    dW: new Array2D([3, 3], [1, 1, 1, 1, 1, 1, 1, 1, 1]),
-    db: new Array2D([3, 1], [1, 1, 1]),
+    dAPrev: [[3]],
+    dW: [[1, 1, 1], [1, 1, 1], [1, 1, 1]],
+    db: [[1], [1], [1]],
   });
 });

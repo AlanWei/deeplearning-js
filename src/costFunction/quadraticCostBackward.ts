@@ -1,10 +1,9 @@
-import { Array2D } from '../data/';
 import { subtract } from '../math';
 
 function quadraticCostBackward(
-  yHat: Array2D,
-  y: Array2D,
-): Array2D {
+  yHat: number[][],
+  y: number[][],
+): number[][] {
   return subtract(yHat, y);
 }
 

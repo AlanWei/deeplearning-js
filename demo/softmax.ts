@@ -1,19 +1,17 @@
 import { map, omit, pick, values, indexOf, max } from 'lodash';
+import { transpose } from '../src/math';
 import {
-  Array2D,
   initializeParameters,
   forwardPropagation,
-  train,
+  batchTrain,
   Normalization,
-  convertArray2DToArray1D,
 } from '../src';
 import * as irisTrain from './data/iris.train.json';
 import * as irisTest from './data/iris.test.json';
 
 function formatDataSet(dataset: any) {
-  const datasetSize = dataset.length;
-  let inputValues: Array<number> = [];
-  let outputValues: Array<number> = [];
+  const inputValues: number[][] = [];
+  const outputValues: number[][] = [];
 
   map(dataset, (example: {
     "sepalLength": number,
@@ -21,16 +19,16 @@ function formatDataSet(dataset: any) {
     "petalLength": number,
     "petalWidth": number,
     "species": string,
-  }) => {
+  }, idx: number) => {
     const input: any = omit(example, 'species');
     const output: any = pick(example, 'species');
-    inputValues = inputValues.concat(values(input));
+    inputValues[idx] = values(input);
     let result = [1, 0, 0];
     switch (output.species) {
       case 'setosa':
         result = [1, 0, 0];
         break;
-      case  'versicolor':
+      case 'versicolor':
         result = [0, 1, 0];
         break;
       case 'virginica':
@@ -39,56 +37,37 @@ function formatDataSet(dataset: any) {
       default:
         break;
     }
-    outputValues = outputValues.concat(result);
+    outputValues[idx] = result;
   });
 
-  const input = new Array2D(
-    [datasetSize, inputValues.length / datasetSize],
-    inputValues,
-  ).transpose();
-
-  const matrix = map(input.matrix, (subArray) => (
-    Normalization.zscore(subArray)
-  ));
-
   return {
-    input: new Array2D(
-      [inputValues.length / datasetSize, datasetSize],
-      convertArray2DToArray1D(
-        [inputValues.length / datasetSize, datasetSize],
-        matrix
-      ),
-    ),
-    output: new Array2D(
-      [datasetSize, outputValues.length / datasetSize],
-      outputValues,
-    ).transpose(),
+    input: map(transpose(inputValues), (subArray) => (
+      Normalization.zscore(subArray)
+    )),
+    output: transpose(outputValues),
   };
 }
 
 function predict(
-  input: Array2D,
-  output: Array2D,
+  input: number[][],
+  output: number[][],
   parameters: any,
   datasetType: string,
   step: number,
 ) {
   const forward = forwardPropagation(input, parameters).yHat;
-  const transform = map(forward.transpose().matrix, (subArray) => {
+  const transform = map(transpose(forward), (subArray) => {
     const maxIdx = indexOf(subArray, max(subArray));
     return map(subArray, (num, idx) => (idx === maxIdx ? 1 : 0));
   });
-  const predictSet = new Array2D(
-    [output.shape[1], output.shape[0]],
-    convertArray2DToArray1D([output.shape[1], output.shape[0]], transform),
-  ).transpose();
+  const predictSet = transpose(transform);
 
   let correctCount = 0;
   let correctCount1 = 0;
   let correctCount2 = 0;
   let correctCount3 = 0;
-  map(predictSet.transpose().matrix, (subArray, idx) => {
-    const correctSubArr = output.transpose().matrix[idx];
+  map(transpose(predictSet), (subArray, idx) => {
+    const correctSubArr = transpose(output)[idx];
     const maxIdx = indexOf(subArray, max(subArray));
     const correctMaxIdx = indexOf(correctSubArr, max(correctSubArr));
     if (maxIdx === correctMaxIdx) {
@@ -104,7 +83,7 @@ function predict(
   });
 
   console.log(
-    `${datasetType} set accuracy: ${(correctCount / output.shape[1]) * 100}%`,
+    `${datasetType} set accuracy: ${(correctCount / output[0].length) * 100}%`,
   );
   console.log(`${datasetType} set correct count: ${correctCount}`);
   console.log(correctCount1);
@@ -115,44 +94,48 @@ function predict(
 export default function softmax(
   learningRate: number,
   numOfIterations: number,
-  baseIterationToShowCost: number,
-  learningRateDecayRate?: number,
+  batchSize: number,
+  callback: any,
+  resolve: any,
 ) {
   const trainSet = formatDataSet(irisTrain);
-  const testSet = formatDataSet(irisTest);
+  // const testSet = formatDataSet(irisTest);
 
   const initialParameters = initializeParameters([{
-    size: trainSet.input.shape[0],
+    size: trainSet.input.length,
   }, {
     size: 40,
     activationFunc: 'relu',
   }, {
     size: 40,
-    activationFunc: 'linear',
+    activationFunc: 'relu',
   }, {
     size: 3,
     activationFunc: 'softmax',
   }], 0, 1, 0.01);
 
-  const { parameters } = train(
+  batchTrain(
+    0,
+    numOfIterations / batchSize,
+    batchSize,
     trainSet.input,
     trainSet.output,
     initialParameters,
-    'cross-entropy',
     learningRate,
-    numOfIterations,
-    baseIterationToShowCost,
-    learningRateDecayRate,
-    true,
+    'cross-entropy',
+    callback,
+    resolve,
   );
-
-  predict(trainSet.input, trainSet.output, parameters, 'train', 35);
-  predict(testSet.input, testSet.output, parameters, 'test', 15);
 }
 
 softmax(
   0.005,
   1000,
   100,
-  0.00000001,
+  () => {},
+  (ro: any) => {
+    map(ro.costs, (cost) => {
+      console.log(cost);
+    });
+  },
 );

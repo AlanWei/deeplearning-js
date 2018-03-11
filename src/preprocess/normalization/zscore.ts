@@ -1,6 +1,6 @@
 import { map, mean, reduce } from 'lodash';
 
-function zscore(values: Array<number>) {
+function zscore(values: number[]) {
   const meanNum = mean(values);
   const std = Math.sqrt(reduce(values, (sum, num) => (
     sum + Math.pow(num - meanNum, 2)

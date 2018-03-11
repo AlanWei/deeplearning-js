@@ -1,5 +1,6 @@
 node_modules/
 coverage/
+yarn-error.log
 npm-debug.log
 dist/
 *.csv

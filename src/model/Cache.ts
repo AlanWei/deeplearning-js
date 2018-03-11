@@ -1,19 +1,17 @@
-import { Array2D } from '../data/';
-
 export default class Cache {
   linearCache: {
-    A: Array2D,
-    W: Array2D,
-    b: Array2D,
+    A: number[][],
+    W: number[][],
+    b: number[][],
   };
-  activationCache: Array2D;
+  activationCache: number[][];
   constructor(
     linearCache: {
-      A: Array2D,
-      W: Array2D,
-      b: Array2D,
+      A: number[][],
+      W: number[][],
+      b: number[][],
     },
-    activationCache: Array2D,
+    activationCache: number[][],
   ) {
     this.linearCache = linearCache;
     this.activationCache = activationCache;

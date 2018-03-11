@@ -1,18 +1,15 @@
-import { map } from 'lodash';
-import { Array2D } from '../data/';
+import loopMatrix from '../util/loopMatrix';
 
-function relu(
-  z: Array2D,
-) {
-  const shape = z.shape;
-  const values = map(z.values, (num) => (
-    Math.max(0, num)
-  ));
-
-  return {
-    A: new Array2D(shape, values),
-    cache: z,
-  };
-}
+const relu = (
+  z: number[][],
+): {
+  A: number[][],
+  cache: number[][],
+} => ({
+  A: loopMatrix(z, (num: number) => (
+    Math.max(num, 0)
+  )),
+  cache: z,
+});
 
 export default relu;

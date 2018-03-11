@@ -1,4 +1,3 @@
-import { Array2D } from '../data/';
 import {
   quadraticCostBackward,
   crossEntropyCostBackward,
@@ -14,17 +13,17 @@ import Cache from './Cache';
 function backPropagation(
   costFunc: 'quadratic' | 'cross-entropy',
   forwardResults: {
-    yHat: Array2D,
-    caches: Array<Cache>,
-    activationFuncs: Array<string>,
+    yHat: number[][],
+    caches: Cache[],
+    activationFuncs: string[],
   },
-  y: Array2D,
+  y: number[][],
 ) {
   const { yHat, caches, activationFuncs } = forwardResults;
   const l: number = caches.length;
 
   const grads: any = {};
-  let dy: Array2D = new Array2D();
+  let dy: number[][] = [];
 
   switch(costFunc) {
     case 'quadratic':
@@ -38,9 +37,9 @@ function backPropagation(
   }
 
   for (let i = l; i > 0; i--) {
-    const activationFunc = activationFuncs[i-1];
-    const cache: Cache = caches[i-1];
-    const dA = i === l ? dy : grads[`dA${i+1}`];
+    const activationFunc = activationFuncs[i - 1];
+    const cache: Cache = caches[i - 1];
+    const dA = i === l ? dy : grads[`dA${i + 1}`];
     let dZ = dA;
     switch(activationFunc) {
       case 'linear':

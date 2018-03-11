@@ -1,17 +1,15 @@
-import { map } from 'lodash';
-import { Array2D } from '../data/';
+import loopMatrix from '../util/loopMatrix';
 
-function sigmoid(
-  z: Array2D,
-) {
-  const values = map(z.values, (num) => (
+const sigmoid = (
+  z: number[][],
+): {
+  A: number[][],
+  cache: number[][],
+} => ({
+  A: loopMatrix(z, (num: number) => (
     1 / (1 + Math.exp(-num))
-  ));
-
-  return {
-    A: new Array2D(z.shape, values),
-    cache: z,
-  };
-}
+  )),
+  cache: z,
+});
 
 export default sigmoid;

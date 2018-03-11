@@ -1,18 +1,16 @@
 import { map, omit, pick, values } from 'lodash';
 import {
-  Array2D,
   initializeParameters,
   forwardPropagation,
-  train,
+  batchTrain,
   Normalization,
-  convertArray2DToArray1D,
 } from '../src';
 import * as iris from './data/iris.json';
+import { transpose } from '../src/math';
 
 function formatDataSet(dataset: any) {
-  const datasetSize = dataset.length;
-  let inputValues: Array<number> = [];
-  let outputValues: Array<number> = [];
+  const inputValues: number[][] = [];
+  const outputValues: number[][] = [];
 
   map(dataset, (example: {
     "sepalLength": number,
@@ -20,50 +18,34 @@ function formatDataSet(dataset: any) {
     "petalLength": number,
     "petalWidth": number,
     "species": string,
-  }) => {
+  }, idx: number) => {
     const input: any = omit(example, 'species');
     const output: any = pick(example, 'species');
-    inputValues = inputValues.concat(values(input));
-    outputValues = outputValues.concat(output.species === 'versicolor' ? 1 : 0);
+    inputValues[idx] = values(input);
+    outputValues[idx] = [output.species === 'sentosa' ? 1 : 0];
   });
 
-  const input = new Array2D(
-    [datasetSize, inputValues.length / datasetSize],
-    inputValues,
-  ).transpose();
-
-  const matrix = map(input.matrix, (subArray) => (
-    Normalization.zscore(subArray)
-  ));
-
   return {
-    input: new Array2D(
-      [inputValues.length / datasetSize, datasetSize],
-      convertArray2DToArray1D(
-        [inputValues.length / datasetSize, datasetSize],
-        matrix
-      ),
-    ),
-    output: new Array2D(
-      [outputValues.length / datasetSize, datasetSize],
-      outputValues,
-    ),
+    input: map(transpose(inputValues), (subArray) => (
+      Normalization.zscore(subArray)
+    )),
+    output: transpose(outputValues),
   };
 }
 
-function formatNumToBool(output: Array2D) {
-  return map(output.values, num => (num > 0.5 ? 1 : 0));
+function formatNumToBool(output: number[]) {
+  return map(output, num => (num > 0.5 ? 1 : 0));
 }
 
 function predict(
-  input: Array2D,
-  output: Array2D,
+  input: number[][],
+  output: number[][],
   parameters: any,
   datasetType: string,
 ) {
   const forward = forwardPropagation(input, parameters).yHat;
-  const predictSet = formatNumToBool(forward);
-  const correctSet = formatNumToBool(output);
+  const predictSet = formatNumToBool(forward[0]);
+  const correctSet = formatNumToBool(output[0]);
   let correctCount = 0;
   map(predictSet, (num, idx) => {
     if (num === correctSet[idx]) {
@@ -80,39 +62,42 @@ function predict(
 export default function logistic(
   learningRate: number,
   numOfIterations: number,
-  baseIterationToShowCost: number,
-  learningRateDecayRate?: number,
+  batchSize: number,
+  callback: any,
+  resolve: any,
 ) {
   const trainSet = formatDataSet(iris);
 
   const initialParameters = initializeParameters([{
-    size: trainSet.input.shape[0],
+    size: trainSet.input.length,
   }, {
     size: 200,
     activationFunc: 'relu',
   }, {
-    size: trainSet.output.shape[0],
+    size: trainSet.output.length,
     activationFunc: 'sigmoid',
   }], 0, 1, 0.01);
 
-  const { parameters } = train(
+  batchTrain(
+    0,
+    numOfIterations / batchSize,
+    batchSize,
     trainSet.input,
     trainSet.output,
     initialParameters,
-    'cross-entropy',
     learningRate,
-    numOfIterations,
-    baseIterationToShowCost,
-    learningRateDecayRate,
-    true,
+    "cross-entropy",
+    callback,
+    resolve,
   );
-
-  predict(trainSet.input, trainSet.output, parameters, 'train');
 }
 
 logistic(
   0.005,
-  750,
-  10,
-  0.0000005,
+  300,
+  100,
+  () => {},
+  (ro: any) => {
+    console.log(ro.costs);
+  },
 );

@@ -1,17 +1,13 @@
-import { map } from 'lodash';
-import { Array2D } from '../data/';
 import sigmoid from './sigmoid';
+import loopTwoMatrix from '../util/loopTwoMatrix';
 
-function sigmoidBackward(
-  dA: Array2D,
-  cache: Array2D,
-) {
-  const sigmoidCache = sigmoid(cache);
-  const values = map(sigmoidCache.A.values, (num, idx) => (
-    dA.values[idx] * num * (1 - num)
-  ));
-
-  return new Array2D(cache.shape, values);
-}
+const sigmoidBackward = (
+  dA: number[][],
+  cache: number[][],
+): number[][] => (
+  loopTwoMatrix(sigmoid(cache).A, dA, (a: number, b: number) => (
+    b * a * (1 - a)
+  ))
+);
 
 export default sigmoidBackward;

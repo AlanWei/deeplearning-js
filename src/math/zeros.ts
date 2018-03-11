@@ -1,17 +1,15 @@
-import { Array2D } from '../data/';
-
-function zeros(
+const zeros = (
   shape: [number, number],
-): Array2D {
+): number[][] => {
   const row: number = shape[0];
   const col: number = shape[1];
-  let values: Array<number> = [];
+  const ro = [];
   for (let i = 0; i < row; i++) {
     const rowValues = Array(col).fill(0);
-    values = values.concat(rowValues);
+    ro.push(rowValues);
   }
 
-  return new Array2D(shape, values);
-}
+  return ro;
+};
 
 export default zeros;
