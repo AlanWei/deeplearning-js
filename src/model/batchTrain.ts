@@ -42,7 +42,7 @@ const batchTrain = (
   }
 
   onBatchTrainEnd({
-    costs: batchCosts,
+    costs: costs.concat(batchCosts),
     parameters,
   }, (currentBatch + 1) * batchSize);
 

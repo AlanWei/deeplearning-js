@@ -10,7 +10,7 @@ function initializeParameters(
   }[],
   mean: number = 0,
   variance: number = 1,
-  scale: number = 1,
+  scale: number = 0.01,
 ) {
   const parameters: any = {};
   const l: number = layers.length;
