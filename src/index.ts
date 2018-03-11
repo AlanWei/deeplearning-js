@@ -4,6 +4,7 @@ import {
   backPropagation,
   updateParameters,
   train,
+  batchTrain,
 } from './model';
 import {
   quadraticCost,
@@ -23,6 +24,7 @@ export {
   backPropagation,
   updateParameters,
   train,
+  batchTrain,
   // cost function
   quadraticCost,
   crossEntropyCost,
