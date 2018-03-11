@@ -16,4 +16,3 @@ test('updateParameters', () => {
     activation1: 'relu',
   });
 });
-  
