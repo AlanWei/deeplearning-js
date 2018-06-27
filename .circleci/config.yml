@@ -6,4 +6,4 @@ jobs:
     steps:
       - checkout
       - run: yarn install
-      - run: yarn test
+      - run: COVERALLS_REPO_TOKEN=lF0bZaq3k7pfj5OFFwsiJ5z3AIPm8dduO yarn test

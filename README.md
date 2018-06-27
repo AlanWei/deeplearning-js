@@ -2,6 +2,7 @@
 [![npm v](https://img.shields.io/npm/v/deeplearning-js.svg)](https://www.npmjs.com/package/deeplearning-js)
 [![npm dm](https://img.shields.io/npm/dm/deeplearning-js.svg)](https://www.npmjs.com/package/deeplearning-js)
 [![CircleCI](https://circleci.com/gh/AlanWei/deeplearning-js.svg?style=shield)](https://circleci.com/gh/AlanWei/deeplearning-js)
+[![Coverage Status](https://coveralls.io/repos/github/AlanWei/deeplearning-js/badge.svg?branch=master)](https://coveralls.io/github/AlanWei/deeplearning-js?branch=master)
 <a id="intention"></a>
 ## Intention
 **deeplearning-js** is an open source JavaScript library for deep learning. **deeplearning-js** provides all JavaScript developers a new way to play around with deep learning models without learning unfamiliar Python, statistics or calculus knowledge.

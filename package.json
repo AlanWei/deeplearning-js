@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "rm -rf dist/ && copyfiles -f demo/data/*.json dist/demo/data/ && tsc -w --p tsconfig.dev.json",
     "build": "rm -rf dist/ && tsc --p tsconfig.prod.json",
-    "test": "rm -rf coverage/ && jest --coverage",
+    "test": "rm -rf coverage/ && jest --coverage --coverageReporters=text-lcov | coveralls",
     "test:watch": "jest --watch --coverage"
   },
   "repository": {
@@ -43,6 +43,7 @@
     "@types/jest": "^22.2.0",
     "@types/lodash": "^4.14.104",
     "copyfiles": "^2.0.0",
+    "coveralls": "^3.0.1",
     "jest": "^22.4.2",
     "ts-jest": "^22.4.1",
     "tslint": "^5.9.1",
