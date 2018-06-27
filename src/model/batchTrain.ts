@@ -20,7 +20,7 @@ const batchTrain = (
   }) => any,
   costs: number[] = [],
   disableRaf: boolean = false,
-): Function => {
+): any => {
   if (currentBatch >= totalBatch) {
     return onTrainEnd({
       costs,
